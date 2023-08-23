@@ -1,0 +1,5 @@
+{
+  "*.{ts,tsx,js,jsx}": ["prettier --check .", "tslint --fix"],
+  "*.json": ["prettier --trailing-comma none --write"],
+  "*.md": ["prettier --write"]
+}

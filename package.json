@@ -6,7 +6,7 @@
   "scripts": {
     "prettier-lint": "prettier --check .",
     "prettier-fix": "prettier --write .",
-    "eslint": "eslint static --ext .ts",
+    "eslint": "eslint static --ext .ts --ext .tsx",
     "build": "NODE_ENV=production webpack --progress --color",
     "dev": "NODE_ENV=develop webpack --progress --color"
   },

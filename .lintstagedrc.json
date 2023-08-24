@@ -1,5 +1,5 @@
 {
-  "*.{ts,tsx,js,jsx}": ["prettier --check .", "tslint --fix"],
+  "*.{ts,tsx,js,jsx}": ["prettier --check .", "eslint static --ext .ts"],
   "*.json": ["prettier --trailing-comma none --write"],
   "*.md": ["prettier --write"]
 }

@@ -1,30 +1,32 @@
 const path = require('path');
-const ROOT_PATH = path.resolve(__dirname, '../..');
+const ROOT_PATH = path.resolve(__dirname, './'); // /tool_platform
 const isProduction = process.env.NODE_ENV === 'production';
 console.log(123, ROOT_PATH);
 
 const devServer = {
+  // 该配置项允许配置从目录提供静态文件的选项
   static: {
-    directory: path.join(__dirname, 'dist'),
+    // 告诉服务器从哪里提供内容。只有在你希望提供静态文件时才需要这样做
+    directory: path.join(ROOT_PATH, '/dist'),
   },
   compress: true,
-  port: 9000,
   allowedHosts: ['.yanquankun.com'],
   // 允许在浏览器中设置日志级别，例如在重载之前，在一个错误之前或者 热模块替换 启用时。
   client: {
     logging: 'info',
   },
   // 允许服务器可以被外部访问
-  // host: '0.0.0.0',
-  port: 80,
+  host: '0.0.0.0',
+  port: 8888,
 };
 
 module.exports = {
   mode: isProduction ? 'production' : 'development',
   entry: './static/index.tsx',
   output: {
+    path: path.join(ROOT_PATH, 'dist'),
+    publicPath: '/dist/',
     filename: 'bundle.js',
-    path: __dirname + '/dist',
   },
 
   // Enable sourcemaps for debugging webpack's output.

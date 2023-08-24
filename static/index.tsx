@@ -1,5 +1,5 @@
 const a = 1;
-type test = {
+type test= {
   a: number;
   b: number;
 };

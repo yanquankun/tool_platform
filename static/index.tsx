@@ -6,3 +6,4 @@ type test = {
 interface Test2 {
   a: string;
 }
+

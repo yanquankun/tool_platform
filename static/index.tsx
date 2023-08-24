@@ -3,7 +3,6 @@ type test = {
   a: number;
   b: number;
 };
-interface Test2 {
+interface ITest2 {
   a: string;
 }
-

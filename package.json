@@ -4,10 +4,10 @@
   "description": "工具集合",
   "main": "index.ts",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
     "prettier-lint": "prettier --check .",
     "prettier-fix": "prettier --write .",
-    "eslint": "eslint static --ext .ts"
+    "eslint": "eslint static --ext .ts",
+    "dev": "webpack-dev-server"
   },
   "repository": {
     "type": "git",
@@ -21,17 +21,26 @@
   "homepage": "https://github.com/yanquankun/tool_platform#readme",
   "dependencies": {
     "@types/node": "^20.5.3",
+    "@types/react": "^18.2.21",
+    "@types/react-dom": "^18.2.7",
     "@typescript-eslint/eslint-plugin": "^6.4.1",
     "@typescript-eslint/parser": "^6.4.1",
-    "pnpm": "^8.6.12"
+    "pnpm": "^8.6.12",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0"
   },
   "devDependencies": {
     "@commitlint/cli": "^17.7.1",
     "@commitlint/config-conventional": "^17.7.0",
+    "awesome-typescript-loader": "^5.2.1",
     "eslint": "^8.47.0",
     "husky": "^8.0.3",
     "lint-staged": "^14.0.1",
     "prettier": "^3.0.2",
-    "typescript": "^5.2.1-rc"
+    "source-map-loader": "^4.0.1",
+    "typescript": "5.2.1-rc",
+    "webpack": "5.55.1",
+    "webpack-cli": "4.8.0",
+    "webpack-dev-server": "4.3.0"
   }
 }

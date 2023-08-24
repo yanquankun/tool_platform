@@ -104,7 +104,6 @@
 
     /* Completeness */
     // "skipDefaultLibCheck": true,                      /* Skip type checking .d.ts files that are included with TypeScript. */
-    "suppressImplicitAnyIndexErrors": true /* support string type used for index */,
     "skipLibCheck": true /* Skip type checking all .d.ts files. */
   },
   // ts文件在哪个文件夹中

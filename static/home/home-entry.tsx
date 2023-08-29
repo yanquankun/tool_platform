@@ -1,3 +1,8 @@
+import * as ReactDOM from 'react-dom';
+import { App } from './pages/app';
+
+ReactDOM.render(<App />, document.getElementById('app'));
+
 const a = 1;
 type test = {
   a: number;

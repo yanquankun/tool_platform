@@ -3,6 +3,9 @@ const ROOT_PATH = path.resolve(__dirname, './'); // /tool_platform
 const isProduction = process.env.NODE_ENV === 'production';
 console.log(123, ROOT_PATH);
 
+const { CleanWebpackPlugin } = require('clean-webpack-plugin');
+console.log(CleanWebpackPlugin);
+
 const devServer = {
   // 该配置项允许配置从目录提供静态文件的选项
   static: {
@@ -22,15 +25,18 @@ const devServer = {
 
 module.exports = {
   mode: isProduction ? 'production' : 'development',
-  entry: './static/index.tsx',
+  entry: './static/home/home-entry.tsx',
   output: {
-    path: path.join(ROOT_PATH, 'dist'),
-    publicPath: '/dist/',
-    filename: 'bundle.js',
+    path: path.join(ROOT_PATH, 'dist/page'),
+    publicPath: '/dist/page/',
+    filename: '[name].pack' + '.js',
+    // chunkFilename: chunkName + '.[contenthash:12].js',
+    chunkFilename: (pathData) => {
+      console.log('-------pathData-------', pathData);
+    },
   },
 
-  // Enable sourcemaps for debugging webpack's output.
-  devtool: 'source-map',
+  devtool: isProduction === 'production' ? false : 'source-map',
 
   resolve: {
     extensions: ['.ts', '.tsx', '.js', '.json'],
@@ -52,6 +58,8 @@ module.exports = {
     react: 'React',
     'react-dom': 'ReactDOM',
   },
+
+  plugins: [new CleanWebpackPlugin()],
 
   devServer,
 };

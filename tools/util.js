@@ -9,27 +9,26 @@ const ANSI_COLOR_CYAN = '\x1b[36m';
 const ANSI_COLOR_RESET = '\x1b[0m';
 
 const log = function (type, ...message) {
-  let colorStr = '';
   switch (type) {
     case 'log':
-      console.log(ANSI_COLOR_RESET, '--------- log output start ---------');
+      console.log(ANSI_COLOR_MAGENTA + ANSI_COLOR_AFFIX, '--------- log output start ---------');
       console.log(...message);
-      console.log(ANSI_COLOR_RESET, '--------- log output end ---------');
+      console.log(ANSI_COLOR_MAGENTA + ANSI_COLOR_AFFIX, '--------- log output end ---------');
       break;
     case 'error':
-      console.log(ANSI_COLOR_RED, '--------- error output start ---------');
+      console.log(ANSI_COLOR_RED + ANSI_COLOR_AFFIX, '--------- error output start ---------');
       console.log(...message);
-      console.log(ANSI_COLOR_RED, '--------- error output end ---------');
+      console.log(ANSI_COLOR_RED + ANSI_COLOR_AFFIX, '--------- error output end ---------');
       break;
     case 'warn':
-      console.log(ANSI_COLOR_YELLOW, '--------- warn output start ---------');
+      console.log(ANSI_COLOR_YELLOW + ANSI_COLOR_AFFIX, '--------- warn output start ---------');
       console.log(...message);
-      console.log(ANSI_COLOR_YELLOW, '--------- warn output end ---------');
+      console.log(ANSI_COLOR_YELLOW + ANSI_COLOR_AFFIX, '--------- warn output end ---------');
       break;
     case 'info':
-      console.log(ANSI_COLOR_GREEN, '--------- info output start ---------');
+      console.log(ANSI_COLOR_GREEN + ANSI_COLOR_AFFIX, '--------- info output start ---------');
       console.log(...message);
-      console.log(ANSI_COLOR_GREEN, '--------- info output end ---------');
+      console.log(ANSI_COLOR_GREEN + ANSI_COLOR_AFFIX, '--------- info output end ---------');
       break;
     default:
       console.log(message);

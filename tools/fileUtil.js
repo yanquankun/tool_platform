@@ -2,8 +2,8 @@ const fs = require('fs');
 const path = require('path');
 const util = require('./util');
 
-exports.ROOT_PATH = ROOT_PATH = path.resolve(__dirname, './'); // /tool_platform
-exports.staticPath = staticPath = path.resolve(ROOT_PATH, '../static'); // /tool_platform/static
+exports.ROOT_PATH = ROOT_PATH = path.resolve(__dirname, '../'); // /tool_platform
+exports.staticPath = staticPath = path.resolve(ROOT_PATH, 'static'); // /tool_platform/static
 
 exports.getDirPath = function getDirPath(dir) {
   !dir && util.log('warn', `${dir} is not path`);

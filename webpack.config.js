@@ -4,7 +4,6 @@ const path = require('path');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 
 const ROOT_PATH = fileUtil.ROOT_PATH; // /tool_platform
-const staticPath = fileUtil.staticPath;
 
 const isProduction = process.env.NODE_ENV === 'production';
 

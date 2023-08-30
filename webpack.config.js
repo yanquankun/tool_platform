@@ -1,12 +1,12 @@
 const util = require('./tools/util');
-
+const fileUtil = require('./tools/fileUtil');
 const path = require('path');
-const ROOT_PATH = path.resolve(__dirname, './'); // /tool_platform
-const isProduction = process.env.NODE_ENV === 'production';
-const staticPath = path.join(ROOT_PATH, 'static');
-util.log('error', 111111111113, 123);
-
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
+
+const ROOT_PATH = fileUtil.ROOT_PATH; // /tool_platform
+const staticPath = fileUtil.staticPath;
+
+const isProduction = process.env.NODE_ENV === 'production';
 
 const devServer = {
   // 该配置项允许配置从目录提供静态文件的选项

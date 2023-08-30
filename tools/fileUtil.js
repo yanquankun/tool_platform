@@ -12,10 +12,6 @@ exports.getDirPath = function getDirPath(dir) {
     //判断是不是目录
     const dirs = fs.readdirSync(dir);
     util.log('info', dirs);
-    // dirs.forEach((value) => {
-    //   // console.log('路径',path.resolve(dir,value));
-    //   getFiles(path.join(dir, value));
-    // });
     return dirs;
   }
   return false;

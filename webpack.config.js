@@ -1,10 +1,12 @@
+const util = require('./tools/util');
+
 const path = require('path');
 const ROOT_PATH = path.resolve(__dirname, './'); // /tool_platform
 const isProduction = process.env.NODE_ENV === 'production';
-console.log(123, ROOT_PATH);
+const staticPath = path.join(ROOT_PATH, 'static');
+util.log('error', 111111111113, 123);
 
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
-console.log(CleanWebpackPlugin);
 
 const devServer = {
   // 该配置项允许配置从目录提供静态文件的选项
@@ -29,7 +31,7 @@ module.exports = {
   output: {
     path: path.join(ROOT_PATH, 'dist/page'),
     publicPath: '/dist/page/',
-    filename: '[name].pack' + '.js',
+    filename: `[name].${isProduction ? '[contenthash].pack' : 'pack'}.js`,
     // chunkFilename: chunkName + '.[contenthash:12].js',
     chunkFilename: (pathData) => {
       console.log('-------pathData-------', pathData);
@@ -59,7 +61,10 @@ module.exports = {
     'react-dom': 'ReactDOM',
   },
 
-  plugins: [new CleanWebpackPlugin()],
+  plugins: [
+    // 实际上只会动态更新dist内容  并不会删除dist目录
+    new CleanWebpackPlugin(),
+  ],
 
   devServer,
 };

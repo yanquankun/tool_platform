@@ -7,9 +7,13 @@
     "prettier-lint": "prettier --check .",
     "prettier-fix": "prettier --write .",
     "eslint": "eslint static --ext .ts --ext .tsx",
-    "build": "NODE_ENV=production webpack --progress --color",
-    "dev": "DEBUG=tool_platform:info NODE_ENV=develop webpack-dev-server --progress --color",
+    "build": "sh clearDist.sh && NODE_ENV=production webpack --progress --color",
+    "dev": "sh clearDist.sh && DEBUG=tool_platform:info NODE_ENV=develop webpack-dev-server --progress --color",
     "prepare": "(husky install 2>/dev/null ||:) && mkdir -p .husky"
+  },
+  "engines": {
+    "npm": "use-pnpm-please",
+    "yarn": "use-pnpm-please"
   },
   "repository": {
     "type": "git",

@@ -7,10 +7,21 @@ exports.ROOT_PATH = ROOT_PATH = path.resolve(__dirname, '../'); // /tool_platfor
 // entry入口路径
 exports.STATIC_PATH = STATIC_PATH = path.resolve(ROOT_PATH, 'static'); // /tool_platform/static
 
-// 判断该路径下是否是一个合法的bundle entry
-const isHasBundleEntryFile = function (entryPath) {
+// 获取该路径下所有的bundle entry相对路径
+const getBundleEntryFiles = function (entryPath, bundleDirectoryName) {
   const fileList = getPathDirectoryList(entryPath);
-  return fileList.some((fileName) => /^(.+)-entry.tsx$/.test(fileName));
+
+  const bundleEntryFiles = fileList.reduce((bundleEntryFileList, fileName) => {
+    /^(.+)-entry.tsx$/.test(fileName) && bundleEntryFileList.push(`./static/${bundleDirectoryName}/${fileName}`);
+    return bundleEntryFileList;
+  }, []);
+
+  // dir下无entry.tsx文件，则视为非法路径
+  if (!bundleEntryFiles.length) {
+    util.log('error', `${bundleDirectoryName} is not a bundle entry,it must hava one [*]-entry.tsx file at least`);
+    return [];
+  }
+  return bundleEntryFiles;
 };
 
 // 获取指定路径下所有的一级目录
@@ -26,17 +37,13 @@ const getPathDirectoryList = function (path) {
 };
 
 // 获取指定bundle或者所有bundle的entry入口相对路径
-exports.getEntryAbsoulutePathList = function (staticPath) {
-  const staticBundles = getPathDirectoryList(staticPath);
-  return staticBundles.reduce((bundleEntryAbsolutePathList, bundleDirectoryName) => {
-    const entryPath = path.join(staticPath, bundleDirectoryName);
-    if (isHasBundleEntryFile(entryPath)) {
-      bundleEntryAbsolutePathList.push(`./static/${bundleDirectoryName}-entry.tsx`);
-    } else {
-      util.log('error', `${bundleDirectoryName} is not a bundle entry,it must hava a [*]-entry.tsx file at least`);
-    }
-    return bundleEntryAbsolutePathList;
-  }, []);
+exports.getEntryAbsoulutePathMap = function () {
+  const staticMap = {};
+  const staticBundles = getPathDirectoryList(STATIC_PATH);
+  staticBundles.forEach((bundleDirectoryName) => {
+    const entryPath = path.join(STATIC_PATH, bundleDirectoryName);
+    const bundleEntryFiles = getBundleEntryFiles(entryPath, bundleDirectoryName);
+    bundleEntryFiles.length && (staticMap[bundleDirectoryName] = bundleEntryFiles);
+  });
+  return staticMap;
 };
-
-util.log('log', this.getEntryAbsoulutePathList(STATIC_PATH));

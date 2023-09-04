@@ -5,6 +5,8 @@ const path = require('path');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const CopyPlugin = require('copy-webpack-plugin');
 const TerserPlugin = require('terser-webpack-plugin');
+const HtmlMinimizerPlugin = require('html-minimizer-webpack-plugin');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 const ROOT_PATH = fileUtil.ROOT_PATH; // /tool_platform
 const isProduction = process.env.NODE_ENV === 'production';
@@ -30,7 +32,7 @@ module.exports = Object.keys(entryPathMap).map((entryDirectoryName, index) => {
       path: path.join(ROOT_PATH, `dist/bundle/${entryDirectoryName}`),
       publicPath: `/dist/bundle/${entryDirectoryName}`,
       filename: `[name].${isProduction ? '[contenthash].bundle' : 'bundle'}.js`,
-      // chunkFilename: chunkName + '.[contenthash:12].js',
+      chunkFilename: `[name].${isProduction ? '[contenthash].bundle' : 'bundle'}.js`,
     },
 
     devtool: isProduction === 'production' ? 'nosources-source-map ' : 'eval-cheap-module-source-map',
@@ -54,6 +56,11 @@ module.exports = Object.keys(entryPathMap).map((entryDirectoryName, index) => {
       minimizer: [
         new TerserPlugin({
           test: /\.(tsx|jsx)$/,
+          terserOptions: {
+            toplevel: true, // 最高级别，删除无用代码
+            ie8: true,
+            safari10: true,
+          },
         }),
       ],
       splitChunks: {
@@ -64,7 +71,7 @@ module.exports = Object.keys(entryPathMap).map((entryDirectoryName, index) => {
             minSize: 50, // 生成 chunk 的最小体积
             priority: 1, // 一个模块可以属于多个缓存组。优化将优先考虑具有更高 priority（优先级）的缓存组
             name: entryDirectoryName,
-            filename: entryDirectoryName + '-vendor' + (isProduction ? '.[contenthash:12]' : '') + '.js',
+            filename: entryDirectoryName + '-common-vendor' + (isProduction ? '.[contenthash:12]' : '') + '.js',
             // Initial Chunk：基于 Entry 配置项生成的 Chunk
             // Async Chunk：异步模块引用，如 import(xxx) 语句对应的异步 Chunk
             // Runtime Chunk：只包含运行时代码的 Chunk
@@ -90,13 +97,23 @@ module.exports = Object.keys(entryPathMap).map((entryDirectoryName, index) => {
     plugins: [
       // 实际上只会动态更新dist内容  并不会删除dist目录
       new CleanWebpackPlugin(),
-      new CopyPlugin({
-        patterns: [
-          {
-            from: path.resolve(__dirname, `page/${entryDirectoryName}/*.shtml`),
-            to: path.resolve(__dirname, 'dist/page'),
-          },
-        ],
+      // new CopyPlugin({
+      //   patterns: [
+      //     {
+      //       from: path.resolve(__dirname, `page/${entryDirectoryName}/*.shtml`),
+      //       to: path.resolve(__dirname, 'dist'),
+      //     },
+      //   ],
+      // }),
+      ...Object.keys(entryMap).map((bundleName) => {
+        console.log('-----', bundleName);
+        return new HtmlWebpackPlugin({
+          template: path.resolve(__dirname, `page/${entryDirectoryName}/${bundleName.split('-')[0]}.shtml`),
+          filename: `../../page/${entryDirectoryName}/${bundleName.split('-')[0]}.shtml`,
+          inject: 'body',
+          scriptLoading: 'blocking',
+          chunks: [bundleName, `${entryDirectoryName}/${bundleName.split('-')[0]}-common-vendor`],
+        });
       }),
     ],
   };

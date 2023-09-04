@@ -12,7 +12,10 @@ const getBundleEntryFiles = function (entryPath, bundleDirectoryName) {
   const fileList = getPathDirectoryList(entryPath);
 
   const bundleEntryFiles = fileList.reduce((bundleEntryFileList, fileName) => {
-    /^(.+)-entry.tsx$/.test(fileName) && bundleEntryFileList.push(`./static/${bundleDirectoryName}/${fileName}`);
+    const bundleEntryAbsolutePath = `./static/${bundleDirectoryName}/${fileName}`;
+    // 获取每个bundle的entry前缀
+    const bundleEntryFileName = fileName.replace(/(.*\/)*([^.]+)-entry.*/gi, '$2');
+    /^(.+)-entry.tsx$/.test(fileName) && bundleEntryFileList.push({ [bundleEntryFileName]: bundleEntryAbsolutePath });
     return bundleEntryFileList;
   }, []);
 

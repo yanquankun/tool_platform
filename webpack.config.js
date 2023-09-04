@@ -1,46 +1,30 @@
 const util = require('./tools/util');
 const fileUtil = require('./tools/fileUtil');
+const webpackTool = require('./tools/webpackTool');
 const path = require('path');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 
 const ROOT_PATH = fileUtil.ROOT_PATH; // /tool_platform
-
 const isProduction = process.env.NODE_ENV === 'production';
-
-const devServer = {
-  // 该配置项允许配置从目录提供静态文件的选项
-  static: {
-    // 告诉服务器从哪里提供内容。只有在你希望提供静态文件时才需要这样做
-    directory: path.join(ROOT_PATH, '/dist'),
-  },
-  compress: true,
-  allowedHosts: ['.yanquankun.com'],
-  // 允许在浏览器中设置日志级别，例如在重载之前，在一个错误之前或者 热模块替换 启用时。
-  client: {
-    logging: 'info',
-  },
-  // 允许服务器可以被外部访问
-  host: '0.0.0.0',
-  port: 8888,
-};
-// {
-//   home: [ './static/home/home-entry.tsx', './static/home/home2-entry.tsx' ],
-//   test: [ './static/test/test-entry.tsx' ]
-// }
+const devServer = webpackTool.devServer;
 const entryPathMap = fileUtil.getEntryAbsoulutePathMap();
-console.log(entryPathMap);
+
 module.exports = Object.keys(entryPathMap).map((entryDirectoryName, index) => {
   let entryMap = {};
-  entryPathMap[entryDirectoryName].forEach((entryPath) => {
-    entryMap[entryDirectoryName] = entryPath;
+  entryPathMap[entryDirectoryName].forEach((entryPathMap) => {
+    const key = Object.getOwnPropertyNames(entryPathMap)[0];
+    const value = entryPathMap[key];
+    entryMap[`${key}-entry`] = value;
   });
   console.log(entryMap);
+  // {
+  //   home: './static/home/home-entry.tsx',
+  //   home2: './static/home/home2-entry.tsx'
+  // }
+  // { test: './static/test/test-entry.tsx' }
   const webpackConfig = {
     mode: isProduction ? 'production' : 'development',
-    entry: {
-      home: './static/home/home-entry.tsx',
-      home2: './static/home/home2-entry.tsx',
-    },
+    entry: entryMap,
     output: {
       path: path.join(ROOT_PATH, `dist/page/${entryDirectoryName}`),
       publicPath: `/dist/page/${entryDirectoryName}`,
@@ -75,8 +59,6 @@ module.exports = Object.keys(entryPathMap).map((entryDirectoryName, index) => {
       // 实际上只会动态更新dist内容  并不会删除dist目录
       new CleanWebpackPlugin(),
     ],
-
-    devServer,
   };
 
   // devSever只生成一次实例

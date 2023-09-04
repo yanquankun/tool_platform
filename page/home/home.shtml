@@ -11,6 +11,10 @@
     <!-- Dependencies -->
     <script src="/node_modules/react/umd/react.production.min.js"></script>
     <script src="/node_modules/react-dom/umd/react-dom.production.min.js"></script>
-    <script src="/dist/page/home/home-entry.bundle.js"></script>
+    <script src="/node_modules/dayjs/dayjs.min.js"></script>
+    <script src="/node_modules/antd/dist/antd.min.js"></script>
+    <!-- bundle entry -->
+    <script src="/dist/bundle/home/home-vendor.js"></script>
+    <script src="/dist/bundle/home/home-entry.bundle.js"></script>
   </body>
 </html>

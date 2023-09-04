@@ -50,12 +50,11 @@ module.exports = Object.keys(entryPathMap).map((entryDirectoryName, index) => {
       ],
     },
 
-    // 拆分entry文件中公共代码，减少entry.bundle体积
     optimization: {
       minimize: true,
       minimizer: [
         new TerserPlugin({
-          test: /\.(tsx|jsx)$/,
+          test: /\.js(\?.*)?$/i,
           terserOptions: {
             toplevel: true, // 最高级别，删除无用代码
             ie8: true,
@@ -63,6 +62,7 @@ module.exports = Object.keys(entryPathMap).map((entryDirectoryName, index) => {
           },
         }),
       ],
+      // 拆分entry文件中公共代码，减少entry.bundle体积
       splitChunks: {
         cacheGroups: {
           default: false,

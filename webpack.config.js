@@ -7,11 +7,12 @@ const CopyPlugin = require('copy-webpack-plugin');
 const TerserPlugin = require('terser-webpack-plugin');
 const HtmlMinimizerPlugin = require('html-minimizer-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const fs = require('fs');
 
 const ROOT_PATH = fileUtil.ROOT_PATH; // /tool_platform
 const isProduction = process.env.NODE_ENV === 'production';
 const devServer = webpackTool.devServer;
-const entryPathMap = fileUtil.getEntryAbsoulutePathMap();
+const entryPathMap = fileUtil.getEntryRelativePathMap();
 module.exports = Object.keys(entryPathMap).map((entryDirectoryName, index) => {
   let entryMap = {};
   entryPathMap[entryDirectoryName].forEach((entryPathMap) => {
@@ -19,23 +20,18 @@ module.exports = Object.keys(entryPathMap).map((entryDirectoryName, index) => {
     const value = entryPathMap[key];
     entryMap[`${key}-entry`] = value;
   });
-  console.log(entryMap);
-  // {
-  //   home: './static/home/home-entry.tsx',
-  //   home2: './static/home/home2-entry.tsx'
-  // }
-  // { test: './static/test/test-entry.tsx' }
+  let pathMap = fileUtil.getPageRelativePathMap(entryDirectoryName);
+
   const webpackConfig = {
     mode: isProduction ? 'production' : 'development',
+    devtool: isProduction ? false : 'eval-cheap-module-source-map',
     entry: entryMap,
     output: {
       path: path.join(ROOT_PATH, `dist/bundle/${entryDirectoryName}`),
       publicPath: `/dist/bundle/${entryDirectoryName}`,
-      filename: `[name].${isProduction ? '[contenthash].bundle' : 'bundle'}.js`,
-      chunkFilename: `[name].${isProduction ? '[contenthash].bundle' : 'bundle'}.js`,
+      filename: `[name].${isProduction ? 'bundle.[contenthash]' : 'bundle'}.js`,
+      chunkFilename: `[name].${isProduction ? 'bundle.[contenthash]' : 'bundle'}.js`,
     },
-
-    devtool: isProduction === 'production' ? 'nosources-source-map ' : 'eval-cheap-module-source-map',
 
     resolve: {
       // 尝试按顺序解析这些后缀名。如果有多个文件有相同的名字，但后缀名不同，webpack 会解析列在数组首位的后缀的文件 并跳过其余的后缀
@@ -64,20 +60,48 @@ module.exports = Object.keys(entryPathMap).map((entryDirectoryName, index) => {
         }),
       ],
       // 拆分entry文件中公共代码，减少entry.bundle体积
+      // splitChunks: {
+      //   cacheGroups: {
+      //     default: false,
+      //     vendorGroup: {
+      //       test: /[\\/]node_modules[\\/]/,
+      //       minSize: 50, // 生成 chunk 的最小体积
+      //       priority: 1, // 一个模块可以属于多个缓存组。优化将优先考虑具有更高 priority（优先级）的缓存组
+      //       name: entryDirectoryName,
+      //       filename: entryDirectoryName + '-common-vendor' + (isProduction ? '.[contenthash:12]' : '') + '.js',
+      //       // Initial Chunk：基于 Entry 配置项生成的 Chunk
+      //       // Async Chunk：异步模块引用，如 import(xxx) 语句对应的异步 Chunk
+      //       // Runtime Chunk：只包含运行时代码的 Chunk
+      //       chunks: 'initial',
+      //       reuseExistingChunk: true, // 如果当前 chunk 包含已从主 bundle 中拆分出的模块，则它将被重用，而不是生成新的模块
+      //     },
+      //   },
+      // },
       splitChunks: {
+        chunks: 'all',
         cacheGroups: {
-          default: false,
-          vendorGroup: {
+          // 先提取antd和react
+          antd: {
+            test: /[\\/]node_modules[\\/]antd[\\/]/,
+            name: 'antd',
+            filename: `includes/[name].vendor${isProduction ? '.[contenthash:12]' : ''}.js`,
+            chunks: 'all',
+            priority: 20,
+          },
+          react: {
+            test: /[\\/]node_modules[\\/](react|react-dom)[\\/]/,
+            name: 'react-common',
+            filename: `includes/[name].vendor${isProduction ? '.[contenthash:12]' : ''}.js`,
+            priority: 20,
+          },
+          // 剩余依赖均打入该vendor
+          vendor: {
             test: /[\\/]node_modules[\\/]/,
-            minSize: 50, // 生成 chunk 的最小体积
-            priority: 1, // 一个模块可以属于多个缓存组。优化将优先考虑具有更高 priority（优先级）的缓存组
-            name: entryDirectoryName,
-            filename: entryDirectoryName + '-common-vendor' + (isProduction ? '.[contenthash:12]' : '') + '.js',
-            // Initial Chunk：基于 Entry 配置项生成的 Chunk
-            // Async Chunk：异步模块引用，如 import(xxx) 语句对应的异步 Chunk
-            // Runtime Chunk：只包含运行时代码的 Chunk
-            chunks: 'initial',
-            reuseExistingChunk: true, // 如果当前 chunk 包含已从主 bundle 中拆分出的模块，则它将被重用，而不是生成新的模块
+            name: 'dep',
+            filename: `includes/[name].vendor${isProduction ? '.[contenthash:12]' : ''}.js`,
+            priority: 10,
+            chunks: 'all',
+            minChunks: 1,
           },
         },
       },
@@ -87,13 +111,14 @@ module.exports = Object.keys(entryPathMap).map((entryDirectoryName, index) => {
     // 因此大部分代码库会把自己包裹在一个单独的全局变量内，比如：jQuery或_。 这叫做“命名空间”模式，webpack也允许我们继续使用通过这种方式写的代码库。
     // 通过我们的设置"react": "React"，webpack会神奇地将所有对"react"的导入转换成从React全局变量中加载
     // 使用 externals 配置需要在页面上通过 script 标签引入外部脚本，并且需要确保这些脚本已经在页面上被正确引入
-    externals: {
-      react: 'React',
-      'react-dom': 'ReactDOM',
-      // externals中配置antd必须要先配置dayjs引入，否则报错
-      dayjs: 'dayjs',
-      antd: 'antd',
-    },
+    // externals: {
+    //   react: 'React',
+    //   'react-dom': 'ReactDOM',
+    //   // externals中配置antd必须要先配置dayjs引入，否则报错
+    //   dayjs: 'dayjs',
+    //   antd: 'antd',
+    // },
+    // 采用这种方式，需要使用cdn获取资源
 
     plugins: [
       // 实际上只会动态更新dist内容  并不会删除dist目录
@@ -106,14 +131,22 @@ module.exports = Object.keys(entryPathMap).map((entryDirectoryName, index) => {
       //     },
       //   ],
       // }),
-      ...Object.keys(entryMap).map((bundleName) => {
-        console.log('-----', bundleName);
+      ...Object.keys(pathMap).map((pageBaseName) => {
+        let data;
+        try {
+          data = fs.readFileSync(path.resolve(__dirname, `page/${entryDirectoryName}/${pageBaseName}.shtml`), 'utf8');
+          data = data.replace(/<!-- Dependencies -->([\s\S]*)<!-- Dependencies -->/, '');
+        } catch (err) {
+          util.log('error', err);
+        }
         return new HtmlWebpackPlugin({
-          template: path.resolve(__dirname, `page/${entryDirectoryName}/${bundleName.split('-')[0]}.shtml`),
-          filename: `../../page/${entryDirectoryName}/${bundleName.split('-')[0]}.shtml`,
+          // 兜底模板
+          template: path.resolve(__dirname, '/template/temp.shtml'),
+          templateContent: !!data ? data : false,
+          filename: pathMap[pageBaseName],
           inject: 'body',
           scriptLoading: 'blocking',
-          chunks: [bundleName, `${entryDirectoryName}/${bundleName.split('-')[0]}-common-vendor`],
+          chunks: [pageBaseName + '-entry'],
         });
       }),
     ],

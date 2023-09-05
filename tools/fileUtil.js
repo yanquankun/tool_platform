@@ -6,6 +6,8 @@ const util = require('./util');
 exports.ROOT_PATH = ROOT_PATH = path.resolve(__dirname, '../'); // /tool_platform
 // entry入口路径
 exports.STATIC_PATH = STATIC_PATH = path.resolve(ROOT_PATH, 'static'); // /tool_platform/static
+// page入口路径
+exports.PAGE_PATH = PAGE_PATH = path.resolve(ROOT_PATH, 'page'); // /tool_platform/page
 
 // 获取该路径下所有的bundle entry相对路径
 const getBundleEntryFiles = function (entryPath, bundleDirectoryName) {
@@ -40,7 +42,7 @@ const getPathDirectoryList = function (path) {
 };
 
 // 获取指定bundle或者所有bundle的entry入口相对路径
-exports.getEntryAbsoulutePathMap = function () {
+exports.getEntryRelativePathMap = function () {
   const staticMap = {};
   const staticBundles = getPathDirectoryList(STATIC_PATH);
   staticBundles.forEach((bundleDirectoryName) => {
@@ -49,4 +51,21 @@ exports.getEntryAbsoulutePathMap = function () {
     bundleEntryFiles.length && (staticMap[bundleDirectoryName] = bundleEntryFiles);
   });
   return staticMap;
+};
+
+/**
+ * 获取页面集合
+ * @param{
+ *  pageDirectory:相对于root下的page里的文件夹名称
+ * }
+ */
+exports.getPageRelativePathMap = function (pageDirectory) {
+  const pageMap = {};
+  const pagePath = path.join(PAGE_PATH, pageDirectory);
+  const pages = getPathDirectoryList(pagePath);
+  pages.forEach((page) => {
+    const basename = path.basename(page, '.shtml');
+    pageMap[basename] = `../../pages/${pageDirectory}/${page}`;
+  });
+  return pageMap;
 };

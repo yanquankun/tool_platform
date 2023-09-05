@@ -6,7 +6,7 @@ const devServer = {
   // 该配置项允许配置从目录提供静态文件的选项
   static: {
     // 告诉服务器从哪里提供内容。只有在你希望提供静态文件时才需要这样做
-    directory: path.join(ROOT_PATH, '/dist'),
+    directory: path.join(ROOT_PATH, 'dist'),
   },
   compress: true,
   allowedHosts: ['.yanquankun.com'],

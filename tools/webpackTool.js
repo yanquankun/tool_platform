@@ -1,6 +1,8 @@
 const path = require('path');
 const fileUtil = require('./fileUtil');
 const ROOT_PATH = fileUtil.ROOT_PATH; // /tool_platform
+const webpack = require('webpack');
+const isProduction = process.env.NODE_ENV === 'production';
 
 const devServer = {
   // 该配置项允许配置从目录提供静态文件的选项
@@ -19,6 +21,20 @@ const devServer = {
   port: 8888,
 };
 
+const dynamicPlugins = [
+  //用 HashedModuleIdsPlugin 可以轻松地实现 chunkhash 的稳定化
+  isProduction
+    ? new webpack.ids.HashedModuleIdsPlugin({
+        context: path.resolve(__dirname, '../'),
+        hashFunction: 'sha256',
+        hashDigest: 'hex',
+      })
+    : null,
+  new webpack.NoEmitOnErrorsPlugin(), //保证出错时页面不阻塞，且会在编译结束后报错
+].filter(Boolean);
+
 module.exports = exports = {
   devServer,
+  dynamicPlugins,
+  isProduction,
 };

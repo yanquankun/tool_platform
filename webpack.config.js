@@ -10,7 +10,6 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const fs = require('fs');
 
 const ROOT_PATH = fileUtil.ROOT_PATH; // /tool_platform
-const isProduction = process.env.NODE_ENV === 'production';
 const devServer = webpackTool.devServer;
 const entryPathMap = fileUtil.getEntryRelativePathMap();
 module.exports = Object.keys(entryPathMap).map((entryDirectoryName, index) => {
@@ -23,14 +22,14 @@ module.exports = Object.keys(entryPathMap).map((entryDirectoryName, index) => {
   let pathMap = fileUtil.getPageRelativePathMap(entryDirectoryName);
 
   const webpackConfig = {
-    mode: isProduction ? 'production' : 'development',
-    devtool: isProduction ? false : 'eval-cheap-module-source-map',
+    mode: webpackTool.isProduction ? 'production' : 'development',
+    devtool: webpackTool.isProduction ? false : 'eval-cheap-module-source-map',
     entry: entryMap,
     output: {
       path: path.join(ROOT_PATH, `dist/bundle/${entryDirectoryName}`),
       publicPath: `/dist/bundle/${entryDirectoryName}`,
-      filename: `[name].${isProduction ? 'bundle.[contenthash]' : 'bundle'}.js`,
-      chunkFilename: `[name].${isProduction ? 'bundle.[contenthash]' : 'bundle'}.js`,
+      filename: `[name].${webpackTool.isProduction ? 'bundle.[contenthash]' : 'bundle'}.js`,
+      chunkFilename: `[name].${webpackTool.isProduction ? 'bundle.[contenthash]' : 'bundle'}.js`,
     },
 
     resolve: {
@@ -68,7 +67,7 @@ module.exports = Object.keys(entryPathMap).map((entryDirectoryName, index) => {
       //       minSize: 50, // 生成 chunk 的最小体积
       //       priority: 1, // 一个模块可以属于多个缓存组。优化将优先考虑具有更高 priority（优先级）的缓存组
       //       name: entryDirectoryName,
-      //       filename: entryDirectoryName + '-common-vendor' + (isProduction ? '.[contenthash:12]' : '') + '.js',
+      //       filename: entryDirectoryName + '-common-vendor' + (webpackTool.isProduction ? '.[contenthash:12]' : '') + '.js',
       //       // Initial Chunk：基于 Entry 配置项生成的 Chunk
       //       // Async Chunk：异步模块引用，如 import(xxx) 语句对应的异步 Chunk
       //       // Runtime Chunk：只包含运行时代码的 Chunk
@@ -84,21 +83,21 @@ module.exports = Object.keys(entryPathMap).map((entryDirectoryName, index) => {
           antd: {
             test: /[\\/]node_modules[\\/]antd[\\/]/,
             name: 'antd',
-            filename: `includes/[name].vendor${isProduction ? '.[contenthash:12]' : ''}.js`,
+            filename: `includes/[name].vendor${webpackTool.isProduction ? '.[contenthash:12]' : ''}.js`,
             chunks: 'all',
             priority: 20,
           },
           react: {
             test: /[\\/]node_modules[\\/](react|react-dom)[\\/]/,
             name: 'react-common',
-            filename: `includes/[name].vendor${isProduction ? '.[contenthash:12]' : ''}.js`,
+            filename: `includes/[name].vendor${webpackTool.isProduction ? '.[contenthash:12]' : ''}.js`,
             priority: 20,
           },
           // 剩余依赖均打入该vendor
           vendor: {
             test: /[\\/]node_modules[\\/]/,
             name: 'dep',
-            filename: `includes/[name].vendor${isProduction ? '.[contenthash:12]' : ''}.js`,
+            filename: `includes/[name].vendor${webpackTool.isProduction ? '.[contenthash:12]' : ''}.js`,
             priority: 10,
             chunks: 'all',
             minChunks: 1,
@@ -132,23 +131,27 @@ module.exports = Object.keys(entryPathMap).map((entryDirectoryName, index) => {
       //   ],
       // }),
       ...Object.keys(pathMap).map((pageBaseName) => {
-        let data;
+        let content;
         try {
-          data = fs.readFileSync(path.resolve(__dirname, `page/${entryDirectoryName}/${pageBaseName}.shtml`), 'utf8');
-          data = data.replace(/<!-- Dependencies -->([\s\S]*)<!-- Dependencies -->/, '');
+          content = fs.readFileSync(
+            path.resolve(__dirname, `page/${entryDirectoryName}/${pageBaseName}.shtml`),
+            'utf8'
+          );
+          content = content.replace(/<!-- Dependencies -->([\s\S]*)<!-- Dependencies -->/, '');
         } catch (err) {
           util.log('error', err);
         }
         return new HtmlWebpackPlugin({
-          // 兜底模板
           template: path.resolve(__dirname, '/template/temp.shtml'),
-          templateContent: !!data ? data : false,
+          templateContent: !!content ? content : false,
           filename: pathMap[pageBaseName],
           inject: 'body',
           scriptLoading: 'blocking',
           chunks: [pageBaseName + '-entry'],
         });
       }),
+      // 动态plugins
+      ...webpackTool.dynamicPlugins,
     ],
   };
 

@@ -43,6 +43,16 @@ module.exports = Object.keys(entryPathMap).map((entryDirectoryName, index) => {
         { test: /\.tsx?$/, loader: 'ts-loader' },
         // source-map-loader使用TypeScript输出的sourcemap文件来告诉webpack何时生成自己的sourcemaps
         { enforce: 'pre', test: /\.js$/, loader: 'source-map-loader' },
+        {
+          test: /\.(png|jpg|gif|svg)$/,
+          type: 'asset',
+          parser: {
+            dataUrlCondition: {
+              // if size<6kb use inline mode else use resource mode
+              maxSize: 6 * 1024,
+            },
+          },
+        },
       ],
     },
 
@@ -90,6 +100,12 @@ module.exports = Object.keys(entryPathMap).map((entryDirectoryName, index) => {
           react: {
             test: /[\\/]node_modules[\\/](react|react-dom)[\\/]/,
             name: 'react-common',
+            filename: `includes/[name].vendor${webpackTool.isProduction ? '.[contenthash:12]' : ''}.js`,
+            priority: 20,
+          },
+          antProComponents: {
+            test: /[\\/]node_modules[\\/]@ant-design[\\/]/,
+            name: 'ant-pro-components',
             filename: `includes/[name].vendor${webpackTool.isProduction ? '.[contenthash:12]' : ''}.js`,
             priority: 20,
           },

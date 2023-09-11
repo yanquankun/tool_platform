@@ -26,7 +26,12 @@
   },
   "homepage": "https://github.com/yanquankun/tool_platform#readme",
   "dependencies": {
+    "@ant-design/icons": "^5.2.6",
     "@ant-design/pro-components": "^2.6.18",
+    "@emotion/react": "^11.11.1",
+    "@emotion/styled": "^11.11.0",
+    "@mui/material": "^5.14.8",
+    "@types/markdown-to-jsx": "^7.0.1",
     "@types/node": "^20.5.3",
     "@types/react": "^18.2.21",
     "@types/react-dom": "^18.2.7",
@@ -34,6 +39,7 @@
     "@typescript-eslint/parser": "^6.4.1",
     "antd": "^5.8.6",
     "dayjs": "^1.11.9",
+    "markdown-to-jsx": "^7.3.2",
     "pnpm": "^8.6.12",
     "react": "^18.2.0",
     "react-dom": "^18.2.0"
@@ -50,6 +56,7 @@
     "lint-staged": "^14.0.1",
     "npm-install-peers": "^1.2.2",
     "prettier": "^3.0.2",
+    "remark-loader": "^5.0.0",
     "source-map-loader": "^4.0.1",
     "terser-webpack-plugin": "^5.3.9",
     "ts-loader": "^9.4.4",

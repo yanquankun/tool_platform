@@ -103,9 +103,9 @@ module.exports = Object.keys(entryPathMap).map((entryDirectoryName, index) => {
             filename: `includes/[name].vendor${webpackTool.isProduction ? '.[contenthash:12]' : ''}.js`,
             priority: 20,
           },
-          antProComponents: {
-            test: /[\\/]node_modules[\\/]@ant-design[\\/]/,
-            name: 'ant-pro-components',
+          antDesign: {
+            test: /[\\/]node_modules[\\/](@ant-design)[\\/]/,
+            name: 'ant-design',
             filename: `includes/[name].vendor${webpackTool.isProduction ? '.[contenthash:12]' : ''}.js`,
             priority: 20,
           },

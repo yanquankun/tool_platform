@@ -1,5 +1,6 @@
 import { FC } from 'react';
+import Container from '../components/container';
 
 export const App: FC = function () {
-  return <div style={{ color: 'red', border: '1px' }}>home2 page</div>;
+  return <Container>home2</Container>;
 };

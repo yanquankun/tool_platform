@@ -1,23 +1,28 @@
 import type { ProSettings } from '@ant-design/pro-components';
-import { PageContainer, ProCard, ProLayout } from '@ant-design/pro-components';
+import { PageContainer, ProLayout } from '@ant-design/pro-components';
 import { css } from '@emotion/css';
 import { useState } from 'react';
-import { Switch, theme } from 'antd';
+import { Switch, Empty, Button } from 'antd';
 import routes from './route';
+import { FC } from 'react';
 
-export default () => {
+interface IContainerProps {
+  children?: React.ReactNode;
+}
+const Container: FC<IContainerProps> = (props: IContainerProps) => {
   const settings: ProSettings | undefined = {
     fixSiderbar: true,
     layout: 'top',
     splitMenus: true,
   };
 
-  const [pathname, setPathname] = useState('/home/home');
+  const currentPathName = location.pathname;
+  const [pathname, setPathname] = useState(currentPathName || '/home/home');
   const [themeChecked, setThemeChecked] = useState<boolean>(true);
 
   const themeChange = function (checked: boolean) {
     console.log(checked);
-    setThemeChecked(!themeChecked);
+    setThemeChecked(checked);
   };
 
   return (
@@ -73,7 +78,7 @@ export default () => {
                   e.preventDefault();
                 }}
               >
-                <Switch onChange={themeChange} checkedChildren="亮色" unCheckedChildren="暗黑" defaultChecked />
+                <Switch onChange={themeChange} checkedChildren="亮色" unCheckedChildren="暗黑" checked={themeChecked} />
               </div>
             ) : undefined,
           ];
@@ -84,19 +89,15 @@ export default () => {
           title: '闫全堃',
         }}
         menuItemRender={(item, dom) => (
-          <div
-            onClick={() => {
-              setPathname(item.path || '/home/home');
-            }}
-          >
+          <a onClick={() => setPathname(item.path || '/home/home')} href={item.path}>
             {dom}
-          </div>
+          </a>
         )}
         headerTitleRender={(logo, __, _) => {
           const defaultDom = (
             <a
               onClick={() => {
-                console.log('titheaderTitle clicked');
+                location.href = '/home/home';
               }}
               className={css(`
               font-weight: 500;
@@ -121,16 +122,27 @@ export default () => {
             breadcrumb: {},
           }}
         >
-          <ProCard
-            style={{
-              height: '100vh',
-              minHeight: 300,
-            }}
-          >
-            <div />
-          </ProCard>
+          {props.children ? (
+            props.children
+          ) : (
+            <Empty
+              image="https://gw.alipayobjects.com/zos/antfincdn/ZHrcdLPrvN/empty.svg"
+              imageStyle={{ height: 60 }}
+              description={<span>暂无数据，可到主页一游~</span>}
+            >
+              <Button
+                type="primary"
+                onClick={() => {
+                  location.href = '/home/home';
+                }}
+              >
+                let's go
+              </Button>
+            </Empty>
+          )}
         </PageContainer>
       </ProLayout>
     </div>
   );
 };
+export default Container;

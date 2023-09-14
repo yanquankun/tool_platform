@@ -30,7 +30,7 @@ const dynamicPlugins = [
         hashDigest: 'hex',
       })
     : null,
-  new webpack.NoEmitOnErrorsPlugin(), //保证出错时页面不阻塞，且会在编译结束后报错
+  isProduction ? new webpack.NoEmitOnErrorsPlugin() : null, //保证出错时页面不阻塞，且会在编译结束后报错
 ].filter(Boolean);
 
 module.exports = exports = {

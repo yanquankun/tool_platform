@@ -12,7 +12,8 @@
     "prepare": "(husky install 2>/dev/null ||:) && mkdir -p .husky"
   },
   "engines": {
-    "npm": "use-pnpm-please"
+    "npm": "use-pnpm-please",
+    "yarn": "use-pnpm-please"
   },
   "repository": {
     "type": "git",

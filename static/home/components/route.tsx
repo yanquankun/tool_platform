@@ -1,4 +1,4 @@
-import { ChromeFilled, CrownFilled, SmileFilled, TabletFilled } from '@ant-design/icons';
+import { ChromeFilled, CrownFilled, SmileFilled, GithubOutlined } from '@ant-design/icons';
 
 export default {
   route: {
@@ -10,10 +10,16 @@ export default {
         icon: <SmileFilled />,
       },
       {
-        path: '/home/home2',
-        name: '管理页',
+        path: '/home/blog',
+        name: '博客',
         icon: <CrownFilled />,
       },
+      {
+        path: '',
+        name: '工具集合',
+        icon: <CrownFilled />,
+      },
+      { path: 'https://github.com/yanquankun', name: 'GitHub', icon: <GithubOutlined />, target: 'blank' },
     ],
   },
   location: {

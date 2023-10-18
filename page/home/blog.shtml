@@ -19,7 +19,7 @@
     <script src="/dist/bundle/home/includes/ant-design.vendor.js"></script>
     <script src="/dist/bundle/home/includes/dep.vendor.js"></script>
     <!-- bundle entry -->
-    <script src="/dist/bundle/home/home2-entry.bundle.js"></script>
+    <script src="/dist/bundle/home/blog-entry.bundle.js"></script>
     <!-- Dependencies -->
   </body>
 </html>

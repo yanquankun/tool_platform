@@ -1,8 +1,8 @@
 import type { ProSettings } from '@ant-design/pro-components';
 import { PageContainer, ProLayout } from '@ant-design/pro-components';
 import { css } from '@emotion/css';
-import { useState } from 'react';
-import { Switch, Empty, Button } from 'antd';
+import { useEffect, useState } from 'react';
+import { Switch, Empty, Button, Space } from 'antd';
 import routes from './route';
 import { FC } from 'react';
 
@@ -20,6 +20,23 @@ const Container: FC<IContainerProps> = (props: IContainerProps) => {
   const currentPathName = location.pathname;
   const [pathname, setPathname] = useState(currentPathName || '/home/home');
   const [themeChecked, setThemeChecked] = useState<theme>((window.localStorage.getItem('theme') as theme) || 'light');
+  const [date, setDate] = useState<string>(`${new Date().toLocaleDateString()} ${new Date().toLocaleTimeString()}`);
+
+  let timer: any = null;
+
+  useEffect(() => {
+    timer = setInterval(() => {
+      setTimeDate();
+    }, 1000);
+
+    return () => {
+      timer && clearTimeout(timer);
+    };
+  }, []);
+
+  const setTimeDate = function () {
+    setDate(`${new Date().toLocaleDateString()} ${new Date().toLocaleTimeString()}`);
+  };
 
   const themeChange = function (checked: boolean) {
     window.localStorage.setItem('theme', checked ? 'light' : 'dark');
@@ -96,6 +113,13 @@ const Container: FC<IContainerProps> = (props: IContainerProps) => {
                   unCheckedChildren="暗黑"
                   checked={themeChecked == 'light'}
                 />
+                <span
+                  css={{
+                    marginLeft: '20px',
+                  }}
+                >
+                  {date}
+                </span>
               </div>
             ) : undefined,
           ];
@@ -106,7 +130,11 @@ const Container: FC<IContainerProps> = (props: IContainerProps) => {
         //   title: '闫全堃',
         // }}
         menuItemRender={(item, dom) => (
-          <a onClick={() => setPathname(item.path || '/home/home')} href={item.path}>
+          <a
+            target={item.target == 'blank' ? '_blank' : '_self'}
+            onClick={() => setPathname(item.path || '/home/home')}
+            href={item.path}
+          >
             {dom}
           </a>
         )}

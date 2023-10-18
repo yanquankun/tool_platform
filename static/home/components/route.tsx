@@ -14,11 +14,6 @@ export default {
         name: '管理页',
         icon: <CrownFilled />,
       },
-      {
-        path: 'https://ant.design',
-        name: 'Ant Design 官网外链',
-        icon: <ChromeFilled />,
-      },
     ],
   },
   location: {

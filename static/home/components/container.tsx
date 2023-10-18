@@ -9,6 +9,7 @@ import { FC } from 'react';
 interface IContainerProps {
   children?: React.ReactNode;
 }
+type theme = 'light' | 'dark';
 const Container: FC<IContainerProps> = (props: IContainerProps) => {
   const settings: ProSettings | undefined = {
     fixSiderbar: true,
@@ -18,11 +19,11 @@ const Container: FC<IContainerProps> = (props: IContainerProps) => {
 
   const currentPathName = location.pathname;
   const [pathname, setPathname] = useState(currentPathName || '/home/home');
-  const [themeChecked, setThemeChecked] = useState<boolean>(true);
+  const [themeChecked, setThemeChecked] = useState<theme>((window.localStorage.getItem('theme') as theme) || 'light');
 
   const themeChange = function (checked: boolean) {
-    console.log(checked);
-    setThemeChecked(checked);
+    window.localStorage.setItem('theme', checked ? 'light' : 'dark');
+    setThemeChecked(checked ? 'light' : 'dark');
   };
 
   return (
@@ -60,6 +61,17 @@ const Container: FC<IContainerProps> = (props: IContainerProps) => {
         menu={{
           type: 'group',
         }}
+        token={{
+          header: {
+            colorBgHeader: '#292f33',
+            colorHeaderTitle: '#fff',
+            colorTextMenu: '#dfdfdf',
+            colorTextMenuSecondary: '#dfdfdf',
+            colorTextMenuSelected: '#fff',
+            colorBgMenuItemSelected: '#22272b',
+            colorTextRightActionsItem: '#dfdfdf',
+          },
+        }}
         actionsRender={(props) => {
           if (props.isMobile) return [];
           if (typeof window === 'undefined') return [];
@@ -78,16 +90,21 @@ const Container: FC<IContainerProps> = (props: IContainerProps) => {
                   e.preventDefault();
                 }}
               >
-                <Switch onChange={themeChange} checkedChildren="亮色" unCheckedChildren="暗黑" checked={themeChecked} />
+                <Switch
+                  onChange={themeChange}
+                  checkedChildren="亮色"
+                  unCheckedChildren="暗黑"
+                  checked={themeChecked == 'light'}
+                />
               </div>
             ) : undefined,
           ];
         }}
-        avatarProps={{
-          src: 'https://gw.alipayobjects.com/zos/antfincdn/efFD%24IOql2/weixintupian_20170331104822.jpg',
-          size: 'small',
-          title: '闫全堃',
-        }}
+        // avatarProps={{
+        //   src: 'https://gw.alipayobjects.com/zos/antfincdn/efFD%24IOql2/weixintupian_20170331104822.jpg',
+        //   size: 'small',
+        //   title: '闫全堃',
+        // }}
         menuItemRender={(item, dom) => (
           <a onClick={() => setPathname(item.path || '/home/home')} href={item.path}>
             {dom}
@@ -101,8 +118,11 @@ const Container: FC<IContainerProps> = (props: IContainerProps) => {
               }}
               className={css(`
               font-weight: 500;
-              color: ${themeChecked ? 'rgba(0, 0, 0, 0.95)' : '#fff'};
+              color: #fff;
               font-size: 18px!important;
+              &:hover {
+                color: rgb(255, 255, 255, .7);
+              }
               `)}
             >
               闫全堃（Mint）个人站点
@@ -114,7 +134,7 @@ const Container: FC<IContainerProps> = (props: IContainerProps) => {
           if (_.isMobile) return defaultDom;
           return <>{defaultDom}</>;
         }}
-        {...{ ...settings, navTheme: themeChecked ? 'light' : 'realDark' }}
+        {...{ ...settings, navTheme: themeChecked == 'light' ? 'light' : 'realDark' }}
       >
         <PageContainer
           header={{

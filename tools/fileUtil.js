@@ -47,8 +47,14 @@ exports.getEntryRelativePathMap = function () {
   const staticBundles = getPathDirectoryList(STATIC_PATH);
   staticBundles.forEach((bundleDirectoryName) => {
     const entryPath = path.join(STATIC_PATH, bundleDirectoryName);
-    const bundleEntryFiles = getBundleEntryFiles(entryPath, bundleDirectoryName);
-    bundleEntryFiles.length && (staticMap[bundleDirectoryName] = bundleEntryFiles);
+
+    // ignore unvalid bundle directory name by extraBaseNamePrefix array
+    const extraBaseNamePrefix = ['@', '_', '*'];
+    const basenamePrefix = path.basename(entryPath)[0];
+    if (extraBaseNamePrefix.indexOf(basenamePrefix) != 0) {
+      const bundleEntryFiles = getBundleEntryFiles(entryPath, bundleDirectoryName);
+      bundleEntryFiles.length && (staticMap[bundleDirectoryName] = bundleEntryFiles);
+    }
   });
   return staticMap;
 };

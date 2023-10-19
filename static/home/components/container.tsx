@@ -5,6 +5,7 @@ import { useEffect, useState } from 'react';
 import { Switch, Empty, Button, Space } from 'antd';
 import routes from './route';
 import { FC } from 'react';
+import { DateComp } from './timer';
 
 interface IContainerProps {
   children?: React.ReactNode;
@@ -20,23 +21,6 @@ const Container: FC<IContainerProps> = (props: IContainerProps) => {
   const currentPathName = location.pathname;
   const [pathname, setPathname] = useState(currentPathName || '/home/home');
   const [themeChecked, setThemeChecked] = useState<theme>((window.localStorage.getItem('theme') as theme) || 'light');
-  const [date, setDate] = useState<string>(`${new Date().toLocaleDateString()} ${new Date().toLocaleTimeString()}`);
-
-  let timer: any = null;
-
-  useEffect(() => {
-    timer = setInterval(() => {
-      setTimeDate();
-    }, 1000);
-
-    return () => {
-      timer && clearTimeout(timer);
-    };
-  }, []);
-
-  const setTimeDate = function () {
-    setDate(`${new Date().toLocaleDateString()} ${new Date().toLocaleTimeString()}`);
-  };
 
   const themeChange = function (checked: boolean) {
     window.localStorage.setItem('theme', checked ? 'light' : 'dark');
@@ -118,7 +102,7 @@ const Container: FC<IContainerProps> = (props: IContainerProps) => {
                     marginLeft: '20px',
                   }}
                 >
-                  {date}
+                  <DateComp />
                 </span>
               </div>
             ) : undefined,

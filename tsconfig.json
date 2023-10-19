@@ -35,7 +35,7 @@
     // baseUrl配合paths使用，alisa路径映射
     "baseUrl": "./static" /* Specify the base directory to resolve non-relative module names. */,
     "paths": {
-      "~shared/*": ["shared/*"],
+      "~shared/*": ["@shared/*"],
       "~page/*": ["page/*"]
     } /* Specify a set of entries that re-map imports to additional lookup locations. */,
     // "rootDirs": [],                                   /* Allow multiple folders to be treated as one when resolving modules. */
@@ -106,7 +106,7 @@
     // "skipDefaultLibCheck": true,                      /* Skip type checking .d.ts files that are included with TypeScript. */
     "skipLibCheck": true /* Skip type checking all .d.ts files. */
   },
-  // ts文件在哪个文件夹中
+  // ts文件在哪个文件夹中, "shared"
   "include": ["static/**/*"],
   // 排除的文件
   "exclude": ["node_modules", "**/*.spec.ts"]

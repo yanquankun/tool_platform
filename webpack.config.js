@@ -6,12 +6,16 @@ const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const CopyPlugin = require('copy-webpack-plugin');
 const TerserPlugin = require('terser-webpack-plugin');
 const HtmlMinimizerPlugin = require('html-minimizer-webpack-plugin');
+const TsconfigPathsPlugin = require('tsconfig-paths-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const fs = require('fs');
 
-const ROOT_PATH = fileUtil.ROOT_PATH; // /tool_platform
+const tsconfigFile = 'tsconfig.json';
 const devServer = webpackTool.devServer;
+const extensions = webpackTool.extensions;
+const ROOT_PATH = fileUtil.ROOT_PATH; // /tool_platform
 const entryPathMap = fileUtil.getEntryRelativePathMap();
+
 module.exports = Object.keys(entryPathMap).map((entryDirectoryName, index) => {
   let entryMap = {};
   entryPathMap[entryDirectoryName].forEach((entryPathMap) => {
@@ -33,8 +37,10 @@ module.exports = Object.keys(entryPathMap).map((entryDirectoryName, index) => {
     },
 
     resolve: {
+      // 解析tsconfig中配置的paths
+      plugins: [new TsconfigPathsPlugin({ configFile: tsconfigFile, extensions })],
       // 尝试按顺序解析这些后缀名。如果有多个文件有相同的名字，但后缀名不同，webpack 会解析列在数组首位的后缀的文件 并跳过其余的后缀
-      extensions: ['.ts', '.tsx', '.jsx', '.js', '.json'],
+      extensions,
     },
 
     module: {

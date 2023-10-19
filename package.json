@@ -65,6 +65,7 @@
     "style-loader": "^3.3.3",
     "terser-webpack-plugin": "^5.3.9",
     "ts-loader": "^9.4.4",
+    "tsconfig-paths-webpack-plugin": "3.5.1",
     "typescript": "5.2.1-rc",
     "webpack": "5.55.1",
     "webpack-cli": "^5.1.4",

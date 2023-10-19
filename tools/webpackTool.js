@@ -33,8 +33,11 @@ const dynamicPlugins = [
   isProduction ? new webpack.NoEmitOnErrorsPlugin() : null, //保证出错时页面不阻塞，且会在编译结束后报错
 ].filter(Boolean);
 
+const extensions = ['.ts', '.tsx', '.jsx', '.js', '.json'];
+
 module.exports = exports = {
   devServer,
   dynamicPlugins,
   isProduction,
+  extensions,
 };

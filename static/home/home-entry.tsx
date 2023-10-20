@@ -1,8 +1,14 @@
 import { App } from './pages/home';
 import { createRoot } from 'react-dom/client';
+import Container from '~shared/components/container';
 
 const root = createRoot(document.getElementById('app') as HTMLElement);
-root.render(<App />);
+
+root.render(
+  <Container>
+    <App />
+  </Container>
+);
 
 const a = 1;
 type test = {

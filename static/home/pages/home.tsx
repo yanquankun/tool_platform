@@ -1,5 +1,4 @@
 import { FC } from 'react';
-import Container from '~shared/components/container';
 import { Card, Avatar, Row, Col, Tooltip, message, Space } from 'antd';
 import { SketchOutlined, HomeOutlined, MailOutlined } from '@ant-design/icons';
 import { copy } from '~shared/utils/util';
@@ -9,7 +8,7 @@ const { Meta } = Card;
 
 export const App: FC = function () {
   return (
-    <Container>
+    <>
       <Row gutter={16}>
         <Col span={4}>
           <Card
@@ -69,6 +68,6 @@ export const App: FC = function () {
         </Col>
       </Row>
       {/* <Image width={200} src="http://www.yanquankun.com:9300/cdn/%E6%9E%B6%E6%9E%84.png" /> */}
-    </Container>
+    </>
   );
 };

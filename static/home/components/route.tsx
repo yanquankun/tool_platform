@@ -1,4 +1,4 @@
-import { ChromeFilled, CrownFilled, SmileFilled, GithubOutlined } from '@ant-design/icons';
+import { CrownFilled, SmileFilled, GithubOutlined } from '@ant-design/icons';
 
 export default {
   route: {

@@ -2,10 +2,10 @@ import type { ProSettings } from '@ant-design/pro-components';
 import { PageContainer, ProLayout } from '@ant-design/pro-components';
 import { css } from '@emotion/css';
 import { useEffect, useState } from 'react';
-import { Switch, Empty, Button, Space } from 'antd';
+import { Switch, Empty, Button } from 'antd';
 import routes from './route';
 import { FC } from 'react';
-import { DateComp } from './timer';
+import { DateComp } from '~shared/components/timer';
 
 interface IContainerProps {
   children?: React.ReactNode;

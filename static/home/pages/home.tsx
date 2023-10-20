@@ -1,5 +1,5 @@
 import { FC } from 'react';
-import Container from '../components/container';
+import Container from '~shared/components/container';
 import { Card, Avatar, Row, Col, Tooltip, message, Space } from 'antd';
 import { SketchOutlined, HomeOutlined, MailOutlined } from '@ant-design/icons';
 import { copy } from '~shared/utils/util';

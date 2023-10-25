@@ -97,6 +97,9 @@ devDependencies:
   lint-staged:
     specifier: ^14.0.1
     version: 14.0.1
+  mini-css-extract-plugin:
+    specifier: ^2.7.6
+    version: 2.7.6(webpack@5.55.1)
   npm-install-peers:
     specifier: ^1.2.2
     version: 1.2.2
@@ -5229,6 +5232,17 @@ packages:
     resolution:
       { integrity: sha512-I9jwMn07Sy/IwOj3zVkVik2JTvgpaykDZEigL6Rx6N9LbMywwUSMtxET+7lVoDLLd3O3IXwJwvuuns8UB/HeAg== }
     engines: { node: '>=4' }
+    dev: true
+
+  /mini-css-extract-plugin@2.7.6(webpack@5.55.1):
+    resolution:
+      { integrity: sha512-Qk7HcgaPkGG6eD77mLvZS1nmxlao3j+9PkrT9Uc7HAE1id3F41+DdBRYRYkbyfNRGzm8/YWtzhw7nVPmwhqTQw== }
+    engines: { node: '>= 12.13.0' }
+    peerDependencies:
+      webpack: ^5.0.0
+    dependencies:
+      schema-utils: 4.2.0
+      webpack: 5.55.1(webpack-cli@5.1.4)
     dev: true
 
   /minimalistic-assert@1.0.1:

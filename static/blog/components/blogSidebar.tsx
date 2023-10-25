@@ -3,7 +3,6 @@ import { Steps, Row, Col, Space } from 'antd';
 import { css } from '@emotion/css';
 import { StepBackwardOutlined } from '@ant-design/icons';
 import { IBlogSideItem } from '../interfaces/blogSidebar';
-import { styled } from '~shared/theme/theme';
 interface IProps {
   blogChange: (blogId: number) => void;
 }
@@ -40,7 +39,6 @@ export const BlogSidebar: FC<IProps> = (props): JSX.Element => {
             key={item.blogId}
             onClick={() => onChange(item.blogId)}
             className={css`
-              color: ${styled.text};
               &:hover {
                 color: #40a9ff;
               }

@@ -26,6 +26,13 @@ const Container: FC<IContainerProps> = (props: IContainerProps) => {
     window.localStorage.setItem('theme', checked ? 'light' : 'dark');
     setThemeChecked(checked ? 'light' : 'dark');
 
+    const themeLink = document.createElement('link');
+    themeLink.setAttribute('ref', 'stylesheet');
+    themeLink.setAttribute('type', 'text/css');
+    themeLink.setAttribute('href', '/dist/theme/theme.css');
+    themeLink.setAttribute('media', 'screen');
+    document.head.appendChild(themeLink);
+
     document.body.className = checked ? 'light' : 'dark';
   };
 

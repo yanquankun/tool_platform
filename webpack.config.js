@@ -8,6 +8,7 @@ const TerserPlugin = require('terser-webpack-plugin');
 const HtmlMinimizerPlugin = require('html-minimizer-webpack-plugin');
 const TsconfigPathsPlugin = require('tsconfig-paths-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const fs = require('fs');
 
 const tsconfigFile = 'tsconfig.json';
@@ -58,6 +59,10 @@ module.exports = Object.keys(entryPathMap).map((entryDirectoryName, index) => {
               maxSize: 6 * 1024,
             },
           },
+        },
+        {
+          test: /\.css$/,
+          use: [MiniCssExtractPlugin.loader, 'css-loader'],
         },
       ],
     },
@@ -174,6 +179,16 @@ module.exports = Object.keys(entryPathMap).map((entryDirectoryName, index) => {
       }),
       // 动态plugins
       ...webpackTool.dynamicPlugins,
+      ...Object.keys(pathMap).map((pageBaseName) => {
+        return new CopyPlugin({
+          patterns: [
+            {
+              from: path.join(__dirname, '/static/@shared/theme/theme.css'),
+              to: path.resolve(__dirname, `dist/theme/theme.css`),
+            },
+          ],
+        });
+      }),
     ],
   };
 

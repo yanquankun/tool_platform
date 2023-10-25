@@ -8,6 +8,19 @@
       body {
         margin: 0;
       }
+      :root {
+        --theme-color: #333;
+        --theme-background: #eee;
+      }
+      .dark {
+        --theme-color: #eee;
+        --theme-background: #333;
+      }
+      /* 更改pink类名下变量的取值 */
+      .light {
+        --theme-color: #fff;
+        --theme-background: pink;
+      }
     </style>
   </head>
   <body>

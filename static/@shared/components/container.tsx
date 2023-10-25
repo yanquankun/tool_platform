@@ -25,7 +25,14 @@ const Container: FC<IContainerProps> = (props: IContainerProps) => {
   const themeChange = function (checked: boolean) {
     window.localStorage.setItem('theme', checked ? 'light' : 'dark');
     setThemeChecked(checked ? 'light' : 'dark');
+
+    document.body.className = checked ? 'light' : 'dark';
   };
+
+  useEffect(() => {
+    const theme = window.localStorage.getItem('theme') || 'light';
+    document.body.className = theme;
+  }, []);
 
   return (
     <div

@@ -1,8 +1,8 @@
 import { FC } from 'react';
-import { Card, Avatar, Row, Col, Tooltip, message, Space } from 'antd';
+import { Card, Avatar, Row, Col, Tooltip, Space } from 'antd';
 import { SketchOutlined, HomeOutlined, MailOutlined } from '@ant-design/icons';
 import { copy } from '~shared/utils/util';
-import { css } from '@emotion/css';
+import { ToolContainer } from '../components/tool';
 
 const { Meta } = Card;
 
@@ -64,7 +64,7 @@ export const App: FC = function () {
           </Card>
         </Col>
         <Col offset={1} span={19}>
-          12321
+          <ToolContainer />
         </Col>
       </Row>
       {/* <Image width={200} src="http://www.yanquankun.com:9300/cdn/%E6%9E%B6%E6%9E%84.png" /> */}

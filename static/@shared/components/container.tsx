@@ -105,12 +105,12 @@ const Container: FC<IContainerProps> = (props: IContainerProps) => {
                   e.preventDefault();
                 }}
               >
-                <Switch
+                {/* <Switch
                   onChange={themeChange}
                   checkedChildren="亮色"
                   unCheckedChildren="暗黑"
                   checked={themeChecked == 'light'}
-                />
+                /> */}
                 <span
                   css={{
                     marginLeft: '20px',

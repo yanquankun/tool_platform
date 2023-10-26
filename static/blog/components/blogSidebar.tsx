@@ -10,7 +10,7 @@ const blogList = [
   {
     blogId: 1,
     title: '序言',
-    description: '123',
+    description: '第一篇blog，从此开始吧~',
     icon: null,
   },
 ] as Array<IBlogSideItem>;
@@ -36,7 +36,7 @@ export const BlogSidebar: FC<IProps> = (props): JSX.Element => {
       className={css`
         width: 70%;
         border: 1px solid #ccc;
-        background-color: antiquewhite;
+        background-color: aliceblue;
         border-radius: 10px;
         padding: 10px 5px;
         min-height: 50vh;

@@ -12,7 +12,7 @@ export const App: FC = function () {
   };
 
   return (
-    <WaterMark content={['闫全堃', '17600610907@164.com']}>
+    <WaterMark content={['闫全堃', '17600610907@163.com']}>
       <Row gutter={16}>
         <Col span={4}>
           <BlogSidebar blogChange={blogChange} />

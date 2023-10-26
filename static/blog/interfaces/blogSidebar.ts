@@ -7,4 +7,8 @@ export interface IBlogSideItem {
 
 export interface IBlogArticleItem {
   blogId: number;
+  timestamp: string;
+  title: string;
+  subtitle?: string;
+  content: string | number | JSX.Element;
 }

@@ -1,36 +1,79 @@
 import { FC, useState } from 'react';
-import { Row, Divider, Form, Input } from 'antd';
+import { Row, Divider, Form, Input, Select } from 'antd';
 import { css } from '@emotion/css';
 import dayjs from 'dayjs';
-import { timeStamp } from 'console';
+
+const { Option } = Select;
 
 export const ToolContainer: FC = (): JSX.Element => {
   const [form] = Form.useForm();
 
   return (
-    <Form layout="inline" form={form}>
-      <Form.Item label="时间戳转时间" extra="单位为毫秒时间戳，小于13位的将转换为13位时间戳">
+    <Form
+      layout="inline"
+      form={form}
+      initialValues={{
+        timeUnit: 'second',
+        timeStampUnit: 'second',
+      }}
+    >
+      <Form.Item name="time" label="时间戳转时间">
         <Input
           type="number"
           onChange={(event) => {
-            const val = event.target.value.length < 13 ? Number(event.target.value) * 1000 : Number(event.target.value);
-            form.setFieldValue('time', dayjs(val).format('YYYY-MM-DD HH:mm:ss'));
+            const unit = form.getFieldValue('timeUnit');
+            const val = unit == 'second' ? Number(event.target.value) * 1000 : Number(event.target.value);
+            form.setFieldValue('timeTF', dayjs(val).format('YYYY-MM-DD HH:mm:ss'));
           }}
         />
       </Form.Item>
-      <Form.Item name="time">
+      <Form.Item name="timeUnit">
+        <Select
+          className={css`
+            width: 80px !important;
+          `}
+          onChange={(event) => {
+            const time = form.getFieldValue('time');
+            if (time) {
+              const val = event == 'second' ? Number(time) * 1000 : Number(time);
+              form.setFieldValue('timeTF', dayjs(val).format('YYYY-MM-DD HH:mm:ss'));
+            }
+          }}
+        >
+          <Option value="second">秒</Option>
+          <Option value="millSecond">毫秒</Option>
+        </Select>
+      </Form.Item>
+      <Form.Item name="timeTF">
         <Input disabled />
       </Form.Item>
       <Divider />
-      <Form.Item label="时间转时间戳" extra="将自动转换为13位时间戳">
+      <Form.Item name="timeStamp" label="时间转时间戳">
         <Input
           onChange={(event) => {
+            const unit = form.getFieldValue('timeUnit');
             const val = event.target.value;
-            form.setFieldValue('timeStamp', dayjs(val).unix() * 1000);
+            form.setFieldValue('timeStampTF', unit == 'second' ? dayjs(val).unix() : dayjs(val).unix() * 1000);
           }}
         />
       </Form.Item>
-      <Form.Item name="timeStamp">
+      <Form.Item name="timeStampUnit">
+        <Select
+          className={css`
+            width: 80px !important;
+          `}
+          onChange={(event) => {
+            const val = form.getFieldValue('timeStamp');
+            if (val) {
+              form.setFieldValue('timeStampTF', event == 'second' ? dayjs(val).unix() : dayjs(val).unix() * 1000);
+            }
+          }}
+        >
+          <Option value="second">秒</Option>
+          <Option value="millSecond">毫秒</Option>
+        </Select>
+      </Form.Item>
+      <Form.Item name="timeStampTF">
         <Input disabled />
       </Form.Item>
     </Form>

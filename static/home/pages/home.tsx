@@ -1,5 +1,5 @@
 import { FC } from 'react';
-import { Card, Avatar, Row, Col, Tooltip, Space } from 'antd';
+import { Card, Avatar, Row, Col, Tooltip, Space, Image } from 'antd';
 import { SketchOutlined, HomeOutlined, MailOutlined } from '@ant-design/icons';
 import { copy } from '~shared/utils/util';
 import { ToolContainer } from '../components/tool';
@@ -57,7 +57,15 @@ export const App: FC = function () {
             ]}
           >
             <Meta
-              avatar={<Avatar src="http://www.yanquankun.com:9300/cdn/self-icon.jpg" />}
+              avatar={
+                <Image
+                  css={{
+                    borderRadius: '24px',
+                  }}
+                  width={48}
+                  src="http://www.yanquankun.com:9300/cdn/self-icon.jpg"
+                />
+              }
               title="闫全堃(Mint)"
               description="一个喜欢折腾的coder"
             />

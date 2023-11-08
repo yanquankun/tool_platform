@@ -2,7 +2,8 @@ import type { ProSettings } from '@ant-design/pro-components';
 import { PageContainer, ProLayout } from '@ant-design/pro-components';
 import { css } from '@emotion/css';
 import { useEffect, useState } from 'react';
-import { Switch, Empty, Button } from 'antd';
+import { Switch, Empty, Button, Popover, Image, Tag } from 'antd';
+import { WechatOutlined } from '@ant-design/icons';
 import routes from './route';
 import { FC } from 'react';
 import { DateComp } from '~shared/components/timer';
@@ -91,6 +92,22 @@ const Container: FC<IContainerProps> = (props: IContainerProps) => {
           if (props.isMobile) return [];
           if (typeof window === 'undefined') return [];
           return [
+            <Popover
+              placement="bottom"
+              title={<Image width={500} src="http://www.yanquankun.com:9300/cdn/%E6%9E%B6%E6%9E%84.png" />}
+              trigger="hover"
+            >
+              <Tag color="#3b5999">项目架构图</Tag>
+            </Popover>,
+            <Popover
+              placement="bottom"
+              title={<Image width={200} src="http://www.yanquankun.com:9300/cdn/mini-program-qrcode.png" />}
+              trigger="hover"
+            >
+              <Tag icon={<WechatOutlined />} color="#3b5999">
+                个人小程序
+              </Tag>
+            </Popover>,
             props.layout !== 'side' ? (
               <div
                 key="SearchOutlined"

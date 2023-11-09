@@ -2,8 +2,8 @@ import type { ProSettings } from '@ant-design/pro-components';
 import { PageContainer, ProLayout } from '@ant-design/pro-components';
 import { css } from '@emotion/css';
 import { useEffect, useState } from 'react';
-import { Switch, Empty, Button, Popover, Image, Tag } from 'antd';
-import { WechatOutlined } from '@ant-design/icons';
+import { Switch, Empty, Button, Popover, Image, Tag, FloatButton, Drawer, Modal } from 'antd';
+import { WechatOutlined, QuestionCircleOutlined, SyncOutlined, SplitCellsOutlined } from '@ant-design/icons';
 import routes from './route';
 import { FC } from 'react';
 import { DateComp } from '~shared/components/timer';
@@ -13,6 +13,7 @@ interface IContainerProps {
 }
 type theme = 'light' | 'dark';
 const Container: FC<IContainerProps> = (props: IContainerProps) => {
+  const [open, setOpen] = useState(false);
   const settings: ProSettings | undefined = {
     fixSiderbar: true,
     layout: 'top',
@@ -41,6 +42,20 @@ const Container: FC<IContainerProps> = (props: IContainerProps) => {
     const theme = window.localStorage.getItem('theme') || 'light';
     document.body.className = theme;
   }, []);
+
+  const creatQaModal = () => {
+    Modal.info({
+      closable: false,
+      maskClosable: true,
+      title: 'Tips',
+      content: (
+        <div>
+          <p>some messages...some messages...</p>
+          <p>some messages...some messages...</p>
+        </div>
+      ),
+    });
+  };
 
   return (
     <div
@@ -115,7 +130,6 @@ const Container: FC<IContainerProps> = (props: IContainerProps) => {
                 style={{
                   display: 'flex',
                   alignItems: 'center',
-                  marginInlineEnd: 24,
                 }}
                 onMouseDown={(e) => {
                   e.stopPropagation();
@@ -128,13 +142,7 @@ const Container: FC<IContainerProps> = (props: IContainerProps) => {
                   unCheckedChildren="暗黑"
                   checked={themeChecked == 'light'}
                 /> */}
-                <span
-                  css={{
-                    marginLeft: '20px',
-                  }}
-                >
-                  <DateComp />
-                </span>
+                <DateComp />
               </div>
             ) : undefined,
           ];
@@ -186,7 +194,27 @@ const Container: FC<IContainerProps> = (props: IContainerProps) => {
           }}
         >
           {props.children ? (
-            props.children
+            <>
+              {props.children}
+              <Drawer
+                title="项目规划"
+                placement="right"
+                closable={false}
+                onClose={() => setOpen(false)}
+                open={open}
+                key="right"
+              >
+                <p>Some contents...</p>
+                <p>Some contents...</p>
+                <p>Some contents...</p>
+              </Drawer>
+              <FloatButton.Group shape="square" style={{ right: 24, top: '400px', height: 'fit-content' }}>
+                <FloatButton icon={<SplitCellsOutlined />} tooltip="规划" onClick={() => setOpen(true)} />
+                <FloatButton icon={<QuestionCircleOutlined />} tooltip="what's this？" onClick={creatQaModal} />
+                <FloatButton tooltip="刷新" icon={<SyncOutlined />} onClick={() => location.reload()} />
+                <FloatButton.BackTop visibilityHeight={0} />
+              </FloatButton.Group>
+            </>
           ) : (
             <Empty
               image="https://gw.alipayobjects.com/zos/antfincdn/ZHrcdLPrvN/empty.svg"

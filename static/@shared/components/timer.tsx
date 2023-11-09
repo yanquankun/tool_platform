@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import dayjs from 'dayjs';
 
 export const DateComp = function () {
   const [date, setDate] = useState<string>(`${new Date().toLocaleDateString()} ${new Date().toLocaleTimeString()}`);
@@ -17,8 +18,8 @@ export const DateComp = function () {
   }, []);
 
   const setTimeDate = function () {
-    setDate(`${new Date().toLocaleDateString()} ${new Date().toLocaleTimeString()}`);
+    setDate(dayjs().format('YYYY-MM-DD HH:mm:ss'));
   };
 
-  return <span>{date}</span>;
+  return <span style={{ display: 'flex', width: '170px' }}>{date}</span>;
 };

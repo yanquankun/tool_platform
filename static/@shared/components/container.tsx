@@ -1,9 +1,16 @@
 import type { ProSettings } from '@ant-design/pro-components';
 import { PageContainer, ProLayout } from '@ant-design/pro-components';
 import { css } from '@emotion/css';
-import { useEffect, useState } from 'react';
-import { Switch, Empty, Button, Popover, Image, Tag, FloatButton, Drawer, Modal } from 'antd';
-import { WechatOutlined, QuestionCircleOutlined, SyncOutlined, SplitCellsOutlined } from '@ant-design/icons';
+import { Fragment, useEffect, useState } from 'react';
+import { Switch, Empty, Button, Popover, Image, Tag, FloatButton, Drawer, Modal, Divider, Space, Timeline } from 'antd';
+import {
+  WechatOutlined,
+  QuestionCircleOutlined,
+  SyncOutlined,
+  SplitCellsOutlined,
+  ClockCircleOutlined,
+  CheckCircleTwoTone,
+} from '@ant-design/icons';
 import routes from './route';
 import { FC } from 'react';
 import { DateComp } from '~shared/components/timer';
@@ -50,11 +57,75 @@ const Container: FC<IContainerProps> = (props: IContainerProps) => {
       title: 'Tips',
       content: (
         <div>
-          <p>some messages...some messages...</p>
-          <p>some messages...some messages...</p>
+          <p>欢迎大家来到我的个人站点</p>
+          <p>该网站为个人搭建，之后所有的个人项目将集成到这个网站中</p>
+          <p>网站目前有以下规划：</p>
+          <p>1.工具集合平台，未来会加入更多的前端工具</p>
+          <p>2.个人博客，后续规划引入微信公众号文章，和公众号进行打通</p>
+          <p>...</p>
+          <p>3.详细规划时间线可通过右侧悬浮按钮中内容进行查看。</p>
+          <strong>本网站仅个人维护，进度较慢，勿喷~</strong>
         </div>
       ),
     });
+  };
+
+  const createPlanDrawer = () => {
+    return (
+      <Fragment>
+        <Divider orientation="left">技术栈</Divider>
+        <Space size={[0, 10]} wrap>
+          <Tag color="magenta">React</Tag>
+          <Tag color="gold">Webpack</Tag>
+          <Tag color="red">Nginx</Tag>
+          <Tag color="volcano">Docker</Tag>
+          <Tag color="orange">Jenkins</Tag>
+        </Space>
+        <Divider orientation="left">规划线</Divider>
+        <Timeline
+          items={[
+            {
+              dot: <CheckCircleTwoTone style={{ fontSize: '16px' }} className="timeline-clock-icon" />,
+              children: '已完成',
+            },
+            {
+              color: 'green',
+              children: 'Webpack搭建多bundle工程',
+            },
+            {
+              color: 'green',
+              children: 'Nginx搭建项目路由、服务规则',
+            },
+            {
+              color: 'green',
+              children: 'GitWebhook+jenkins+docker实现自动化部署',
+            },
+            {
+              color: 'green',
+              children: '首页+博客页搭建',
+            },
+            {
+              dot: (
+                <ClockCircleOutlined style={{ fontSize: '16px', color: '#ff4d4f' }} className="timeline-clock-icon" />
+              ),
+              children: '待完成',
+            },
+            {
+              color: 'gray',
+              children: '首页工具集种类补充',
+            },
+            {
+              color: 'gray',
+              children: '博客页打通微信公众号文章',
+            },
+            {
+              color: 'gray',
+              children: 'java|nodejs+mysql搭建后端服务',
+            },
+          ]}
+        />
+      </Fragment>
+    );
   };
 
   return (
@@ -204,9 +275,7 @@ const Container: FC<IContainerProps> = (props: IContainerProps) => {
                 open={open}
                 key="right"
               >
-                <p>Some contents...</p>
-                <p>Some contents...</p>
-                <p>Some contents...</p>
+                {createPlanDrawer()}
               </Drawer>
               <FloatButton.Group shape="square" style={{ right: 24, top: '400px', height: 'fit-content' }}>
                 <FloatButton icon={<SplitCellsOutlined />} tooltip="规划" onClick={() => setOpen(true)} />

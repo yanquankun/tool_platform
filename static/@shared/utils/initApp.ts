@@ -26,6 +26,9 @@ const initApp = (rootDom: React.ReactNode, type: 'list' | 'result' | 'descriptio
       clearInterval(timer);
       root.render(rootDom);
     } else {
+      const loadTip = document.getElementById('loadTip') as HTMLElement;
+      const body = document.body;
+      body.removeChild(loadTip);
       root.render(
         new (getCacheProCompModule().ProSkeleton)({
           type,

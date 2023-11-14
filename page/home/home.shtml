@@ -8,12 +8,19 @@
       body {
         margin: 0;
       }
+      #loadTip {
+        font-size: 20px;
+        text-align: center;
+        height: 100vh;
+        line-height: 100vh;
+      }
     </style>
   </head>
   <body>
+    <div id="loadTip">服务器性能较低，首次加载较慢，请稍等...</div>
     <div id="app"></div>
 
-    <script src="https://cdn.staticfile.org/clipboard.js/2.0.4/clipboard.min.js"></script>
+    <script defer src="https://cdn.staticfile.org/clipboard.js/2.0.4/clipboard.min.js"></script>
     <!-- Dependencies -->
     <script src="/dist/bundle/home/includes/react-common.vendor.js"></script>
     <script src="/dist/bundle/home/includes/antd.vendor.js"></script>

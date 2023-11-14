@@ -173,7 +173,7 @@ module.exports = Object.keys(entryPathMap).map((entryDirectoryName, index) => {
           templateContent: !!content ? content : false,
           filename: pathMap[pageBaseName],
           inject: 'body',
-          scriptLoading: 'blocking',
+          scriptLoading: 'defer',
           chunks: [pageBaseName + '-entry'],
         });
       }),

@@ -32,7 +32,7 @@ module.exports = Object.keys(entryPathMap).map((entryDirectoryName, index) => {
     entry: entryMap,
     output: {
       path: path.join(ROOT_PATH, `dist/bundle/${entryDirectoryName}`),
-      publicPath: `/dist/bundle/${entryDirectoryName}`,
+      publicPath: `../../bundle/${entryDirectoryName}/`,
       filename: `[name].${webpackTool.isProduction ? 'bundle.[contenthash]' : 'bundle'}.js`,
       chunkFilename: `[name].${webpackTool.isProduction ? 'bundle.[contenthash]' : 'bundle'}.js`,
     },

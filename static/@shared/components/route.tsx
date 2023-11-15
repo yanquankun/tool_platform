@@ -35,11 +35,11 @@ export default {
       icon: <UserOutlined style={{ fontSize: 30 }} />,
       title: '个人履历',
       desc: '个人履历，更新较少，可移步个人小程序',
-      url: 'http://www.yanquankun.com/myself/index.html',
+      url: 'http://www.yanquankun.com:8000/myself/index.html',
       target: '_blank',
     },
     {
-      icon: 'http://www.yanquankun.com:9300/cdn/MUI-logo.png',
+      icon: 'http://www.yanquankun.com:8000/cdn/MUI-logo.png',
       title: 'Angular Frame',
       desc: '个人开发AngularUI库',
       url: 'http://www.yanquankun.com/ng-mui/#/start',
@@ -49,7 +49,7 @@ export default {
       icon: <EditOutlined style={{ fontSize: 30 }} />,
       title: 'JS Editor',
       desc: '闲余时间小小JS编辑器',
-      url: 'http://www.yanquankun.com/mint_editor/editor.html',
+      url: 'http://www.yanquankun.com:8000/mint_editor/editor.html',
       target: '_blank',
     },
     {

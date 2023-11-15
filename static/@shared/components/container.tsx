@@ -62,8 +62,8 @@ const Container: FC<IContainerProps> = (props: IContainerProps) => {
           <p>网站目前有以下规划：</p>
           <p>1.工具集合平台，未来会加入更多的前端工具</p>
           <p>2.个人博客，后续规划引入微信公众号文章，和公众号进行打通</p>
-          <p>...</p>
           <p>3.详细规划时间线可通过右侧悬浮按钮中内容进行查看。</p>
+          <p>...</p>
           <strong>本网站仅个人维护，进度较慢，勿喷~</strong>
         </div>
       ),

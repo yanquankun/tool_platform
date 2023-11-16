@@ -8,16 +8,9 @@
       body {
         margin: 0;
       }
-      #loadTip {
-        font-size: 20px;
-        text-align: center;
-        height: 100vh;
-        line-height: 100vh;
-      }
     </style>
   </head>
   <body>
-    <div id="loadTip">个人服务器，性能太他妈差了，稍等吧...</div>
     <div id="app"></div>
 
     <!-- Dependencies -->

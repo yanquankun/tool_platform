@@ -12,6 +12,7 @@
   </head>
   <body>
     <div id="app"></div>
+    <!--#include file="/page/includes/pre.shtml"-->
 
     <!-- Dependencies -->
     <script src="/dist/bundle/blog/includes/react-common.vendor.js"></script>

@@ -32,7 +32,7 @@ module.exports = Object.keys(entryPathMap).map((entryDirectoryName, index) => {
     entry: entryMap,
     output: {
       path: path.join(ROOT_PATH, `dist/bundle/${entryDirectoryName}`),
-      publicPath: `../../bundle/${entryDirectoryName}/`,
+      publicPath: `${webpackTool.isProduction ? '../../bundle/' : '/dist/bundle/'}${entryDirectoryName}/`,
       filename: `[name].${webpackTool.isProduction ? 'bundle.[contenthash]' : 'bundle'}.js`,
       chunkFilename: `[name].${webpackTool.isProduction ? 'bundle.[contenthash]' : 'bundle'}.js`,
     },
@@ -149,14 +149,16 @@ module.exports = Object.keys(entryPathMap).map((entryDirectoryName, index) => {
     plugins: [
       // 实际上只会动态更新dist内容  并不会删除dist目录
       new CleanWebpackPlugin(),
-      // new CopyPlugin({
-      //   patterns: [
-      //     {
-      //       from: path.resolve(__dirname, `page/${entryDirectoryName}/*.shtml`),
-      //       to: path.resolve(__dirname, 'dist'),
-      //     },
-      //   ],
-      // }),
+      new CopyPlugin({
+        patterns: [
+          // 复制includes目录
+          {
+            from: path.resolve(__dirname, 'page/includes/*.shtml'),
+            // to：../../是因为我们的构建入口是基于bundle/${entryDirectoryName}/的
+            to: '../../',
+          },
+        ],
+      }),
       ...Object.keys(pathMap).map((pageBaseName) => {
         let content;
         try {

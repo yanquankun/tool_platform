@@ -71,7 +71,7 @@ exports.getPageRelativePathMap = function (pageDirectory) {
   const pages = getPathDirectoryList(pagePath);
   pages.forEach((page) => {
     const basename = path.basename(page, '.shtml');
-    pageMap[basename] = `../../pages/${pageDirectory}/${page}`;
+    pageMap[basename] = `../../page/${pageDirectory}/${page}`;
   });
   return pageMap;
 };

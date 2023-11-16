@@ -27,8 +27,10 @@ const initApp = (rootDom: React.ReactNode, type: 'list' | 'result' | 'descriptio
       root.render(rootDom);
     } else {
       const loadTip = document.getElementById('loadTip') as HTMLElement;
-      const body = document.body;
-      body.removeChild(loadTip);
+      if (loadTip) {
+        const body = document.body;
+        body.removeChild(loadTip);
+      }
       root.render(
         new (getCacheProCompModule().ProSkeleton)({
           type,

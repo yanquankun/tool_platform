@@ -1,4 +1,4 @@
-import { FC, useState } from 'react';
+import { FC, useEffect, useState } from 'react';
 import { Card, Row, Col, Tooltip, Space, Image } from 'antd';
 import { SketchOutlined, HomeOutlined, MailOutlined, DatabaseTwoTone } from '@ant-design/icons';
 import { copy } from '~shared/utils/util';
@@ -9,9 +9,67 @@ const { Meta } = Card;
 export const App: FC = function () {
   const [container, setContainer] = useState<HTMLDivElement | null>(null);
 
+  useEffect(() => {
+    const res1 = fetch(
+      '/wxapi/cgi-bin/token?grant_type=client_credential&appid=wx7515961af01a9dac&secret=9eed7aa25548d7386749a63fd053f6d5',
+      {
+        method: 'GET',
+      }
+    )
+      .then((res) => {
+        if (res.status === 200) {
+          return res.json();
+        } else {
+          return {};
+        }
+      })
+      .catch((e) => {
+        return {};
+      });
+    res1
+      .then(function (data) {
+        //响应的内容
+        console.log(data);
+      })
+      .catch(function (err) {
+        console.log(err);
+      });
+    const res2 = fetch(
+      `/wxapi/cgi-bin/material/batchget_material?access_token=${'74_GhAm8OfUYmnzeP3uNbnXchHd1wtpk6OadFXcbKwbY7ocXLg3ocLGt5y-twJd9HJpsOeZ80Y4fCOKPHf05eoZQV2lIwstqlCFyBSFYXp9HdQvygZYbsAtEQHDj_IHHFdAEABBZ'}`,
+      {
+        method: 'POST',
+        body: JSON.stringify({
+          type: 'news',
+          offset: 0,
+          count: 20,
+        }),
+        headers: {
+          'Content-Type': 'application/json;',
+        },
+      }
+    )
+      .then((res) => {
+        if (res.status === 200) {
+          return res.json();
+        } else {
+          return {};
+        }
+      })
+      .catch((e) => {
+        return {};
+      });
+    res2
+      .then((res) => {
+        console.log(res);
+      })
+      .catch((e) => {
+        console.log(e);
+      });
+  }, []);
+
   return (
     <Row gutter={16}>
-      <Col span={4}>
+      <Col span={5}>
         <Card
           style={{ borderRadius: '20% 20% 0 0' }}
           cover={
@@ -72,7 +130,7 @@ export const App: FC = function () {
           />
         </Card>
       </Col>
-      <Col offset={1} span={19}>
+      <Col offset={1} span={18}>
         <ToolContainer />
       </Col>
     </Row>

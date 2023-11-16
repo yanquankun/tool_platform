@@ -277,7 +277,7 @@ const Container: FC<IContainerProps> = (props: IContainerProps) => {
               >
                 {createPlanDrawer()}
               </Drawer>
-              <FloatButton.Group shape="square" style={{ right: 24, top: '400px', height: 'fit-content' }}>
+              <FloatButton.Group shape="square" style={{ right: 24, top: '300px', height: 'fit-content' }}>
                 <FloatButton icon={<SplitCellsOutlined />} tooltip="规划" onClick={() => setOpen(true)} />
                 <FloatButton icon={<QuestionCircleOutlined />} tooltip="what's this？" onClick={creatQaModal} />
                 <FloatButton tooltip="刷新" icon={<SyncOutlined />} onClick={() => location.reload()} />

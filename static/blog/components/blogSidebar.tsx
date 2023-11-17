@@ -1,40 +1,32 @@
 import { FC, Fragment, useEffect, useState } from 'react';
 import { Col, Space } from 'antd';
 import { css } from '@emotion/css';
-import { IBlogSideItem } from '../interfaces/blogSidebar';
+import { IBlogArticleItem, IBlogListMap } from '../interfaces/blogSidebar';
 interface IProps {
-  blogChange: (blogId: number) => void;
+  blogChange: (blogId: string) => void;
+  blogMap: IBlogListMap;
 }
 
-const blogList = [
-  {
-    blogId: 1,
-    title: '序言',
-    description: '第一篇blog，从此开始吧~',
-    icon: null,
-  },
-] as Array<IBlogSideItem>;
-
 export const BlogSidebar: FC<IProps> = (props): JSX.Element => {
-  const [blogId, setBlogId] = useState<number>();
+  const [blogId, setBlogId] = useState<string>();
 
   useEffect(() => {
-    if (blogList.length) {
-      props.blogChange(blogList[0].blogId);
-      setBlogId(blogList[0].blogId);
+    if (props.blogMap.blogList.length) {
+      props.blogChange(props.blogMap.blogList[0].blogId);
+      setBlogId(props.blogMap.blogList[0].blogId);
     }
-  }, []);
+  }, [props.blogMap]);
 
-  const onChange = (blogId: number) => {
+  const onChange = (blogId: string) => {
     setBlogId(blogId);
     props.blogChange(blogId);
   };
 
-  return blogList.length ? (
+  return props.blogMap.blogList.length ? (
     <Space
       direction="vertical"
       className={css`
-        width: 70%;
+        width: 90%;
         border: 1px solid #ccc;
         background-color: aliceblue;
         border-radius: 10px;
@@ -42,7 +34,7 @@ export const BlogSidebar: FC<IProps> = (props): JSX.Element => {
         min-height: 50vh;
       `}
     >
-      {blogList.map((item: IBlogSideItem) => {
+      {props.blogMap.blogList.map((item: IBlogArticleItem) => {
         return (
           <Col
             key={item.blogId}
@@ -64,15 +56,19 @@ export const BlogSidebar: FC<IProps> = (props): JSX.Element => {
                 {item.icon}
               </span>
             ) : null}
-            <span
-              className={css`
-                display: block;
-                text-indent: 15px;
-                margin-top: 5px;
-              `}
-            >
-              {item.description}
-            </span>
+            {item.subtitle ? (
+              <span
+                className={css`
+                  display: block;
+                  text-indent: 15px;
+                  margin-top: 5px;
+                `}
+              >
+                {item.subtitle}
+              </span>
+            ) : (
+              <></>
+            )}
           </Col>
         );
       })}

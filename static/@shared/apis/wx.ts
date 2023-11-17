@@ -25,8 +25,10 @@ const getWxAccessToken = async (): Promise<IResponseData> => {
  * @see https://developers.weixin.qq.com/doc/offiaccount/Asset_Management/Get_materials_list.html
  */
 const getWxArticles = async (): Promise<IResponseData> => {
+  const { data } = await getWxAccessToken();
+  const access_token = data.access_token || '';
   return await request({
-    url: `/wxapi/cgi-bin/material/batchget_material?access_token=${'74_43a4wtT_ox5foZNfaH0F_39jxyRjaqDlCDF_pbeCj5AOWuFxYoM-l0U45ZJ5IBHTx0M7QBxXJHnamFpoCj_iW7nnV79tlYffdx449QNqCmDSgKT-Tp-4I35h1dcQPZhAHAJIS'}`,
+    url: `/wxapi/cgi-bin/material/batchget_material?access_token=${access_token}`,
     method: 'post',
     isNeedLoading: true,
     data: {

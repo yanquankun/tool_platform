@@ -1,24 +1,13 @@
-import { FC, useEffect, useState } from 'react';
+import { FC, useState } from 'react';
 import { Card, Row, Col, Tooltip, Space, Image } from 'antd';
-import { SketchOutlined, HomeOutlined, MailOutlined, DatabaseTwoTone } from '@ant-design/icons';
+import { SketchOutlined, HomeOutlined, MailOutlined } from '@ant-design/icons';
 import { copy } from '~shared/utils/util';
-import request from '~shared/utils/fetch';
-import { getWxAccessToken, getWxArticles } from '@shared/apis/wx';
 import { ToolContainer } from '../components/tool';
 
 const { Meta } = Card;
 
 export const App: FC = function () {
   const [container, setContainer] = useState<HTMLDivElement | null>(null);
-
-  useEffect(() => {
-    !(async function () {
-      const res2 = await getWxAccessToken();
-      console.log('get res2', res2);
-      const res = await getWxArticles();
-      console.log('get res', res);
-    })();
-  }, []);
 
   return (
     <Row gutter={16}>

@@ -1,30 +1,15 @@
-import { FC, Fragment, useEffect, useState } from 'react';
-import { Row, Col, Space } from 'antd';
+import { FC } from 'react';
+import { Row, Col, Space, Result, Button, ConfigProvider, Divider, Empty } from 'antd';
 import { css } from '@emotion/css';
 import { IBlogArticleItem } from '../interfaces/blogSidebar';
-import dayjs from 'dayjs';
 
 interface IProps {
-  blogId: number;
+  blogId: string;
+  article: IBlogArticleItem;
 }
 
 export const BlogArticle: FC<IProps> = (props): JSX.Element => {
-  const [article, setArticle] = useState<IBlogArticleItem>();
-
-  useEffect(() => {
-    if (props.blogId) {
-      setArticle({
-        blogId: 1,
-        timestamp: dayjs(1698298863077).format('YYYY-MM-DD HH:mm:ss'),
-        title: '序言',
-        subtitle: '第一篇blog，从此开始吧~',
-        content:
-          '从这里开始第一篇吧，以前习惯把个人心得、学习笔记记录到印象笔记中，没有想过自己整一个个人博客，这次趁着空闲，就自己实现一个吧，由于时间问题，这次用的是静态数据，未来将使用nodejs搭建后端服务。23年经历了很多事，尤其是最近，遇到了一件糟心事，心态也发生了一些变化，也成熟起来了，现在的想法除了希望家人健康平安，就是搞钱了，努力赚钱！后续会持续更新本网站，加入更多元素。',
-      });
-    }
-  }, [props.blogId]);
-
-  return article ? (
+  return props.article ? (
     <Space
       direction="vertical"
       className={css`
@@ -36,6 +21,7 @@ export const BlogArticle: FC<IProps> = (props): JSX.Element => {
         min-height: calc(100vh - 200px);
       `}
     >
+      {/* 标题 */}
       <Row
         className={css`
           display: flex;
@@ -44,15 +30,38 @@ export const BlogArticle: FC<IProps> = (props): JSX.Element => {
           font-size: 22px;
         `}
       >
-        {article.title}
+        {props.article.title}
       </Row>
+      {/* 作者 二级标题 */}
+      {props.article.author ? (
+        <Row
+          className={css`
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-weight: 500;
+          `}
+        >
+          {props.article.subtitle}
+          <span
+            className={css`
+              margin-left: 20px;
+            `}
+          >
+            作者：{props.article.author}
+          </span>
+        </Row>
+      ) : (
+        <></>
+      )}
+      {/* 创建时间 更新时间 */}
       <Row
         justify="space-between"
         className={css`
           font-weight: 600;
         `}
       >
-        <Col span={18}>{article.subtitle}</Col>
+        <Col span={18}>创建时间：{props.article.create_time}</Col>
         <Col
           span={6}
           className={css`
@@ -61,18 +70,80 @@ export const BlogArticle: FC<IProps> = (props): JSX.Element => {
             font-size: 15px;
           `}
         >
-          {article.timestamp}
+          更新时间：{props.article.update_time}
         </Col>
       </Row>
+      {/* 文章内容 */}
       <Row
         className={css`
           text-indent: 20px;
         `}
       >
-        {article.content}
+        <div dangerouslySetInnerHTML={{ __html: props.article.content }}></div>
       </Row>
+      {/* 底部引用区域 */}
+      {(props.article.url || props.article.content_source_url) && (
+        <Divider
+          style={{
+            color: 'rgb(0,0,0,0.4)',
+          }}
+        />
+      )}
+      {props.article.url ? (
+        <Row align="middle">
+          公众号原文链接：
+          <Button
+            type="link"
+            onClick={() => {
+              window.open(props.article.url);
+            }}
+          >
+            {props.article.url}
+          </Button>
+        </Row>
+      ) : (
+        <></>
+      )}
+      {props.article.content_source_url ? (
+        <Row align="middle">
+          内容引用原文链接：
+          <Button
+            type="link"
+            onClick={() => {
+              window.open(props.article.content_source_url);
+            }}
+          >
+            {props.article.content_source_url}
+          </Button>
+        </Row>
+      ) : (
+        <></>
+      )}
     </Space>
+  ) : props.blogId ? (
+    // 获取到blogId但无文章内容时状态
+    <ConfigProvider
+      theme={{
+        components: {
+          Result: {
+            subtitleFontSize: 20,
+          },
+        },
+      }}
+    >
+      <Result
+        status="404"
+        title="文章获取失败"
+        subTitle="sor，该文章从微信公众号获取失败，请稍后重试或立即刷新当前页"
+        extra={
+          <Button type="primary" onClick={() => window.location.reload()}>
+            Refresh
+          </Button>
+        }
+      />
+    </ConfigProvider>
   ) : (
-    <Fragment></Fragment>
+    // 无文章或加载中状态
+    <></>
   );
 };

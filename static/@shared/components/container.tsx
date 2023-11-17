@@ -270,6 +270,7 @@ const Container: FC<IContainerProps> = (props: IContainerProps) => {
           if (_.isMobile) return defaultDom;
           return <>{defaultDom}</>;
         }}
+        fixedHeader
         {...{ ...settings, navTheme: themeChecked == 'light' ? 'light' : 'realDark' }}
       >
         <PageContainer

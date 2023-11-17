@@ -26,12 +26,12 @@ export const BlogSidebar: FC<IProps> = (props): JSX.Element => {
     <Space
       direction="vertical"
       className={css`
-        width: 90%;
-        border: 1px solid #ccc;
-        background-color: aliceblue;
-        border-radius: 10px;
-        padding: 10px 5px;
-        min-height: 50vh;
+        // width: 90%;
+        // border: 1px solid #ccc;
+        // background-color: aliceblue;
+        // border-radius: 10px;
+        // padding: 10px 5px;
+        // min-height: 50vh;
       `}
     >
       {props.blogMap.blogList.map((item: IBlogArticleItem) => {

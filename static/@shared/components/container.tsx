@@ -59,12 +59,12 @@ const Container: FC<IContainerProps> = (props: IContainerProps) => {
         <div>
           <p>欢迎大家来到我的个人站点</p>
           <p>该网站为个人搭建，之后所有的个人项目将集成到这个网站中</p>
+          <p>博客页引入个人微信公众号的文章，和公众号进行打通</p>
           <p>网站目前有以下规划：</p>
           <p>1.工具集合平台，未来会加入更多的前端工具</p>
-          <p>2.个人博客，后续规划引入微信公众号文章，和公众号进行打通</p>
-          <p>3.详细规划时间线可通过右侧悬浮按钮中内容进行查看。</p>
-          <p>...</p>
-          <strong>本网站仅个人维护，进度较慢，勿喷~</strong>
+          <p>2.详细规划时间线可通过右侧悬浮按钮中内容进行查看。</p>
+          <p>...嗯 想起来再说吧~</p>
+          <strong>个人网站，工作之余进行维护，迭代进度较慢，勿喷~</strong>
         </div>
       ),
     });
@@ -105,6 +105,10 @@ const Container: FC<IContainerProps> = (props: IContainerProps) => {
               children: '首页+博客页搭建',
             },
             {
+              color: 'green',
+              children: '博客页打通微信公众号文章',
+            },
+            {
               dot: (
                 <ClockCircleOutlined style={{ fontSize: '16px', color: '#ff4d4f' }} className="timeline-clock-icon" />
               ),
@@ -116,11 +120,11 @@ const Container: FC<IContainerProps> = (props: IContainerProps) => {
             },
             {
               color: 'gray',
-              children: '博客页打通微信公众号文章',
+              children: 'java|nodejs+mysql搭建后端服务',
             },
             {
               color: 'gray',
-              children: 'java|nodejs+mysql搭建后端服务',
+              children: '个人Flutter App引流',
             },
           ]}
         />
@@ -129,12 +133,7 @@ const Container: FC<IContainerProps> = (props: IContainerProps) => {
   };
 
   return (
-    <div
-      id="test-pro-layout"
-      style={{
-        height: '100vh',
-      }}
-    >
+    <div id="tool-platform-container">
       <ProLayout
         bgLayoutImgList={[
           {
@@ -192,6 +191,21 @@ const Container: FC<IContainerProps> = (props: IContainerProps) => {
             >
               <Tag icon={<WechatOutlined />} color="#3b5999">
                 个人小程序
+              </Tag>
+            </Popover>,
+            <Popover
+              placement="bottom"
+              title={
+                <Space direction="vertical">
+                  <Image width={250} src="http://www.yanquankun.com:9300/cdn/gongzhonghao-qrcode.jpg" />
+                  <Image width={250} src="http://www.yanquankun.com:9300/cdn/gongzhonghao-scan.png" />
+                  <Image width={250} src="http://www.yanquankun.com:9300/cdn/gongzhonghao-search.png" />
+                </Space>
+              }
+              trigger="hover"
+            >
+              <Tag icon={<WechatOutlined />} color="#3b5999">
+                个人公众号
               </Tag>
             </Popover>,
             props.layout !== 'side' ? (

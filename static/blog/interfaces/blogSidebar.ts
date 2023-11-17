@@ -28,6 +28,8 @@ export interface IWxArticleItem {
   name?: string;
   /** 微信公众号文章id 作为blogId */
   media_id?: string;
+  /** 封面图片 */
+  thumb_url: string;
 }
 
 export interface IBlogArticleItem extends IWxArticleItem {

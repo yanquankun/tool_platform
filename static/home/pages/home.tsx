@@ -11,7 +11,12 @@ export const App: FC = function () {
 
   return (
     <Row gutter={16}>
-      <Col span={5}>
+      <Col
+        span={5}
+        style={{
+          maxWidth: '350px',
+        }}
+      >
         <Card
           style={{ borderRadius: '20% 20% 0 0' }}
           cover={

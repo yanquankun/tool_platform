@@ -63,7 +63,7 @@ export default {
       icon: 'https://static-production.npmjs.com/b0f1a8318363185cc2ea6a40ac23eeb2.png',
       title: 'Npm',
       desc: 'Npm Package',
-      url: 'https://www.npmjs.com/settings/yanquankun/packages',
+      url: 'https://www.npmjs.com/~yanquankun',
       target: '_blank',
     },
   ],

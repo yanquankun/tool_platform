@@ -174,7 +174,6 @@ const Container: FC<IContainerProps> = (props: IContainerProps) => {
           },
         }}
         actionsRender={(props) => {
-          if (props.isMobile) return [];
           if (typeof window === 'undefined') return [];
           return [
             <Tag
@@ -188,13 +187,15 @@ const Container: FC<IContainerProps> = (props: IContainerProps) => {
             >
               个人PDF简历
             </Tag>,
-            <Popover
-              placement="bottom"
-              title={<Image width={500} src="http://www.yanquankun.com:9300/cdn/%E6%9E%B6%E6%9E%84.png" />}
-              trigger="hover"
-            >
-              <Tag color="#3b5999">项目架构图</Tag>
-            </Popover>,
+            !props.isMobile && (
+              <Popover
+                placement="bottom"
+                title={<Image width={500} src="http://www.yanquankun.com:9300/cdn/%E6%9E%B6%E6%9E%84.png" />}
+                trigger="hover"
+              >
+                <Tag color="#3b5999">项目架构图</Tag>
+              </Popover>
+            ),
             <Popover
               placement="bottom"
               title={<Image width={200} src="http://www.yanquankun.com:9300/cdn/mini-program-qrcode.png" />}
@@ -257,6 +258,7 @@ const Container: FC<IContainerProps> = (props: IContainerProps) => {
             {dom}
           </a>
         )}
+        logo={null}
         headerTitleRender={(logo, __, _) => {
           const defaultDom = (
             <a

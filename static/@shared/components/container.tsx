@@ -177,6 +177,17 @@ const Container: FC<IContainerProps> = (props: IContainerProps) => {
           if (props.isMobile) return [];
           if (typeof window === 'undefined') return [];
           return [
+            <Tag
+              color="#3b5999"
+              onClick={() => {
+                window.open(
+                  'http://www.yanquankun.com:9300/cdn/%E9%97%AB%E5%85%A8%E5%A0%83-%E5%89%8D%E7%AB%AF%E5%BC%80%E5%8F%91%E5%B7%A5%E7%A8%8B%E5%B8%88.pdf',
+                  '_blank'
+                );
+              }}
+            >
+              个人PDF简历
+            </Tag>,
             <Popover
               placement="bottom"
               title={<Image width={500} src="http://www.yanquankun.com:9300/cdn/%E6%9E%B6%E6%9E%84.png" />}

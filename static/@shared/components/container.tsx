@@ -14,13 +14,24 @@ import {
 import routes from './route';
 import { FC } from 'react';
 import { DateComp } from '~shared/components/timer';
+import { Document, Page, pdfjs } from 'react-pdf';
+// import 'react-pdf/dist/esm/Page/TextLayer.css';
+// import 'react-pdf/dist/esm/Page/AnnotationLayer.css';
 
+pdfjs.GlobalWorkerOptions.workerSrc = `//unpkg.com/pdfjs-dist@${pdfjs.version}/build/pdf.worker.min.js`;
 interface IContainerProps {
   children?: React.ReactNode;
 }
 type theme = 'light' | 'dark';
 const Container: FC<IContainerProps> = (props: IContainerProps) => {
   const [open, setOpen] = useState(false);
+  const [numPages, setNumPages] = useState<number>();
+  const [pageNumber, setPageNumber] = useState<number>(1);
+
+  function onDocumentLoadSuccess({ numPages = 0 }): void {
+    setNumPages(numPages);
+  }
+
   const settings: ProSettings | undefined = {
     fixSiderbar: true,
     layout: 'top',
@@ -282,6 +293,26 @@ const Container: FC<IContainerProps> = (props: IContainerProps) => {
           {props.children ? (
             <>
               {props.children}
+              {/* <Document
+                file="http://www.yanquankun.com:9300/cdn/%E9%97%AB%E5%85%A8%E5%A0%83-%E5%89%8D%E7%AB%AF%E5%BC%80%E5%8F%91%E5%B7%A5%E7%A8%8B%E5%B8%88.pdf"
+                onLoadSuccess={onDocumentLoadSuccess}
+                renderMode="canvas"
+              >
+                <Page pageNumber={pageNumber} />
+                <Page
+                  renderAnnotationLayer={false}
+                  renderTextLayer={false}
+                  className={css`
+                    width: 800px;
+                  `}
+                  width={800}
+                  pageNumber={1}
+                  scale={1}
+                />
+              </Document>
+              <p>
+                Page {pageNumber} of {numPages}
+              </p> */}
               <Drawer
                 title="项目规划"
                 placement="right"

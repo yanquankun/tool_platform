@@ -2,6 +2,7 @@ import { FC, useState } from 'react';
 import { Row, Divider, Form, Input, Select } from 'antd';
 import { css } from '@emotion/css';
 import dayjs from 'dayjs';
+import { ImgPreview } from './imgPreview';
 
 const { Option } = Select;
 
@@ -76,6 +77,10 @@ export const ToolContainer: FC = (): JSX.Element => {
       <Form.Item name="timeStampTF">
         <Input disabled />
       </Form.Item>
+      <Divider />
+      {/* 图片预览 */}
+      <ImgPreview />
+      <Divider />
     </Form>
   );
 };

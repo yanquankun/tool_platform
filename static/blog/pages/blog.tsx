@@ -29,7 +29,6 @@ export const App: FC = function () {
     const { data: publishData = {} } = await getWxPublishArticles();
     const { item = [], total_count } = data;
     const { item: publishItem = [], total_count: publish_total_count } = publishData;
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const blogList = item.map(
       (blog: {
         update_time: number;

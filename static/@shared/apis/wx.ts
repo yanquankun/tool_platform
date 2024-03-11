@@ -39,4 +39,23 @@ const getWxArticles = async (): Promise<IResponseData> => {
   });
 };
 
-export { getWxAccessToken, getWxArticles };
+/**
+ * @description 获取已发布素材列表
+ * @author Mint
+ * @see https://developers.weixin.qq.com/doc/offiaccount/Asset_Management/Get_materials_list.html
+ */
+const getWxPublishArticles = async (): Promise<IResponseData> => {
+  const { data } = await getWxAccessToken();
+  const access_token = data.access_token || '';
+  return await request({
+    url: `/wxapi/cgi-bin/freepublish/batchget?access_token=${access_token}`,
+    method: 'post',
+    isNeedLoading: true,
+    data: {
+      offset: 0,
+      count: 20,
+    },
+  });
+};
+
+export { getWxAccessToken, getWxArticles, getWxPublishArticles };

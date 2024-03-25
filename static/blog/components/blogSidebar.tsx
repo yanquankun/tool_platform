@@ -32,6 +32,8 @@ export const BlogSidebar: FC<IProps> = (props): JSX.Element => {
         // border-radius: 10px;
         // padding: 10px 5px;
         // min-height: 50vh;
+        background: #fff;
+        height: calc(100vh - 105px);
       `}
     >
       {props.blogMap.blogList.map((item: IBlogArticleItem) => {

@@ -1,7 +1,16 @@
-import { FC, Fragment } from 'react';
+import { FC, Fragment, useCallback, useEffect } from 'react';
 import { Row, Col, Space, Result, Button, ConfigProvider, Divider, Image } from 'antd';
 import { css } from '@emotion/css';
 import { IBlogArticleItem } from '../interfaces/blogSidebar';
+import {
+  getGithubUserInfo,
+  getGithubRepos,
+  getGithubRepoInfo,
+  getGithubRepoContents,
+  getGithubRepoSubContents,
+  getGithubFileContent,
+} from '~shared/apis/git';
+import { base64ToArrayBuffer } from '~shared/utils/util';
 
 interface IProps {
   blogId: string;
@@ -170,6 +179,28 @@ export const BlogArticle: FC<IProps> = (props): JSX.Element => {
       <></>
     );
   };
+
+  useEffect(() => {
+    (async function () {
+      // const userInfo = await getGithubUserInfo();
+      // console.log('userInfo', userInfo);
+      // const repos = await getGithubRepos();
+      // console.log('repos', repos);
+      // const repoInfo = await getGithubRepoInfo('learn');
+      // console.log('repoInfo', repoInfo);
+      const contentDirs = await getGithubRepoContents('learn', 'dir');
+      console.log('contentDirs', contentDirs);
+      contentDirs.forEach(async (subContent: any, idx: number) => {
+        const dirContents = await getGithubRepoSubContents('learn', subContent.name);
+        console.log('dirContents', dirContents);
+      });
+      const fileRaw = await getGithubFileContent('learn', 'master', 'source/LRU.js');
+      const content = new Blob([base64ToArrayBuffer(fileRaw.content)]).text();
+      content.then((res: string) => {
+        console.log(res);
+      });
+    })();
+  }, []);
 
   return props.article ? (
     <Space

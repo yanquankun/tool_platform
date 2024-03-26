@@ -1,11 +1,15 @@
 import { FC, Fragment } from 'react';
-import { Row, Col, Space, Result, Button, ConfigProvider, Divider, Image } from 'antd';
+import { Row, Space, Result, Button, ConfigProvider, Divider, Image } from 'antd';
 import { css } from '@emotion/css';
 import { IBlogArticleItem } from '../interfaces/blogSidebar';
+import Prism from 'prismjs';
+import 'prismjs/components/prism-javascript';
+import 'prismjs/plugins/line-numbers/prism-line-numbers';
 
 interface IProps {
   blogId: string;
   article: IBlogArticleItem;
+  from: 'wx' | 'github';
 }
 
 export const BlogArticle: FC<IProps> = (props): JSX.Element => {
@@ -93,7 +97,7 @@ export const BlogArticle: FC<IProps> = (props): JSX.Element => {
           text-indent: 20px;
         `}
       >
-        <div dangerouslySetInnerHTML={{ __html: props.article.content }}></div>
+        <div dangerouslySetInnerHTML={{ __html: props.article.content || '' }}></div>
       </Row>
     );
   };
@@ -111,13 +115,14 @@ export const BlogArticle: FC<IProps> = (props): JSX.Element => {
         {props.article.url ? (
           <Row align="middle">
             公众号原文链接：
-            <Button
-              type="link"
-              onClick={() => {
-                window.open(props.article.url);
-              }}
-            >
-              {props.article.url}
+            <Button type="link">
+              <a
+                onClick={() => {
+                  window.open(props.article.url);
+                }}
+              >
+                点击跳转公众号原文链接
+              </a>
             </Button>
           </Row>
         ) : (
@@ -126,13 +131,14 @@ export const BlogArticle: FC<IProps> = (props): JSX.Element => {
         {props.article.content_source_url ? (
           <Row align="middle">
             内容引用原文链接：
-            <Button
-              type="link"
-              onClick={() => {
-                window.open(props.article.content_source_url);
-              }}
-            >
-              {props.article.content_source_url}
+            <Button type="link">
+              <a
+                onClick={() => {
+                  window.open(props.article.content_source_url);
+                }}
+              >
+                点击跳转内容引用原文链接
+              </a>
             </Button>
           </Row>
         ) : (
@@ -171,6 +177,46 @@ export const BlogArticle: FC<IProps> = (props): JSX.Element => {
     );
   };
 
+  const createCodeContent = () => {
+    return (
+      <>
+        {props.article.content && props.from == 'github' && (
+          <pre className="language-javascript">
+            <code
+              className="language-javascript"
+              dangerouslySetInnerHTML={{
+                __html: Prism.highlight(props.article.content as string, Prism.languages.javascript, 'javascript'),
+              }}
+            ></code>
+          </pre>
+        )}
+        {props.article.htmlUrl && (
+          <Divider
+            style={{
+              color: 'rgb(0,0,0,0.4)',
+            }}
+          />
+        )}
+        {props.article.htmlUrl ? (
+          <Row align="middle">
+            github原文链接：
+            <Button type="link">
+              <a
+                onClick={() => {
+                  window.open(props.article.htmlUrl);
+                }}
+              >
+                点击跳转github链接
+              </a>
+            </Button>
+          </Row>
+        ) : (
+          <></>
+        )}
+      </>
+    );
+  };
+
   return props.article ? (
     <Space
       direction="vertical"
@@ -185,14 +231,20 @@ export const BlogArticle: FC<IProps> = (props): JSX.Element => {
     >
       {/* 标题区域 */}
       {createTitleArea()}
-      {/* 文章信息区域 */}
-      {createArticleInfoArea()}
-      {/* 封面图片区域 */}
-      {createThumbArea()}
-      {/* 文章内容区域 */}
-      {createContentArea()}
-      {/* 底部引用区域 */}
-      {createArticleQuoteArea()}
+      {/* 代码区域 */}
+      {createCodeContent()}
+      {props.from != 'github' && (
+        <>
+          {/* 文章信息区域 */}
+          {createArticleInfoArea()}
+          {/* 封面图片区域 */}
+          {createThumbArea()}
+          {/* 文章内容区域 */}
+          {createContentArea()}
+          {/* 底部引用区域 */}
+          {createArticleQuoteArea()}
+        </>
+      )}
     </Space>
   ) : (
     /** 等待状态区域 */

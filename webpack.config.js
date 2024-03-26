@@ -62,7 +62,8 @@ module.exports = Object.keys(entryPathMap).map((entryDirectoryName, index) => {
         },
         {
           test: /\.css$/,
-          use: [MiniCssExtractPlugin.loader, 'css-loader'],
+          use: [MiniCssExtractPlugin.loader, 'style-loader', 'css-loader'],
+          include: /node_modules/,
         },
       ],
     },
@@ -147,6 +148,7 @@ module.exports = Object.keys(entryPathMap).map((entryDirectoryName, index) => {
     // 采用这种方式，需要使用cdn获取资源
 
     plugins: [
+      new MiniCssExtractPlugin(),
       // 实际上只会动态更新dist内容  并不会删除dist目录
       new CleanWebpackPlugin(),
       new CopyPlugin({

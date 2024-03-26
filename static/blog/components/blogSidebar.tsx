@@ -8,14 +8,11 @@ interface IProps {
 }
 
 export const BlogSidebar: FC<IProps> = (props): JSX.Element => {
-  const [blogId, setBlogId] = useState<string>();
+  const [blogId, setBlogId] = useState<string>('first-blog');
 
   useEffect(() => {
-    if (props.blogMap.blogList.length) {
-      props.blogChange(props.blogMap.blogList[0].blogId);
-      setBlogId(props.blogMap.blogList[0].blogId);
-    }
-  }, [props.blogMap]);
+    props.blogChange('first-blog');
+  }, []);
 
   const onChange = (blogId: string) => {
     setBlogId(blogId);
@@ -32,23 +29,42 @@ export const BlogSidebar: FC<IProps> = (props): JSX.Element => {
         // border-radius: 10px;
         // padding: 10px 5px;
         // min-height: 50vh;
-        background: #fff;
+        // background: #fff;
         height: calc(100vh - 105px);
+        position: fixed;
+        max-height: 60%;
+        overflow-y: auto;
       `}
     >
       {props.blogMap.blogList.map((item: IBlogArticleItem) => {
         return (
           <Col
             key={item.blogId}
-            onClick={() => onChange(item.blogId)}
+            onClick={() => item.type !== 'group' && onChange(item.blogId)}
             className={css`
               color: ${blogId == item.blogId ? 'rgb(0, 0, 0)' : 'rgb(0, 0, 0, .5)'};
               &:hover {
-                color: #40a9ff;
+                color: ${item.type === 'group' ? '' : '#40a9ff'};
               }
             `}
           >
-            <span>{item.title}</span>
+            {item.type === 'group' && (
+              <div
+                className={css`
+                  font-size: 16px;
+                  color: green;
+                  background: cadetblue;
+                  display: flex;
+                  text-align: center;
+                  align-items: center;
+                  height: 30px;
+                  font-style: italic;
+                `}
+              >
+                {item.title}
+              </div>
+            )}
+            {item.type !== 'group' && <span>{item.title}</span>}
             {item.icon ? (
               <span
                 className={css`

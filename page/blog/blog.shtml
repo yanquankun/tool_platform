@@ -16,6 +16,7 @@
         height: fit-content;
       }
     </style>
+    <!--#include file="/page/includes/prism.shtml"-->
   </head>
   <body>
     <div id="app"></div>

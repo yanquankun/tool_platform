@@ -84,8 +84,9 @@ export const getGithubRepoContents = async (repoName: string, type?: 'dir' | 'fi
       authorization: `Bearer ${tokenList.join('_')}`,
     },
   });
+  if (res.code !== 200) return [];
   if (type) {
-    return res?.data?.filter((item: any) => item.type === type) ?? [];
+    return (res?.data ?? []).filter((item: any) => item.type === type);
   }
   return res?.data ?? [];
 };

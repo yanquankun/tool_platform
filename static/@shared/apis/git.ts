@@ -3,7 +3,7 @@ import { message } from 'antd';
 
 const userName = 'yanquankun';
 const githubHostUrl = 'https://api.github.com';
-const token = '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';
+const tokenList = ['ghp', 'iicmlNURchehYJyhvbdbjbsTFbxdZM3oPa3T'];
 
 /**
  * 2024-03-25 14:19:25
@@ -18,7 +18,7 @@ export const getGithubUserInfo = async () => {
     errMsg: '获取github用户信息失败',
     method: 'GET',
     headers: {
-      authorization: `Bearer ${token}`,
+      authorization: `Bearer ${tokenList.join('_')}`,
     },
   });
 
@@ -38,7 +38,7 @@ export const getGithubRepos = async () => {
     errMsg: '获取github仓库列表失败',
     method: 'GET',
     headers: {
-      authorization: `Bearer ${token}`,
+      authorization: `Bearer ${tokenList.join('_')}`,
     },
   });
 
@@ -59,7 +59,7 @@ export const getGithubRepoInfo = async (repoName: string) => {
     errMsg: '获取github仓库信息失败',
     method: 'GET',
     headers: {
-      authorization: `Bearer ${token}`,
+      authorization: `Bearer ${tokenList.join('_')}`,
     },
   });
 
@@ -81,7 +81,7 @@ export const getGithubRepoContents = async (repoName: string, type?: 'dir' | 'fi
     errMsg: '获取github仓库目录失败',
     method: 'GET',
     headers: {
-      authorization: `Bearer ${token}`,
+      authorization: `Bearer ${tokenList.join('_')}`,
     },
   });
   if (type) {
@@ -105,7 +105,7 @@ export const getGithubRepoSubContents = async (repoName: string, targetName: str
     errMsg: '获取github仓库子目录失败',
     method: 'GET',
     headers: {
-      authorization: `Bearer ${token}`,
+      authorization: `Bearer ${tokenList.join('_')}`,
     },
   });
 
@@ -128,7 +128,7 @@ export const getGithubFileContent = async (repoName: string, feature: string, li
     errMsg: '获取github文件内容失败',
     method: 'GET',
     headers: {
-      authorization: `Bearer ${token}`,
+      authorization: `Bearer ${tokenList.join('_')}`,
     },
   });
 

@@ -33,7 +33,7 @@ const request = async ({
   data = {},
   isNeedLoading = false,
   errMsg = '',
-  errMsgDelay = 2000,
+  errMsgDelay = 2,
   ...others
 }: IRequestParams): Promise<IResponseData> => {
   destoryLoading();

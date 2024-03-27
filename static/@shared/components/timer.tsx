@@ -21,5 +21,5 @@ export const DateComp = function () {
     setDate(dayjs().format('YYYY-MM-DD HH:mm:ss'));
   };
 
-  return <span style={{ display: 'flex', width: '170px' }}>{date}</span>;
+  return <span style={{ display: 'flex', width: '170px', color: '#fff' }}>{date}</span>;
 };

@@ -1,14 +1,13 @@
 import { FC, useState } from 'react';
-import { Card, Row, Col, Tooltip, Space, Image } from 'antd';
+import { Card, Row, Col, Tooltip, Space, Image, Divider } from 'antd';
 import { SketchOutlined, HomeOutlined, MailOutlined } from '@ant-design/icons';
 import { copy } from '~shared/utils/util';
 import { ToolContainer } from '../components/tool';
+import { IntroduceContainer } from '../components/introduce';
 
 const { Meta } = Card;
 
 export const App: FC = function () {
-  const [container, setContainer] = useState<HTMLDivElement | null>(null);
-
   return (
     <Row gutter={16}>
       <Col
@@ -78,6 +77,8 @@ export const App: FC = function () {
         </Card>
       </Col>
       <Col offset={1} span={18}>
+        <IntroduceContainer />
+        <Divider />
         <ToolContainer />
       </Col>
     </Row>

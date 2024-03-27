@@ -53,7 +53,7 @@ export const BlogSidebar: FC<IProps> = (props): JSX.Element => {
                 className={css`
                   font-size: 16px;
                   color: green;
-                  background: cadetblue;
+                  // background: cadetblue;
                   display: flex;
                   text-align: center;
                   align-items: center;

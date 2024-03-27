@@ -22,44 +22,18 @@ pdfjs.GlobalWorkerOptions.workerSrc = `//unpkg.com/pdfjs-dist@${pdfjs.version}/b
 interface IContainerProps {
   children?: React.ReactNode;
 }
-type theme = 'light' | 'dark';
 const Container: FC<IContainerProps> = (props: IContainerProps) => {
   const [open, setOpen] = useState(false);
-  const [numPages, setNumPages] = useState<number>();
-  const [pageNumber, setPageNumber] = useState<number>(1);
-
-  function onDocumentLoadSuccess({ numPages = 0 }): void {
-    setNumPages(numPages);
-  }
 
   const settings: ProSettings | undefined = {
     fixSiderbar: true,
     layout: 'top',
     splitMenus: true,
+    navTheme: 'light',
   };
 
   const currentPathName = location.pathname;
   const [pathname, setPathname] = useState(currentPathName || '/home/home');
-  const [themeChecked, setThemeChecked] = useState<theme>((window.localStorage.getItem('theme') as theme) || 'light');
-
-  const themeChange = function (checked: boolean) {
-    window.localStorage.setItem('theme', checked ? 'light' : 'dark');
-    setThemeChecked(checked ? 'light' : 'dark');
-
-    const themeLink = document.createElement('link');
-    themeLink.setAttribute('ref', 'stylesheet');
-    themeLink.setAttribute('type', 'text/css');
-    themeLink.setAttribute('href', '/dist/theme/theme.css');
-    themeLink.setAttribute('media', 'screen');
-    document.head.appendChild(themeLink);
-
-    document.body.className = checked ? 'light' : 'dark';
-  };
-
-  useEffect(() => {
-    const theme = window.localStorage.getItem('theme') || 'light';
-    document.body.className = theme;
-  }, []);
 
   const creatQaModal = () => {
     Modal.info({
@@ -173,15 +147,32 @@ const Container: FC<IContainerProps> = (props: IContainerProps) => {
         menu={{
           type: 'group',
         }}
+        // token={{
+        //   header: {
+        //     colorBgHeader: '#292f33',
+        //     colorHeaderTitle: '#fff',
+        //     colorTextMenu: '#dfdfdf',
+        //     colorTextMenuSecondary: '#dfdfdf',
+        //     colorTextMenuSelected: '#fff',
+        //     colorBgMenuItemSelected: '#22272b',
+        //     colorTextRightActionsItem: '#dfdfdf',
+        //   },
+        // }}
         token={{
+          colorBgAppListIconHover: 'rgba(0,0,0,0.06)',
+          colorTextAppListIconHover: 'rgba(255,255,255,0.95)',
+          colorTextAppListIcon: 'rgba(255,255,255,0.85)',
           header: {
-            colorBgHeader: '#292f33',
+            colorBgHeader: '#004FD9',
+            colorBgRightActionsItemHover: 'rgba(0,0,0,0.06)',
+            colorTextRightActionsItem: 'rgba(255,255,255,0.65)',
             colorHeaderTitle: '#fff',
-            colorTextMenu: '#dfdfdf',
-            colorTextMenuSecondary: '#dfdfdf',
+            colorBgMenuItemHover: 'rgba(0,0,0,0.06)',
+            colorBgMenuItemSelected: 'rgba(0,0,0,0.15)',
             colorTextMenuSelected: '#fff',
-            colorBgMenuItemSelected: '#22272b',
-            colorTextRightActionsItem: '#dfdfdf',
+            colorTextMenu: 'rgba(255,255,255,0.75)',
+            colorTextMenuSecondary: 'rgba(255,255,255,0.65)',
+            colorTextMenuActive: 'rgba(255,255,255,0.95)',
           },
         }}
         actionsRender={(props) => {
@@ -198,15 +189,6 @@ const Container: FC<IContainerProps> = (props: IContainerProps) => {
             >
               个人PDF简历
             </Tag>,
-            !props.isMobile && (
-              <Popover
-                placement="bottom"
-                title={<Image width={500} src="http://www.yanquankun.com:9300/cdn/%E6%9E%B6%E6%9E%84.png" />}
-                trigger="hover"
-              >
-                <Tag color="#3b5999">项目架构图</Tag>
-              </Popover>
-            ),
             <Popover
               placement="bottom"
               title={<Image width={200} src="http://www.yanquankun.com:9300/cdn/mini-program-qrcode.png" />}
@@ -244,12 +226,6 @@ const Container: FC<IContainerProps> = (props: IContainerProps) => {
                   e.preventDefault();
                 }}
               >
-                {/* <Switch
-                  onChange={themeChange}
-                  checkedChildren="亮色"
-                  unCheckedChildren="暗黑"
-                  checked={themeChecked == 'light'}
-                /> */}
                 <DateComp />
               </div>
             ) : undefined,
@@ -295,7 +271,7 @@ const Container: FC<IContainerProps> = (props: IContainerProps) => {
           return <>{defaultDom}</>;
         }}
         fixedHeader
-        {...{ ...settings, navTheme: themeChecked == 'light' ? 'light' : 'realDark' }}
+        {...{ ...settings }}
       >
         <PageContainer
           header={{
@@ -306,26 +282,6 @@ const Container: FC<IContainerProps> = (props: IContainerProps) => {
           {props.children ? (
             <>
               {props.children}
-              {/* <Document
-                file="http://www.yanquankun.com:9300/cdn/%E9%97%AB%E5%85%A8%E5%A0%83-%E5%89%8D%E7%AB%AF%E5%BC%80%E5%8F%91%E5%B7%A5%E7%A8%8B%E5%B8%88.pdf"
-                onLoadSuccess={onDocumentLoadSuccess}
-                renderMode="canvas"
-              >
-                <Page pageNumber={pageNumber} />
-                <Page
-                  renderAnnotationLayer={false}
-                  renderTextLayer={false}
-                  className={css`
-                    width: 800px;
-                  `}
-                  width={800}
-                  pageNumber={1}
-                  scale={1}
-                />
-              </Document>
-              <p>
-                Page {pageNumber} of {numPages}
-              </p> */}
               <Drawer
                 title="项目规划"
                 placement="right"

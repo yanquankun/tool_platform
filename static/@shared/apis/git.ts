@@ -3,7 +3,7 @@ import { message } from 'antd';
 
 const userName = 'yanquankun';
 const githubHostUrl = 'https://api.github.com';
-const tokenList = ['ghp', 'iicmlNURchehYJyhvbdbjbsTFbxdZM3oPa3T'];
+const tokenList = ['ghp', 'A7pDjNt1hZyhGBaP9jHIUWaoWW8vsX2y0tkk'];
 
 /**
  * 2024-03-25 14:19:25

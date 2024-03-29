@@ -52,7 +52,7 @@ export const IntroduceContainer: FC = (): JSX.Element => {
         className={css`
           width: 100%;
         `}
-        src="http://www.yanquankun.com:9300/cdn/%E6%9E%B6%E6%9E%84.png"
+        src="/minio/%E6%9E%B6%E6%9E%84.png"
       />
     </Fragment>
   );

@@ -182,7 +182,7 @@ const Container: FC<IContainerProps> = (props: IContainerProps) => {
               color="#3b5999"
               onClick={() => {
                 window.open(
-                  'http://www.yanquankun.com:9300/cdn/%E9%97%AB%E5%85%A8%E5%A0%83-%E5%89%8D%E7%AB%AF%E5%BC%80%E5%8F%91%E5%B7%A5%E7%A8%8B%E5%B8%88.pdf',
+                  'https://www.yanquankun.com:9300/cdn/%E9%97%AB%E5%85%A8%E5%A0%83-%E5%89%8D%E7%AB%AF%E5%BC%80%E5%8F%91%E5%B7%A5%E7%A8%8B%E5%B8%88.pdf',
                   '_blank'
                 );
               }}
@@ -202,9 +202,9 @@ const Container: FC<IContainerProps> = (props: IContainerProps) => {
               placement="bottom"
               title={
                 <Space direction="vertical">
-                  <Image width={250} src="http://www.yanquankun.com:9300/cdn/gongzhonghao-qrcode.jpg" />
-                  <Image width={250} src="http://www.yanquankun.com:9300/cdn/gongzhonghao-scan.png" />
-                  <Image width={250} src="http://www.yanquankun.com:9300/cdn/gongzhonghao-search.png" />
+                  <Image width={250} src="https://www.yanquankun.com:9300/cdn/gongzhonghao-qrcode.jpg" />
+                  <Image width={250} src="https://www.yanquankun.com:9300/cdn/gongzhonghao-scan.png" />
+                  <Image width={250} src="https://www.yanquankun.com:9300/cdn/gongzhonghao-search.png" />
                 </Space>
               }
               trigger="hover"

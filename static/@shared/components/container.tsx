@@ -22,8 +22,10 @@ pdfjs.GlobalWorkerOptions.workerSrc = `//unpkg.com/pdfjs-dist@${pdfjs.version}/b
 interface IContainerProps {
   children?: React.ReactNode;
 }
+type themeType = 'default' | 'eyeHelathy';
 const Container: FC<IContainerProps> = (props: IContainerProps) => {
   const [open, setOpen] = useState(false);
+  const [theme, setTheme] = useState<themeType>('default');
 
   const settings: ProSettings | undefined = {
     fixSiderbar: true,
@@ -34,6 +36,22 @@ const Container: FC<IContainerProps> = (props: IContainerProps) => {
 
   const currentPathName = location.pathname;
   const [pathname, setPathname] = useState(currentPathName || '/home/home');
+
+  const changeTheme = (checked: boolean) => {
+    if (checked) setTheme('eyeHelathy');
+    else setTheme('default');
+    localStorage.setItem('theme', checked ? 'eyeHelathy' : 'default');
+    const body = document.body;
+    body.style.filter = checked ? 'invert(1)' : 'none';
+  };
+
+  useEffect(() => {
+    const themeCache = localStorage.getItem('theme') as themeType;
+    if (!themeCache) setTheme('default');
+    else setTheme(themeCache);
+    const body = document.body;
+    body.style.filter = themeCache == 'default' ? 'none' : 'invert(1)';
+  }, []);
 
   const creatQaModal = () => {
     Modal.info({
@@ -178,6 +196,17 @@ const Container: FC<IContainerProps> = (props: IContainerProps) => {
         actionsRender={(props) => {
           if (typeof window === 'undefined') return [];
           return [
+            <Switch
+              className={css(`
+              padding-block: inherit;
+              margin-right:10px;
+            `)}
+              size="default"
+              checked={theme == 'eyeHelathy'}
+              onChange={(checked: boolean) => changeTheme(checked)}
+              checkedChildren="关闭护眼模式🤭"
+              unCheckedChildren="打开护眼模式😄"
+            />,
             <Tag
               color="#3b5999"
               onClick={() => {

@@ -16,6 +16,7 @@ export interface IRequestParams extends Omit<RequestInit, 'params'> {
   errMsg?: string;
   /** 错误提示语时长 默认2s */
   errMsgDelay?: number;
+  mode?: 'cors' | 'navigate' | 'no-cors' | 'same-origin';
 }
 
 let loadingInstance: any = null,

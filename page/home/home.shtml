@@ -8,6 +8,14 @@
       body {
         margin: 0;
       }
+      /* @keyframes scroll {
+        0% {
+          transform: translateX(100%);
+        }
+        100% {
+          left: 30px;
+        }
+      } */
     </style>
   </head>
   <body>

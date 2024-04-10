@@ -233,7 +233,7 @@ const Container: FC<IContainerProps> = (props: IContainerProps) => {
             </Tag>,
             <Popover
               placement="bottom"
-              title={<Image width={200} src="http://www.yanquankun.com:9300/cdn/mini-program-qrcode.png" />}
+              title={<Image width={200} src="https://www.yanquankun.com:9300/cdn/mini-program-qrcode.png" />}
               trigger="hover"
             >
               <Tag icon={<WechatOutlined />} color="#3b5999">

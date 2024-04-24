@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta data-draft-node="block" data-draft-type="table" data-size="normal" data-row-style="normal" />
+    <!--#include file="/page/includes/meta.shtml"-->
+    <title>Tool Platform</title>
+    <style>
+      body {
+        margin: 0;
+      }
+      .ant-layout-content {
+        /* background-color: #f5f5d5 !important; */
+        height: calc(100vh - 56px);
+        min-height: calc(100vh - 56px);
+        height: fit-content;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="app"></div>
+    <!--#include file="/page/includes/pre.shtml"-->
+
+    <!-- Dependencies -->
+    <script src="/dist/bundle/blog/includes/react-common.vendor.js"></script>
+    <script src="/dist/bundle/blog/includes/antd.vendor.js"></script>
+    <script src="/dist/bundle/blog/includes/ant-design.vendor.js"></script>
+    <script src="/dist/bundle/blog/includes/dep.vendor.js"></script>
+    <!-- bundle entry -->
+    <script src="/dist/bundle/blog/list-entry.bundle.js"></script>
+    <!-- Dependencies -->
+  </body>
+</html>

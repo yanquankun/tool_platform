@@ -76,7 +76,7 @@ export const getGithubRepoInfo = async (repoName: string) => {
 export const getGithubRepoContents = async (repoName: string, type?: 'dir' | 'file') => {
   const res = await request({
     url: `${githubHostUrl}/repos/${userName}/${repoName}/contents`,
-    isNeedLoading: false,
+    isNeedLoading: true,
     errMsg: '获取github仓库目录失败',
     method: 'GET',
     headers: {
@@ -101,7 +101,7 @@ export const getGithubRepoContents = async (repoName: string, type?: 'dir' | 'fi
 export const getGithubRepoSubContents = async (repoName: string, targetName: string) => {
   const res = await request({
     url: `${githubHostUrl}/repos/${userName}/${repoName}/contents/${targetName}`,
-    isNeedLoading: false,
+    isNeedLoading: true,
     errMsg: '获取github仓库子目录失败',
     method: 'GET',
     headers: {

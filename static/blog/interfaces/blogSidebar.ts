@@ -61,6 +61,8 @@ enum blogFrom {
   static,
   /** 本地文章 */
   local,
+  /** 二级标题 */
+  secondTitle,
 }
 
 export interface IBlogTitleItem {

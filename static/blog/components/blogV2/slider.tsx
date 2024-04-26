@@ -1,11 +1,9 @@
-import React, { FC, useEffect, useState } from 'react';
-import { render } from 'react-dom';
+import { FC, useEffect, useState } from 'react';
 import { css } from '@emotion/css';
-import dayjs from 'dayjs';
-import { getGithubRepoContents, getGithubRepoSubContents, getGithubFileContent } from '~shared/apis/git';
-import { base64ToArrayBuffer } from '~shared/utils/util';
-import { getWxArticles, getWxPublishArticles } from '@shared/apis/wx';
-import { IBlogListMap, IBlogArticleItem, IBlogTitleItem } from '../../interfaces/blogSidebar';
+// TODO:暂未找到为什么路径为~shared/apis/git时，页面无报错，却无法加载react
+import { getGithubRepoContents, getGithubRepoSubContents } from '~shared/apis/git_cp';
+import { getWxArticles, getWxPublishArticles } from '~shared/apis/wx';
+import { IBlogArticleItem, IBlogTitleItem } from '../../interfaces/blogSidebar';
 import { localBlogList } from './localBlog';
 
 const commonStyle = {
@@ -30,6 +28,10 @@ const commonStyle = {
     width: 100%;
     -webkit-box-sizing: border-box;
     box-sizing: border-box;
+    &:hover {
+      color: #3eaf7c;
+      cursor: pointer;
+    }
   `,
   selectLi: css`
     padding: 0.35rem 1rem 0.35rem 2rem;
@@ -39,14 +41,29 @@ const commonStyle = {
     font-size: 1em;
     font-weight: 500;
   `,
+  secondLi: css`
+    font-size: 0.9em;
+    font-weight: 600;
+    padding: 0.35rem 1.5rem 0.35rem 1.7rem;
+    width: 100%;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+    margin: 0;
+    border-left: 0.25rem solid transparent;
+  `,
 };
 
 export const Slider: FC = function (): JSX.Element {
   const [wxTitleList, setWxTitleList] = useState<IBlogTitleItem[]>([]);
-  const [curBlogId, setCurBlogId] = useState<string>();
+  const [gitTitleList, setGitTitleList] = useState<IBlogTitleItem[]>([]);
+  const [curBlogId, setCurBlogId] = useState<string>(localBlogList[0].blogId);
 
-  useEffect(() => {
-    getWxList();
+  useEffect(function () {
+    (async function () {
+      getWxList();
+      const _gitTitleList = await getGitHubList();
+      setGitTitleList(_gitTitleList || []);
+    })();
   }, []);
 
   const getWxList = async () => {
@@ -92,17 +109,48 @@ export const Slider: FC = function (): JSX.Element {
         };
       }
     );
-    console.log(blogTitleList, publishTitleBlogList);
     setWxTitleList([...blogTitleList, ...publishTitleBlogList]);
   };
 
-  const getGitHubList = () => {};
+  const getGitHubList = (): Promise<IBlogTitleItem[]> => {
+    return new Promise(async (resolve) => {
+      const githubBlogList: IBlogTitleItem[] = [];
+      const contentDirs = await getGithubRepoContents('learn', 'dir');
+      Promise.all(contentDirs.map(async (content: any) => await getGithubRepoSubContents('learn', content.name))).then(
+        (res: any) => {
+          res.forEach((content: any, idx: number) => {
+            githubBlogList.push(
+              {
+                blogId: contentDirs[idx].sha,
+                title: contentDirs[idx].name,
+                from: 'secondTitle',
+              },
+              ...content.map((subContent: any) => {
+                return {
+                  title: subContent.name,
+                  blogId: subContent.sha,
+                  from: 'github',
+                };
+              })
+            );
+          });
+          resolve(githubBlogList as IBlogTitleItem[]);
+        }
+      );
+    });
+  };
 
   const getLiDom = (item: IBlogTitleItem) => {
     return (
       <li
         key={item.blogId}
-        className={curBlogId == item.blogId ? commonStyle.selectLi : commonStyle.li}
+        className={
+          item.from == 'secondTitle'
+            ? commonStyle.secondLi
+            : curBlogId == item.blogId
+              ? commonStyle.selectLi
+              : commonStyle.li
+        }
         onClick={() => blogClick(item)}
       >
         {item.title}
@@ -110,7 +158,8 @@ export const Slider: FC = function (): JSX.Element {
     );
   };
 
-  const blogClick = (title: IBlogTitleItem) => setCurBlogId(title.blogId);
+  const blogClick = (item: IBlogTitleItem) =>
+    item.from !== 'static' && item.from !== 'secondTitle' && setCurBlogId(item.blogId);
 
   return (
     <div
@@ -150,9 +199,10 @@ export const Slider: FC = function (): JSX.Element {
           })}
         {/* github文章区域 */}
         <li className={commonStyle.firstTitle}>GitHub文章</li>
-        <li className={commonStyle.li}>1</li>
-        <li className={commonStyle.li}>2</li>
-        <li className={commonStyle.li}>3</li>
+        {Boolean(gitTitleList.length) &&
+          gitTitleList.map((item: IBlogTitleItem) => {
+            return item.blogId && getLiDom(item);
+          })}
       </ul>
     </div>
   );

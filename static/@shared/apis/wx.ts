@@ -27,7 +27,7 @@ const getWxAccessToken = async (): Promise<IResponseData> => {
 const getWxArticles = async (): Promise<IResponseData> => {
   const { data } = await getWxAccessToken();
   const access_token =
-    '79_lcjjkv9VkdvG3Ua9A7HUKh3ttBTvZbnxJmyvgeYNcZRm8LGg1YzovImsq3UVidsQRUJpwzLLxl0k4wE2jtpPx-6zI1o_7Cuj6pCFg8rKAIR6rL2nQ8bNMEEvOC8LSWjAGAXEI' ||
+    '79_7gtjKXZhjRrD5IfAPN8BJbMiY3099J0ymv4iLwKhxtCgfRZSy_wXKMUt42yVxVZyMtQLCJY7nt6E3k7jzelPJBDKFDDwQQujtH0unxxgP1gX2RqXuGPI4y_jnrAPUKdADAFKA' ||
     data.access_token ||
     '';
   return await request({
@@ -50,7 +50,7 @@ const getWxArticles = async (): Promise<IResponseData> => {
 const getWxPublishArticles = async (): Promise<IResponseData> => {
   const { data } = await getWxAccessToken();
   const access_token =
-    '79_lcjjkv9VkdvG3Ua9A7HUKh3ttBTvZbnxJmyvgeYNcZRm8LGg1YzovImsq3UVidsQRUJpwzLLxl0k4wE2jtpPx-6zI1o_7Cuj6pCFg8rKAIR6rL2nQ8bNMEEvOC8LSWjAGAXEI' ||
+    '79_7gtjKXZhjRrD5IfAPN8BJbMiY3099J0ymv4iLwKhxtCgfRZSy_wXKMUt42yVxVZyMtQLCJY7nt6E3k7jzelPJBDKFDDwQQujtH0unxxgP1gX2RqXuGPI4y_jnrAPUKdADAFKA' ||
     data.access_token ||
     '';
   return await request({

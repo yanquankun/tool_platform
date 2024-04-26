@@ -51,3 +51,20 @@ export interface IBlogListMap {
   /** 本次调用获取的素材的数量 */
   item_count?: number;
 }
+
+enum blogFrom {
+  /** 微信公众号文章 */
+  wx,
+  /** github文章 */
+  github,
+  /** 纯静态标题 */
+  static,
+  /** 本地文章 */
+  local,
+}
+
+export interface IBlogTitleItem {
+  blogId: string;
+  title: string;
+  from: keyof typeof blogFrom;
+}

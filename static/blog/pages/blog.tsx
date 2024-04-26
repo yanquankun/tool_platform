@@ -1,7 +1,7 @@
 import { FC, useState, useEffect, useMemo, useCallback } from 'react';
 import { Row, Col } from 'antd';
-import { BlogSidebar } from '../components/blogSidebar';
-import { BlogArticle } from '../components/blogArticle';
+import { BlogSidebar } from '../components/blogV1/blogSidebar';
+import { BlogArticle } from '../components/blogV1/blogArticle';
 import { WaterMark } from '@ant-design/pro-components';
 import { getWxArticles, getWxPublishArticles } from '@shared/apis/wx';
 import { IBlogListMap, IBlogArticleItem } from '../interfaces/blogSidebar';

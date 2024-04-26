@@ -1,7 +1,7 @@
 import { FC, Fragment, useEffect, useState } from 'react';
 import { Col, Space } from 'antd';
 import { css } from '@emotion/css';
-import { IBlogArticleItem, IBlogListMap } from '../interfaces/blogSidebar';
+import { IBlogArticleItem, IBlogListMap } from '../../interfaces/blogSidebar';
 interface IProps {
   blogChange: (blogId: string) => void;
   blogMap: IBlogListMap;

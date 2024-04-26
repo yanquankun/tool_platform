@@ -1,7 +1,7 @@
 import { FC, Fragment } from 'react';
 import { Row, Space, Result, Button, ConfigProvider, Divider, Image } from 'antd';
 import { css } from '@emotion/css';
-import { IBlogArticleItem } from '../interfaces/blogSidebar';
+import { IBlogArticleItem } from '../../interfaces/blogSidebar';
 import Prism from 'prismjs';
 import 'prismjs/components/prism-javascript';
 import 'prismjs/plugins/line-numbers/prism-line-numbers';

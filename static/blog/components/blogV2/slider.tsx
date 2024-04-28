@@ -5,6 +5,7 @@ import { getGithubRepoContents, getGithubRepoSubContents } from '~shared/apis/gi
 import { getWxArticles, getWxPublishArticles } from '~shared/apis/wx';
 import { IBlogArticleItem, IBlogTitleItem } from '../../interfaces/blogSidebar';
 import { localBlogList } from './localBlog';
+import dayjs from 'dayjs';
 
 const commonStyle = {
   firstTitle: css`
@@ -53,7 +54,10 @@ const commonStyle = {
   `,
 };
 
-export const Slider: FC = function (): JSX.Element {
+interface IProps {
+  transportBlog: (blogId: string, content: string) => void;
+}
+export const Slider: FC<IProps> = function (props: IProps): JSX.Element {
   const [wxTitleList, setWxTitleList] = useState<IBlogTitleItem[]>([]);
   const [gitTitleList, setGitTitleList] = useState<IBlogTitleItem[]>([]);
   const [curBlogId, setCurBlogId] = useState<string>(localBlogList[0].blogId);
@@ -63,6 +67,8 @@ export const Slider: FC = function (): JSX.Element {
       getWxList();
       const _gitTitleList = await getGitHubList();
       setGitTitleList(_gitTitleList || []);
+
+      props.transportBlog(localBlogList[0].blogId, JSON.stringify({ article: localBlogList[0] }));
     })();
   }, []);
 
@@ -73,7 +79,7 @@ export const Slider: FC = function (): JSX.Element {
     const { data: publishData = {} } = await getWxPublishArticles();
     const { item = [] } = data;
     const { item: publishItem = [] } = publishData;
-    const blogTitleList = item.map(
+    const blogList = item.map(
       (blog: {
         update_time: number;
         media_id: string;
@@ -85,9 +91,12 @@ export const Slider: FC = function (): JSX.Element {
       }) => {
         const news_item = (blog?.content?.news_item ?? [])[0];
         return {
+          ...news_item,
           from: 'wx',
           blogId: blog.media_id,
           title: news_item.title,
+          create_time: dayjs((blog.content?.create_time ?? 0) * 1000).format('YYYY-MM-DD HH:mm:ss'),
+          update_time: dayjs((blog?.update_time ?? 0) * 1000).format('YYYY-MM-DD HH:mm:ss'),
         };
       }
     );
@@ -103,13 +112,16 @@ export const Slider: FC = function (): JSX.Element {
       }) => {
         const news_item = (blog?.content?.news_item ?? [])[0];
         return {
+          ...news_item,
           from: 'wx',
           blogId: blog?.article_id ?? '',
           title: news_item.title,
+          create_time: dayjs((blog.content?.create_time ?? 0) * 1000).format('YYYY-MM-DD HH:mm:ss'),
+          update_time: dayjs((blog?.update_time ?? 0) * 1000).format('YYYY-MM-DD HH:mm:ss'),
         };
       }
     );
-    setWxTitleList([...blogTitleList, ...publishTitleBlogList]);
+    setWxTitleList([...blogList, ...publishTitleBlogList]);
   };
 
   const getGitHubList = (): Promise<IBlogTitleItem[]> => {
@@ -130,6 +142,8 @@ export const Slider: FC = function (): JSX.Element {
                   title: subContent.name,
                   blogId: subContent.sha,
                   from: 'github',
+                  htmlUrl: subContent.html_url,
+                  ...subContent,
                 };
               })
             );
@@ -158,8 +172,24 @@ export const Slider: FC = function (): JSX.Element {
     );
   };
 
-  const blogClick = (item: IBlogTitleItem) =>
-    item.from !== 'static' && item.from !== 'secondTitle' && setCurBlogId(item.blogId);
+  const blogClick = (blog: IBlogTitleItem) => {
+    blog.from !== 'static' && blog.from !== 'secondTitle' && setCurBlogId(blog.blogId);
+    let content = '';
+    if (blog.from === 'github') {
+      content = JSON.stringify({
+        article: gitTitleList.filter((item: IBlogTitleItem) => item.blogId == blog.blogId)[0],
+      });
+    } else if (blog.from === 'wx') {
+      content = JSON.stringify({
+        article: wxTitleList.filter((item: IBlogTitleItem) => item.blogId == blog.blogId)[0],
+      });
+    } else if (blog.from === 'local') {
+      content = JSON.stringify({
+        article: localBlogList.filter((item: IBlogTitleItem) => item.blogId == blog.blogId)[0],
+      });
+    }
+    props.transportBlog(blog.blogId, content);
+  };
 
   return (
     <div

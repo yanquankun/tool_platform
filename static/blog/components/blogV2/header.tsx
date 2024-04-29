@@ -1,6 +1,7 @@
-import React, { FC } from 'react';
-import { render } from 'react-dom';
+import { FC } from 'react';
 import { css } from '@emotion/css';
+import { Space, Image, Tag, Popover, FloatButton } from 'antd';
+import { QrcodeOutlined } from '@ant-design/icons';
 
 export const Header: FC = function (): JSX.Element {
   const getSvgComponent = (): JSX.Element => {
@@ -70,11 +71,67 @@ export const Header: FC = function (): JSX.Element {
         >
           堃堃Blog
         </span>
-        <span>
+        <div>
+          <Popover
+            placement="bottom"
+            title={<Image width={200} src="https://www.yanquankun.com:9300/cdn/mini-program-qrcode.png" />}
+            trigger="hover"
+          >
+            <Tag
+              bordered={false}
+              className={css`
+                background-color: transparent;
+                font-weight: 500;
+                color: inherit;
+                font-size: 14px;
+                margin-right: -3px;
+                cursor: pointer;
+              `}
+            >
+              <span>个人小程序</span>
+              <QrcodeOutlined
+                className={css`
+                  color: #aaa;
+                  margin-inline-start: 3px !important;
+                `}
+              />
+            </Tag>
+          </Popover>
+          <Popover
+            placement="bottom"
+            title={
+              <Space direction="vertical">
+                <Image width={250} src="https://www.yanquankun.com:9300/cdn/gongzhonghao-qrcode.jpg" />
+                <Image width={250} src="https://www.yanquankun.com:9300/cdn/gongzhonghao-scan.png" />
+                <Image width={250} src="https://www.yanquankun.com:9300/cdn/gongzhonghao-search.png" />
+              </Space>
+            }
+            trigger="hover"
+          >
+            <Tag
+              bordered={false}
+              className={css`
+                background-color: transparent;
+                font-weight: 500;
+                color: inherit;
+                font-size: 14px;
+                margin-right: -3px;
+                cursor: pointer;
+              `}
+            >
+              <span>个人公众号</span>
+              <QrcodeOutlined
+                className={css`
+                  color: #aaa;
+                  margin-inline-start: 3px !important;
+                `}
+              />
+            </Tag>
+          </Popover>
           <a
             className={css`
               text-decoration: none;
-              margin-left: 1.5rem;
+              margin-left: 0.6rem;
               font-weight: 500;
               color: inherit;
             `}
@@ -84,7 +141,7 @@ export const Header: FC = function (): JSX.Element {
             github
             {getSvgComponent()}
           </a>
-        </span>
+        </div>
       </div>
     </header>
   );

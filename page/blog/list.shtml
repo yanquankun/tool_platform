@@ -3,8 +3,9 @@
   <head>
     <meta charset="UTF-8" />
     <meta data-draft-node="block" data-draft-type="table" data-size="normal" data-row-style="normal" />
+    <link rel="icon" type="image/x-icon" href="https://www.yanquankun.com:9300/cdn/favicon.ico" />
     <!--#include file="/page/includes/meta.shtml"-->
-    <title>Tool Platform</title>
+    <title>堃堃blog</title>
     <style>
       body {
         margin: 0;
@@ -20,7 +21,7 @@
   </head>
   <body>
     <div id="app"></div>
-    <!--#include file="/page/includes/pre.shtml"-->
+    <!--#include file="/page/includes/pre-blog.shtml"-->
 
     <!-- Dependencies -->
     <script src="/dist/bundle/blog/includes/react-common.vendor.js"></script>

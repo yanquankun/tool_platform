@@ -1,8 +1,7 @@
 import { FC, useEffect, Fragment, useState } from 'react';
 import { css } from '@emotion/css';
 import { Watermark } from 'antd';
-import { localBlogList } from './localBlog';
-import { Row, Space, Result, Button, ConfigProvider, Divider, Image } from 'antd';
+import { Row, Space, Result, Button, ConfigProvider, Divider, Image, message } from 'antd';
 import Prism from 'prismjs';
 import 'prismjs/components/prism-javascript';
 import 'prismjs/plugins/line-numbers/prism-line-numbers';
@@ -23,9 +22,7 @@ interface IProps {
 }
 export const Content: FC<IProps> = function (props): JSX.Element {
   const [code, setCode] = useState<string>('');
-  useEffect(() => {
-    console.log('recive blogId:', props.blogId);
-  }, [props.blogId, props.content]);
+  useEffect(() => {}, [props.blogId, props.content]);
 
   useEffect(() => {
     (async function () {
@@ -33,7 +30,6 @@ export const Content: FC<IProps> = function (props): JSX.Element {
         const fileRaw = await getGithubFileContent('learn', 'master', JSON.parse(props.content).article.path);
         const content = new Blob([base64ToArrayBuffer(fileRaw.content)]).text();
         const code = await content;
-        console.log(code);
         setCode(code);
       }
     })();
@@ -81,19 +77,21 @@ export const Content: FC<IProps> = function (props): JSX.Element {
         {/* 作者 */}
         {JSON.parse(props.content).article.author && (
           <Row>
-            <span>作者：{JSON.parse(props.content).article.author}</span>
+            <span style={{ fontSize: '16px' }}>作者：{JSON.parse(props.content).article.author}</span>
           </Row>
         )}
         {/* 创建时间 */}
         {JSON.parse(props.content).article.create_time && (
-          <Row>创建时间：{JSON.parse(props.content).article.create_time}</Row>
+          <Row style={{ fontSize: '16px' }}>创建时间：{JSON.parse(props.content).article.create_time}</Row>
         )}
         {/* 更新时间 */}
         {JSON.parse(props.content).article.update_time && (
-          <Row>更新时间：{JSON.parse(props.content).article.update_time}</Row>
+          <Row style={{ fontSize: '16px' }}>更新时间：{JSON.parse(props.content).article.update_time}</Row>
         )}
         {/* 图文消息的摘要 */}
-        {JSON.parse(props.content).article.digest && <Row>摘要：{JSON.parse(props.content).article.digest}</Row>}
+        {JSON.parse(props.content).article.digest && (
+          <Row style={{ fontSize: '16px' }}>摘要：{JSON.parse(props.content).article.digest}</Row>
+        )}
         <Divider style={{ margin: '12px 0' }} />
       </Fragment>
     );
@@ -119,17 +117,38 @@ export const Content: FC<IProps> = function (props): JSX.Element {
     );
   };
 
+  const renderHtmlText = (content: string[]) => {
+    return content.map((__html: string) => {
+      return (
+        <Row
+          className={css`
+            text-indent: 20px;
+            fontfamily:
+              -apple-system,
+              BlinkMacSystemFont,
+              Segoe UI,
+              Roboto,
+              Oxygen,
+              Ubuntu,
+              Cantarell,
+              Fira Sans,
+              Droid Sans,
+              Helvetica Neue,
+              sans-serif;
+          `}
+        >
+          <div style={{ fontSize: '18px' }} dangerouslySetInnerHTML={{ __html: __html }}></div>
+        </Row>
+      );
+    });
+  };
+
   const createContentArea = () => {
-    return (
-      /* 文章内容 */
-      <Row
-        className={css`
-          text-indent: 20px;
-        `}
-      >
-        <div dangerouslySetInnerHTML={{ __html: JSON.parse(props.content).article.content || '' }}></div>
-      </Row>
-    );
+    const content = JSON.parse(props.content).article.content;
+    if (!content) {
+      message.error('获取文章失败，请重试', 2);
+    } else if (Array.isArray(content)) return renderHtmlText(content);
+    else if (typeof content === 'string') return renderHtmlText([content]);
   };
 
   const createArticleQuoteArea = () => {
@@ -143,10 +162,11 @@ export const Content: FC<IProps> = function (props): JSX.Element {
           />
         )}
         {JSON.parse(props.content).article.url ? (
-          <Row align="middle">
+          <Row align="middle" style={{ fontSize: '16px' }}>
             公众号原文链接：
             <Button type="link">
               <a
+                style={{ fontSize: '16px' }}
                 onClick={() => {
                   window.open(JSON.parse(props.content).article.url);
                 }}
@@ -159,10 +179,11 @@ export const Content: FC<IProps> = function (props): JSX.Element {
           <></>
         )}
         {JSON.parse(props.content).article.content_source_url ? (
-          <Row align="middle">
+          <Row align="middle" style={{ fontSize: '16px' }}>
             内容引用原文链接：
             <Button type="link">
               <a
+                style={{ fontSize: '16px' }}
                 onClick={() => {
                   window.open(JSON.parse(props.content).article.content_source_url);
                 }}
@@ -228,10 +249,11 @@ export const Content: FC<IProps> = function (props): JSX.Element {
           />
         )}
         {JSON.parse(props.content).article.htmlUrl ? (
-          <Row align="middle">
+          <Row align="middle" style={{ fontSize: '16px' }}>
             github原文链接：
             <Button type="link">
               <a
+                style={{ fontSize: '16px' }}
                 onClick={() => {
                   window.open(JSON.parse(props.content).article.htmlUrl);
                 }}

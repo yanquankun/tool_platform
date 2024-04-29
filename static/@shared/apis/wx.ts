@@ -26,10 +26,7 @@ const getWxAccessToken = async (): Promise<IResponseData> => {
  */
 const getWxArticles = async (): Promise<IResponseData> => {
   const { data } = await getWxAccessToken();
-  const access_token =
-    '79_5Vc77z_s73njSOs6DhHcnX1CYXSP3K9eMmciIeMhlmUICt0iGtrQ3IFvuXDnxEJv5icZBh2zmlPibwahWEC9AqqVDHcbmkPcIT0taoogwkdonxUP7DFPupWUoj4EPUcAIAJUZ' ||
-    data.access_token ||
-    '';
+  const access_token = data.access_token || '';
   return await request({
     url: `/wxapi/cgi-bin/material/batchget_material?access_token=${access_token}`,
     method: 'post',
@@ -49,10 +46,7 @@ const getWxArticles = async (): Promise<IResponseData> => {
  */
 const getWxPublishArticles = async (): Promise<IResponseData> => {
   const { data } = await getWxAccessToken();
-  const access_token =
-    '79_5Vc77z_s73njSOs6DhHcnX1CYXSP3K9eMmciIeMhlmUICt0iGtrQ3IFvuXDnxEJv5icZBh2zmlPibwahWEC9AqqVDHcbmkPcIT0taoogwkdonxUP7DFPupWUoj4EPUcAIAJUZ' ||
-    data.access_token ||
-    '';
+  const access_token = data.access_token || '';
   return await request({
     url: `/wxapi/cgi-bin/freepublish/batchget?access_token=${access_token}`,
     method: 'post',

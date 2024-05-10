@@ -59,9 +59,8 @@ const Container: FC<IContainerProps> = (props: IContainerProps) => {
   }, []);
 
   useEffect(() => {
-    const themeCache = localStorage.getItem('theme') as themeType;
-    if (!themeCache) setTheme('default');
-    else setTheme(themeCache);
+    const themeCache = (localStorage.getItem('theme') || 'default') as themeType;
+    setTheme(themeCache);
     const body = document.body;
     body.style.filter = themeCache == 'default' ? 'none' : 'invert(1)';
   }, []);

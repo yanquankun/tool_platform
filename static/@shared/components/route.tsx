@@ -10,7 +10,7 @@ export default {
         icon: <SmileFilled />,
       },
       {
-        path: '/blog/blog',
+        path: '/blog/list',
         name: '博客',
         icon: <CrownFilled />,
       },

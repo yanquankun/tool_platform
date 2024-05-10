@@ -18,7 +18,7 @@ const devServer = {
   },
   // 允许服务器可以被外部访问
   host: '0.0.0.0',
-  port: 9000,
+  port: 8888,
 };
 
 const dynamicPlugins = [

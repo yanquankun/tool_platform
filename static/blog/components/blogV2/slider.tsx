@@ -139,7 +139,7 @@ export const Slider: FC<IProps> = function (props: IProps): JSX.Element {
               },
               ...content.map((subContent: any) => {
                 return {
-                  title: subContent.name,
+                  title: (subContent.name as string).replace(/(.js)/, ''),
                   blogId: subContent.sha,
                   from: 'github',
                   htmlUrl: subContent.html_url,
@@ -173,7 +173,8 @@ export const Slider: FC<IProps> = function (props: IProps): JSX.Element {
   };
 
   const blogClick = (blog: IBlogTitleItem) => {
-    blog.from !== 'static' && blog.from !== 'secondTitle' && setCurBlogId(blog.blogId);
+    if (blog.from === 'static' || blog.from === 'secondTitle') return;
+    setCurBlogId(blog.blogId);
     let content = '';
     if (blog.from === 'github') {
       content = JSON.stringify({

@@ -118,9 +118,10 @@ export const Content: FC<IProps> = function (props): JSX.Element {
   };
 
   const renderHtmlText = (content: string[]) => {
-    return content.map((__html: string) => {
+    return content.map((__html: string, idx: number) => {
       return (
         <Row
+          key={idx}
           className={css`
             text-indent: 20px;
             fontfamily:

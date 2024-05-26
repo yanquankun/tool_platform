@@ -23,6 +23,7 @@
     <div id="app"></div>
     <!--#include file="/page/includes/pre-blog.shtml"-->
 
+    <script src="https://cdn.bootcdn.net/ajax/libs/marked/2.0.3/marked.min.js"></script>
     <!-- Dependencies -->
     <script src="/dist/bundle/blog/includes/react-common.vendor.js"></script>
     <script src="/dist/bundle/blog/includes/antd.vendor.js"></script>

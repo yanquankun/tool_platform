@@ -230,6 +230,44 @@ export const Content: FC<IProps> = function (props): JSX.Element {
   };
 
   const createCodeContent = () => {
+    const fileSuffixName = JSON.parse(props.content).article.fileSuffixName;
+    if (fileSuffixName === 'md') {
+      return (
+        <>
+          {code && (
+            <div
+              dangerouslySetInnerHTML={{
+                __html: window.marked(code.trim()),
+              }}
+            ></div>
+          )}
+          {JSON.parse(props.content).article.htmlUrl && (
+            <Divider
+              style={{
+                color: 'rgb(0,0,0,0.4)',
+              }}
+            />
+          )}
+          {JSON.parse(props.content).article.htmlUrl ? (
+            <Row align="middle" style={{ fontSize: '16px' }}>
+              github原文链接：
+              <Button type="link">
+                <a
+                  style={{ fontSize: '16px' }}
+                  onClick={() => {
+                    window.open(JSON.parse(props.content).article.htmlUrl);
+                  }}
+                >
+                  点击跳转github链接
+                </a>
+              </Button>
+            </Row>
+          ) : (
+            <></>
+          )}
+        </>
+      );
+    }
     return (
       <>
         {code && (

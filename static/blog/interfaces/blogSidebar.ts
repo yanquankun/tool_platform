@@ -30,6 +30,8 @@ export interface IWxArticleItem {
   media_id?: string;
   /** 封面图片 */
   thumb_url?: string;
+  /** 文件后缀名 */
+  fileSuffixName?: 'js' | 'md' | 'unknow';
 }
 
 export interface IBlogArticleItem extends IWxArticleItem {

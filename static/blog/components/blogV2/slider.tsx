@@ -138,11 +138,13 @@ export const Slider: FC<IProps> = function (props: IProps): JSX.Element {
                 from: 'secondTitle',
               },
               ...content.map((subContent: any) => {
+                const suffix = (subContent?.name ?? '').match(/(js|md)/g) || ['unknow'];
                 return {
-                  title: (subContent.name as string).replace(/(.js)/, ''),
+                  title: (subContent.name as string).replace(/(.js|.md)/, ''),
                   blogId: subContent.sha,
                   from: 'github',
                   htmlUrl: subContent.html_url,
+                  fileSuffixName: suffix[0],
                   ...subContent,
                 };
               })

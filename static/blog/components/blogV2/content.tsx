@@ -271,7 +271,7 @@ export const Content: FC<IProps> = function (props): JSX.Element {
     return (
       <>
         {code && (
-          <pre className="language-javascript">
+          <pre style={{ width: 'calc(100vw - 400px)' }} className="language-javascript">
             <code
               className="language-javascript"
               dangerouslySetInnerHTML={{

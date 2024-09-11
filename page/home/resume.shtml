@@ -144,7 +144,6 @@
         const dom = document.getElementsByClassName(className)[0]
         const old = dom.firstElementChild.style.display;
         dom.firstElementChild.style.display = old === 'block' ? 'none' : 'block';
-        event.stopPropagation(); 
     })
 
     document.addEventListener('click',function(event){

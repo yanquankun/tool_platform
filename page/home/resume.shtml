@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- Primary Meta Tags -->
+    <title>闫全堃 | Mint.yan</title>
+    <meta name="title" content="Home | Khushal Sharma" />
+    <meta name="description" content="Khushal Sharma: programmer from India." />
+
+    <!--#include file="/page/includes/resume.shtml"-->
+    <link rel="shortcut icon" href="https://www.yanquankun.com:9300/cdn/resume/rfavicon.ico" type="image/x-icon" />
+    <script src="https://kit.fontawesome.com/1a48924413.js" crossorigin="anonymous"></script>
+</head>
+
+<body>
+    <header id="header">
+        <div id="head">闫全堃(Mint.Yan)<span class="cursor">_</span></div>
+    </header>
+
+    <main id="content">
+        <div class="container">
+            <div id="bar">
+                <div class="icon icon-red"></div>
+                <div class="icon icon-yellow"></div>
+                <div class="icon icon-green"></div>
+            </div>
+
+            <div id="screen">
+                <div id="innercontent">
+                    <div id="contentheader">INTRO</div>
+
+                    <div class="topic_header">NAME</div>
+                    <div class="topic_text">闫全堃</div>
+
+                    <div class="topic_header">NICK(S)</div>
+                    <div class="topic_text">Mint, Kunkun, yanquankun</div>
+
+                    <div class="topic_header">DESCRIPTION</div>
+                    <div class="topic_text">
+                        一枚一直向前奔跑中的前端程序员~<br />业余时间, 我会在此持续更新个人介绍. 也会在此更新一项个人项目地址，如果对我感兴趣，联系我!
+                    </div>
+
+                    <div class="topic_header">CONTACT METHODS</div>
+                    <div class="topic_text">
+                        <a href="mailto:17600610907@163.com">17600610907@163.com</a>
+                        - This would be the best way to contact me.
+                    </div>
+
+                    <div class="topic_header">PROJECTS</div>
+                    <div class="topic_text">
+                        可以找到我做过的一些项目
+                        <a href="/home/project">on this page</a>.
+                    </div>
+
+                    <div class="topic_header">TALKS</div>
+                    <div class="topic_text miniprogram_flex">
+                        <ul class="miniprogram_wrap">
+                            <img class="qrcode" src="https://www.yanquankun.com:9300/cdn/mini-program-qrcode.png"
+                                alt="小程序二维码">
+                            <a class="qrcode_text">个人微信小程序</a>
+                        </ul>
+                        <ul class="officialAccount_wrap">
+                            <img class="qrcode" src="https://www.yanquankun.com:9300/cdn/gongzhonghao-qrcode.jpg"
+                                alt="公众号二维码">
+                            <a class="qrcode_text">个人公众号</a>
+                        </ul>
+                    </div>
+
+                    <div class="topic_header">SEE ALSO</div>
+                    <div class="topic_text">- Angular & Vue & React</div>
+                    <div class="topic_text">- ReactNative</div>
+                    <div class="topic_text">- A little Docker+Nginx+Jenkins</div>
+                    <div class="topic_text">- A little Flutter</div>
+                    <div class="topic_text">- A little Java+Mysql</div>
+
+                    <div class="topic_header">HISTORY</div>
+                    <div class="topic_text">To Be Continue</div>
+                    <div class="topic_text">美团</div>
+                    <div class="topic_text">商汤</div>
+                    <div class="topic_text">作业帮</div>
+                    <div class="topic_text">...</div>
+
+                    <div id="innerfooter">Latest Update - 01/05/2024 V-1.0.0</div>
+                </div>
+            </div>
+        </div>
+    </main>
+    <!--Footer Section-->
+    <footer id="footer">
+        <div class="wrapper">
+            <div class="social-icons">
+                <a href="https://github.com/yanquankun" target="_blank" rel="noopener" aria-label="Github"><i
+                        class="fab fa-github fa-lg fa-max"></i></a>
+                <a href="https://www.npmjs.com/~yanquankun" target="_blank" rel="noopener" aria-label="Npm"><i
+                        class="fab fa-npm fa-lg fa-max"></i></a>
+                <ul class="camera_wrap">
+                    <img class="qrcode" src="https://www.yanquankun.com:9300/cdn/resume/myself.jpg" alt="个人照">
+                    <a><i class="fas fa-camera fa-lg fa-max"></i></a>
+                </ul>
+            </div>
+
+            <div class="wrap">
+                <a href="/home/project">Projects</a>
+                <a href="https://www.yanquankun.com/blog/list" target="_blank">Blog</a>
+            </div>
+        </div>
+    </footer>
+</body>
+
+</html>

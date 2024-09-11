@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Projects | YanQuankun</title>
+  <meta name="description" content="Some of the (mini)projects, I Have done listed on this page." />
+  <meta name="keywords" content="Projects By YanQuankun" />
+  <link rel="shortcut icon" href="https://www.yanquankun.com:9300/cdn/resume/rfavicon.ico" type="image/x-icon" />
+  <!--#include file="/page/includes/project.shtml"-->
+  <script src="https://kit.fontawesome.com/1a48924413.js" crossorigin="anonymous"></script>
+
+</head>
+
+<body>
+  <div class="container">
+    <h1>
+      Some of the <span class="heading">projects</span> I have done:
+    </h1>
+    <div class="filter-data-btn">
+      <p>Filter By:</p>
+      <p class="filter-btn" id="All">All</p>
+      <p class="filter-btn" id="Typescript">Typescript</p>
+      <p class="filter-btn" id="Angular">Angular</p>
+      <p class="filter-btn" id="React">React</p>
+      <p class="filter-btn" id="Vue">Vue</p>
+      <p class="filter-btn" id="Nodejs">Nodejs</p>
+    </div>
+    <div class="loader">Loading...</div>
+  </div>
+
+  <!-- projects -->
+  <div id="projects" class="container">
+
+    <div class="project-temp project-main">
+      <!-- getting projects -->
+
+    </div>
+    <div class="container extra-div">
+      <p>
+        for more projects, checkout on my <a href="https://github.com/yanquankun" target="_blank">github</a>.
+      </p>
+    </div>
+    <!--Footer Section-->
+    <footer id="footer">
+      <div class="wrapper">
+        <div class="social-icons">
+          <a href="https://github.com/yanquankun" target="_blank" rel="noopener" aria-label="Github"><i
+              class="fab fa-github fa-lg fa-max"></i></a>
+          <a href="https://www.npmjs.com/~yanquankun" target="_blank" rel="noopener" aria-label="Npm"><i
+              class="fab fa-npm fa-lg fa-max"></i></a>
+        </div>
+
+        <div class="wrap">
+          <a href="/home/resume">Home</a>
+          <a href="https://www.yanquankun.com/blog/list" target="_blank">Blog</a>
+        </div>
+      </div>
+    </footer>
+
+</body>
+
+</html>
+
+<script type="module">
+  const projectData = [
+    {
+      projectName: "@mpsc/cli",
+      projectDate: "2024.09",
+      projectDescription:
+        "小程序 ci 构建脚手架工具,提供小程序构建功能，解决提测产生冲突，发布线上版分支校验，并且提供群通知能力和构建Hook，本脚手架提供构建日志输出能力，方便定位问题",
+      tags: ["Lerna", "MiniprogramCi", "Monorepo", "Typescript"],
+      link: "https://www.npmjs.com/package/@mpsc/cli",
+      repo: "https://github.com/yanquankun/mint-fe-tools",
+    }, {
+      projectName: "58helper",
+      projectDate: "2024.06",
+      projectDescription:
+        "一个vscode插件，目前还在迭代中，vscode插件市场可搜索58helper查看，该插件会支持webview打开公司内部前端文档积累、支持定时周报提醒，支持打开单独的侧边栏展示web内容，想了解vscode的插件开发可以参考一下",
+      tags: ["Vscode", "Vue", "Vite-Press", "Typescript"],
+      link: "https://marketplace.visualstudio.com/items?itemName=yanquankun.58-helper",
+      repo: "https://github.com/yanquankun/58helper",
+    }, {
+      projectName: "tool_platform",
+      projectDate: "2023.10",
+      projectDescription:
+        "一些个人项目的集合，包括个人博客搭建也在此项目中，可借鉴搭建个人项目集合，采用Monorepo架构，各Bundle互不影响，此后个人的一些其他项目将在此工程中进行搭建",
+      tags: ["Webpack", "React", "Monorepo", "Typescript", "Nginx"],
+      repo: "https://github.com/yanquankun/tool_platform",
+    }, {
+      projectName: "flutterApp",
+      projectDate: "2021.03",
+      projectDescription:
+        "使用flutter开发的个人Android App，集成了一些功能，后续计划支持小程序容器，嵌入个人微信小程序",
+      tags: ["Flutter", "Gaode Map", "dart", "Nodejs", "Mysql"],
+      repo: "https://github.com/yanquankun/flutterApp",
+    }, {
+      projectName: "m-ui-lib",
+      projectDate: "2020.06",
+      projectDescription:
+        "很久之前自己开发的一个angular ui库，很久不迭代了，存在一些bug，仅供参考吧",
+      tags: ["Angular", "Typescript"],
+      link: "https://www.npmjs.com/package/m-ui-lib",
+      repo: "https://github.com/yanquankun/M-UI/tree/feature/v1.0.0",
+    }]
+
+  const projects = document.querySelector(".project-temp");
+
+  const filterBtn = document.querySelectorAll(".filter-btn");
+
+  function loadData(doc) {
+    const loader = document.querySelector(".loader");
+
+    loader.style.display = "none";
+
+    let project_card = document.createElement("div");
+    let projectName = document.createElement("h2");
+    let date = document.createElement("small");
+    let content = document.createElement("p");
+    let tags = document.createElement("small");
+    let btn = document.createElement("div");
+    let link = document.createElement("a");
+    let repo = document.createElement("a");
+
+    project_card.setAttribute("class", "project-description");
+    btn.setAttribute("class", "button");
+    repo.setAttribute("href", doc.repo);
+
+    projectName.textContent = doc.projectName;
+    date.textContent = doc.projectDate;
+    content.innerHTML = doc.projectDescription;
+    tags.innerHTML = "<b>Tech-Stack</b> : " + doc.tags.join(", ");
+    repo.textContent = "Repo";
+
+    if (doc.link) {
+      link.setAttribute("href", doc.link);
+      link.textContent = "Link";
+      btn.appendChild(link);
+    }
+
+    btn.appendChild(repo);
+
+    project_card.appendChild(projectName);
+    project_card.appendChild(date);
+    project_card.appendChild(content);
+    project_card.appendChild(tags);
+    project_card.appendChild(btn);
+
+    projects.appendChild(project_card);
+  }
+
+  function filterProjectByTags(tag) {
+    if (tag !== "All") {
+      return renderData(projectData.filter((doc) => doc.tags.includes(tag)));
+    } else {
+      return renderData(projectData);
+    }
+  }
+
+  function renderData(filteredData) {
+    projects.innerHTML = "";
+    filteredData.forEach((doc) => {
+      loadData(doc);
+    });
+  }
+
+  for (let i = 0; i < filterBtn.length; i++) {
+    filterBtn[i].addEventListener("click", function () {
+      filterProjectByTags(filterBtn[i].id);
+    });
+  }
+
+  filterProjectByTags("All");
+</script>

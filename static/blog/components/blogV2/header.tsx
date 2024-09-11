@@ -72,6 +72,21 @@ export const Header: FC = function (): JSX.Element {
           堃堃Blog
         </span>
         <div>
+          <Tag
+            bordered={false}
+            className={css`
+              background-color: transparent;
+              font-weight: 500;
+              color: inherit;
+              font-size: 14px;
+              margin-right: -3px;
+              cursor: pointer;
+            `}
+          >
+            <a href="/home/resume" target="_blank">
+              个人主页
+            </a>
+          </Tag>
           <Popover
             placement="bottom"
             title={<Image width={200} src="https://www.yanquankun.com:9300/cdn/mini-program-qrcode.png" />}

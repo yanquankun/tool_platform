@@ -38,6 +38,11 @@ module.exports = Object.keys(entryPathMap).map((entryDirectoryName, index) => {
     },
 
     resolve: {
+      // resolve error:0308010C:digital envelope routines::unsupported
+      // node>16 对OpenSSL一些加密算法认为不安全导致
+      fallback: {
+        crypto: false,
+      },
       // 解析tsconfig中配置的paths
       plugins: [new TsconfigPathsPlugin({ configFile: tsconfigFile, extensions })],
       // 尝试按顺序解析这些后缀名。如果有多个文件有相同的名字，但后缀名不同，webpack 会解析列在数组首位的后缀的文件 并跳过其余的后缀

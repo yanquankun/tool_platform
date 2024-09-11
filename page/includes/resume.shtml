@@ -148,7 +148,7 @@
 
     #innerfooter {
         text-align: center;
-        margin: 7rem 0 0.5em 0;
+        margin: 5rem 0 0.5em 0;
     }
 
     .wrapper {
@@ -250,13 +250,7 @@
         position: relative;
         cursor: pointer;
     }
-
-    .miniprogram_wrap:hover .qrcode,
-    .officialAccount_wrap:hover .qrcode,
-    .camera_wrap:hover .qrcode {
-        display: block;
-    }
-
+    
     @media (min-width: 1600px) {
         body {
             font-size: 18px;

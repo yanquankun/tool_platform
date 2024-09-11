@@ -97,7 +97,7 @@
                         class="fab fa-npm fa-lg fa-max"></i></a>
                 <ul class="camera_wrap">
                     <img class="qrcode" src="https://www.yanquankun.com:9300/cdn/resume/myself.jpg" alt="个人照">
-                    <a><i class="fas fa-camera fa-lg fa-max"></i></a>
+                    <a><i class="qrcode_text fas fa-camera fa-lg fa-max"></i></a>
                 </ul>
             </div>
 
@@ -108,5 +108,42 @@
         </div>
     </footer>
 </body>
-
+<script defer type="module">
+    const miniprogram_wrap = document.getElementsByClassName('miniprogram_wrap')[0];
+    const officialAccount_wrap = document.getElementsByClassName('officialAccount_wrap')[0];
+    const camera_wrap = document.getElementsByClassName('camera_wrap')[0];
+    const hideQrCode = function(parClassName){
+        const qrcodes = document.getElementsByClassName('qrcode');
+        for(let ele of qrcodes) {
+            console.log(ele.parentElement.className)
+            const parentClassName = ele.parentElement.className || '';
+            if(parClassName !== parentClassName) ele.style.display = 'none';
+        }
+    }
+    miniprogram_wrap.addEventListener('click',function(){
+        hideQrCode('miniprogram_wrap');
+        const old = miniprogram_wrap.firstElementChild.style.display;
+        miniprogram_wrap.firstElementChild.style.display = old === 'block' ? 'none' : 'block';
+        event.stopPropagation();
+    })
+    officialAccount_wrap.addEventListener('click',function(){
+        hideQrCode('officialAccount_wrap');
+        const old = officialAccount_wrap.firstElementChild.style.display;
+        officialAccount_wrap.firstElementChild.style.display = old === 'block' ? 'none' : 'block';
+        event.stopPropagation();
+    })
+    camera_wrap.addEventListener('click',function(){
+        hideQrCode('camera_wrap');
+        const old = camera_wrap.firstElementChild.style.display;
+        camera_wrap.firstElementChild.style.display = old === 'block' ? 'none' : 'block';
+        event.stopPropagation();
+    })
+    document.addEventListener('click',function(event){
+        if(!event.target.className.includes('qrcode_text')) {
+            miniprogram_wrap.firstElementChild.style.display = 'none';
+            officialAccount_wrap.firstElementChild.style.display = 'none';
+            camera_wrap.firstElementChild.style.display = 'none';
+        }
+    })
+</script>
 </html>

@@ -104,6 +104,7 @@ module.exports = Object.keys(entryPathMap).map((entryDirectoryName, index) => {
       // },
       splitChunks: {
         chunks: 'all',
+        enforceSizeThreshold: 50000,
         cacheGroups: {
           // 先提取antd和react
           antd: {

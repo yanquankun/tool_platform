@@ -13,6 +13,7 @@ const commonStyle = {
     padding: 5rem 5rem 3rem 23rem;
     overflow-y: auto;
     min-height: calc(100vh - 10rem);
+    display: flex;
   `,
 };
 

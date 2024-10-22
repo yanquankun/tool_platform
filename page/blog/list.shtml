@@ -3,6 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta data-draft-node="block" data-draft-type="table" data-size="normal" data-row-style="normal" />
+    <link rel="manifest" href="https://www.yanquankun.com:9300/cdn/blog/manifest.json" />
     <link rel="icon" type="image/x-icon" href="https://www.yanquankun.com:9300/cdn/favicon.ico" />
     <!--#include file="/page/includes/meta.shtml"-->
     <title>堃堃blog</title>
@@ -22,6 +23,7 @@
   <body>
     <div id="app"></div>
     <!--#include file="/page/includes/pre-blog.shtml"-->
+    <!--#include file="/page/includes/pwa.shtml"-->  
 
     <script src="https://cdn.bootcdn.net/ajax/libs/marked/2.0.3/marked.min.js"></script>
     <!-- Dependencies -->

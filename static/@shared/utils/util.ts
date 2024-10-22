@@ -44,3 +44,23 @@ export function base64ToArrayBuffer(base64: string): ArrayBuffer {
   }
   return bytes.buffer;
 }
+
+/**
+ * 2024-10-22 14:41:48
+ * @author Mint.Yan
+ * @description 判断是否为移动端设备
+ * @param
+ * @return boolean
+ */
+export const isMobile = () => {
+  const userAgentInfo = navigator.userAgent;
+  const Agents = ['Android', 'iPhone', 'SymbianOS', 'Windows Phone', 'iPad', 'iPod'];
+  let flag = false;
+  for (let v = 0; v < Agents.length; v++) {
+    if (userAgentInfo.indexOf(Agents[v]) > 0) {
+      flag = true;
+      break;
+    }
+  }
+  return flag;
+};

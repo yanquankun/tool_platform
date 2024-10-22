@@ -1,0 +1,15 @@
+<script>
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+      console.log('ServiceWorker registration in progress.');
+      navigator.serviceWorker.register('https://www.yanquankun.com:9300/cdn/blog/serviceWorker.js').then(
+        (registration) => {
+          console.log('ServiceWorker registration successful with scope: ', registration.scope);
+        },
+        (error) => {
+          console.log('ServiceWorker registration failed: ', error);
+        }
+      );
+    });
+  }
+</script>

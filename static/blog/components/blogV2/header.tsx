@@ -58,9 +58,15 @@ export const Header: FC<IProps> = function (props: IProps): JSX.Element {
             cursor: pointer;
           `}
         >
-          <a href="/home/resume" target="_blank">
-            个人主页
-          </a>
+          {_isMobile ? (
+            <a href="/home/resume" target="_self">
+              个人主页
+            </a>
+          ) : (
+            <a href="/home/resume" target="_blank">
+              个人主页
+            </a>
+          )}
         </Tag>
         <Popover
           placement="bottom"
@@ -118,19 +124,35 @@ export const Header: FC<IProps> = function (props: IProps): JSX.Element {
             />
           </Tag>
         </Popover>
-        <a
-          className={css`
-            text-decoration: none;
-            margin-left: 0.6rem;
-            font-weight: 500;
-            color: inherit;
-          `}
-          href="https://github.com/yanquankun?tab=repositories"
-          target="_blank"
-        >
-          github
-          {getSvgComponent()}
-        </a>
+        {_isMobile ? (
+          <a
+            className={css`
+              text-decoration: none;
+              margin-left: 0.6rem;
+              font-weight: 500;
+              color: inherit;
+            `}
+            href="https://github.com/yanquankun?tab=repositories"
+            target="_self"
+          >
+            github
+            {getSvgComponent()}
+          </a>
+        ) : (
+          <a
+            className={css`
+              text-decoration: none;
+              margin-left: 0.6rem;
+              font-weight: 500;
+              color: inherit;
+            `}
+            href="https://github.com/yanquankun?tab=repositories"
+            target="_blank"
+          >
+            github
+            {getSvgComponent()}
+          </a>
+        )}
       </div>
     );
   };

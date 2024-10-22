@@ -21,6 +21,7 @@ const commonStyle = {
     overflow-y: auto;
     min-height: calc(100vh - 10rem);
     display: flex;
+    margin-top: calc(3.6rem - 30px);
   `,
 };
 
@@ -48,16 +49,18 @@ export const Content: FC<IProps> = function (props): JSX.Element {
     return (
       <Fragment>
         {/* 一级标题 */}
-        <Row
-          className={css`
-            display: flex;
-            justify-content: left;
-            font-weight: 900;
-            font-size: 22px;
-          `}
-        >
-          {JSON.parse(props.content)?.article?.title ?? ''}
-        </Row>
+        {_isMobile ? null : (
+          <Row
+            className={css`
+              display: flex;
+              justify-content: left;
+              font-weight: 900;
+              font-size: 22px;
+            `}
+          >
+            {JSON.parse(props.content)?.article?.title ?? ''}
+          </Row>
+        )}
         {/* 二级标题 */}
         {(JSON.parse(props.content)?.article?.subtitle ?? '') && (
           <Row

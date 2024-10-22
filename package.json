@@ -28,7 +28,6 @@
   "dependencies": {
     "@ant-design/icons": "^5.2.6",
     "@ant-design/pro-components": "^2.6.18",
-    "@mui/material": "^5.14.8",
     "@types/markdown-to-jsx": "^7.0.1",
     "@types/node": "^20.5.3",
     "@types/react": "^18.2.21",

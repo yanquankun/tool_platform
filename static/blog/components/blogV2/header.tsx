@@ -1,9 +1,18 @@
-import { FC } from 'react';
+import { FC, Fragment, useState } from 'react';
 import { css } from '@emotion/css';
-import { Space, Image, Tag, Popover, FloatButton } from 'antd';
-import { QrcodeOutlined } from '@ant-design/icons';
+import { Space, Image, Tag, Popover, Button, Drawer } from 'antd';
+import { QrcodeOutlined, DownOutlined } from '@ant-design/icons';
+import { isMobile } from '~shared/utils/util';
+import { Slider } from './slider';
 
-export const Header: FC = function (): JSX.Element {
+interface IProps {
+  transportBlogId: (blogId: string, content: string) => void;
+}
+export const Header: FC<IProps> = function (props: IProps): JSX.Element {
+  const _isMobile = isMobile();
+  const [open, setOpen] = useState(false);
+  const [extraOpen, setExtraOpen] = useState(false);
+
   const getSvgComponent = (): JSX.Element => {
     return (
       <svg
@@ -35,6 +44,101 @@ export const Header: FC = function (): JSX.Element {
     );
   };
 
+  const getExtraDom = (): JSX.Element => {
+    return (
+      <div>
+        <Tag
+          bordered={false}
+          className={css`
+            background-color: transparent;
+            font-weight: 500;
+            color: inherit;
+            font-size: 14px;
+            margin-right: -3px;
+            cursor: pointer;
+          `}
+        >
+          <a href="/home/resume" target="_blank">
+            个人主页
+          </a>
+        </Tag>
+        <Popover
+          placement="bottom"
+          title={<Image width={200} src="https://www.yanquankun.com:9300/cdn/mini-program-qrcode.png" />}
+          trigger="hover"
+        >
+          <Tag
+            bordered={false}
+            className={css`
+              background-color: transparent;
+              font-weight: 500;
+              color: inherit;
+              font-size: 14px;
+              margin-right: -3px;
+              cursor: pointer;
+            `}
+          >
+            <span>个人小程序</span>
+            <QrcodeOutlined
+              className={css`
+                color: #aaa;
+                margin-inline-start: 3px !important;
+              `}
+            />
+          </Tag>
+        </Popover>
+        <Popover
+          placement="bottom"
+          title={
+            <Space direction="vertical">
+              <Image width={250} src="https://www.yanquankun.com:9300/cdn/gongzhonghao-qrcode.jpg" />
+              <Image width={250} src="https://www.yanquankun.com:9300/cdn/gongzhonghao-scan.png" />
+              <Image width={250} src="https://www.yanquankun.com:9300/cdn/gongzhonghao-search.png" />
+            </Space>
+          }
+          trigger="hover"
+        >
+          <Tag
+            bordered={false}
+            className={css`
+              background-color: transparent;
+              font-weight: 500;
+              color: inherit;
+              font-size: 14px;
+              margin-right: -3px;
+              cursor: pointer;
+            `}
+          >
+            <span>个人公众号</span>
+            <QrcodeOutlined
+              className={css`
+                color: #aaa;
+                margin-inline-start: 3px !important;
+              `}
+            />
+          </Tag>
+        </Popover>
+        <a
+          className={css`
+            text-decoration: none;
+            margin-left: 0.6rem;
+            font-weight: 500;
+            color: inherit;
+          `}
+          href="https://github.com/yanquankun?tab=repositories"
+          target="_blank"
+        >
+          github
+          {getSvgComponent()}
+        </a>
+      </div>
+    );
+  };
+
+  const handleOpenChange = (newOpen: boolean) => {
+    setExtraOpen(newOpen);
+  };
+
   return (
     <header
       className={css`
@@ -48,116 +152,87 @@ export const Header: FC = function (): JSX.Element {
         -webkit-box-sizing: border-box;
         box-sizing: border-box;
         border-bottom: 1px solid #eaecef;
-        padding: .7rem 1.5rem;
+        padding: 0.7rem 1.5rem;
         line-height: 2.2rem;
-    }
+        width: 100vw;
       `}
     >
-      <div
-        className={css`
-          display: flex;
-          justify-content: space-between;
-          align-items: center;
-        `}
-      >
-        <span
+      {_isMobile ? (
+        <Fragment>
+          <Drawer
+            title="博客列表"
+            placement="right"
+            onClose={() => setOpen(false)}
+            closable={false}
+            open={open}
+            width="80%"
+          >
+            <Slider transportBlog={props.transportBlogId} />
+          </Drawer>
+          <div
+            className={css`
+              display: flex;
+              align-items: center;
+              justify-content: space-between;
+            `}
+          >
+            <Button size="large" type="text" onClick={() => setOpen(!open)}>
+              <span
+                className={css`
+                  font-size: 1.3rem;
+                  font-weight: 600;
+                  color: #2c3e50;
+                  position: relative;
+                `}
+              >
+                堃堃博客
+              </span>
+              <DownOutlined />
+            </Button>
+            <Popover
+              content={getExtraDom()}
+              title="小程序&个人站点"
+              trigger="click"
+              open={extraOpen}
+              onOpenChange={handleOpenChange}
+            >
+              <Button size="large" type="text" onClick={() => setExtraOpen(!extraOpen)}>
+                <span
+                  className={css`
+                    font-size: 1.3rem;
+                    font-weight: 600;
+                    color: #2c3e50;
+                    position: relative;
+                  `}
+                >
+                  Extra
+                </span>
+              </Button>
+            </Popover>
+          </div>
+        </Fragment>
+      ) : (
+        <div
           className={css`
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+          `}
+        >
+          <span
+            className={css`
         line-height: 2.2rem;
         font-size: 1.3rem;
         font-weight: 600;
         color: #2c3e50;
         position: relative;
   }`}
-        >
-          堃堃Blog
-        </span>
-        <div>
-          <Tag
-            bordered={false}
-            className={css`
-              background-color: transparent;
-              font-weight: 500;
-              color: inherit;
-              font-size: 14px;
-              margin-right: -3px;
-              cursor: pointer;
-            `}
           >
-            <a href="/home/resume" target="_blank">
-              个人主页
-            </a>
-          </Tag>
-          <Popover
-            placement="bottom"
-            title={<Image width={200} src="https://www.yanquankun.com:9300/cdn/mini-program-qrcode.png" />}
-            trigger="hover"
-          >
-            <Tag
-              bordered={false}
-              className={css`
-                background-color: transparent;
-                font-weight: 500;
-                color: inherit;
-                font-size: 14px;
-                margin-right: -3px;
-                cursor: pointer;
-              `}
-            >
-              <span>个人小程序</span>
-              <QrcodeOutlined
-                className={css`
-                  color: #aaa;
-                  margin-inline-start: 3px !important;
-                `}
-              />
-            </Tag>
-          </Popover>
-          <Popover
-            placement="bottom"
-            title={
-              <Space direction="vertical">
-                <Image width={250} src="https://www.yanquankun.com:9300/cdn/gongzhonghao-qrcode.jpg" />
-                <Image width={250} src="https://www.yanquankun.com:9300/cdn/gongzhonghao-scan.png" />
-                <Image width={250} src="https://www.yanquankun.com:9300/cdn/gongzhonghao-search.png" />
-              </Space>
-            }
-            trigger="hover"
-          >
-            <Tag
-              bordered={false}
-              className={css`
-                background-color: transparent;
-                font-weight: 500;
-                color: inherit;
-                font-size: 14px;
-                margin-right: -3px;
-                cursor: pointer;
-              `}
-            >
-              <span>个人公众号</span>
-              <QrcodeOutlined
-                className={css`
-                  color: #aaa;
-                  margin-inline-start: 3px !important;
-                `}
-              />
-            </Tag>
-          </Popover>
-          <a
-            className={css`
-              text-decoration: none;
-              margin-left: 0.6rem;
-              font-weight: 500;
-              color: inherit;
-            `}
-            href="https://github.com/yanquankun?tab=repositories"
-            target="_blank"
-          >
-            github
-            {getSvgComponent()}
-          </a>
+            堃堃博客
+          </span>
+          {getExtraDom()}
         </div>
-      </div>
+      )}
     </header>
   );
 };

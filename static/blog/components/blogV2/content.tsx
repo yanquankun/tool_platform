@@ -7,10 +7,17 @@ import 'prismjs/components/prism-javascript';
 import 'prismjs/plugins/line-numbers/prism-line-numbers';
 import { getGithubFileContent } from '~shared/apis/git_cp';
 import { base64ToArrayBuffer } from '~shared/utils/util';
+import { isMobile } from '~shared/utils/util';
 
 const commonStyle = {
   content: css`
     padding: 5rem 5rem 3rem 23rem;
+    overflow-y: auto;
+    min-height: calc(100vh - 10rem);
+    display: flex;
+  `,
+  m_content: css`
+    padding: 20px;
     overflow-y: auto;
     min-height: calc(100vh - 10rem);
     display: flex;
@@ -22,6 +29,7 @@ interface IProps {
   content: string;
 }
 export const Content: FC<IProps> = function (props): JSX.Element {
+  const _isMobile = isMobile();
   const [code, setCode] = useState<string>('');
   useEffect(() => {}, [props.blogId, props.content]);
 
@@ -272,7 +280,7 @@ export const Content: FC<IProps> = function (props): JSX.Element {
     return (
       <>
         {code && (
-          <pre style={{ width: 'calc(100vw - 400px)' }} className="language-javascript">
+          <pre style={{ width: _isMobile ? '100%' : 'calc(100vw - 400px)' }} className="language-javascript">
             <code
               className="language-javascript"
               dangerouslySetInnerHTML={{
@@ -312,7 +320,7 @@ export const Content: FC<IProps> = function (props): JSX.Element {
   return (
     <Watermark content="堃堃Blog">
       {props.content ? (
-        <Space direction="vertical" className={commonStyle.content}>
+        <Space direction="vertical" className={_isMobile ? commonStyle.m_content : commonStyle.content}>
           {/* 标题区域 */}
           {createTitleArea()}
           {/* 代码区域 */}

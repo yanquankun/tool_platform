@@ -6,6 +6,7 @@ import { getWxArticles, getWxPublishArticles } from '~shared/apis/wx';
 import { IBlogArticleItem, IBlogTitleItem } from '../../interfaces/blogSidebar';
 import { localBlogList } from './localBlog';
 import dayjs from 'dayjs';
+import { isMobile } from '~shared/utils/util';
 
 const commonStyle = {
   firstTitle: css`
@@ -58,6 +59,7 @@ interface IProps {
   transportBlog: (blogId: string, content: string) => void;
 }
 export const Slider: FC<IProps> = function (props: IProps): JSX.Element {
+  const _isMobile = isMobile();
   const [wxTitleList, setWxTitleList] = useState<IBlogTitleItem[]>([]);
   const [gitTitleList, setGitTitleList] = useState<IBlogTitleItem[]>([]);
   const [curBlogId, setCurBlogId] = useState<string>(localBlogList[0].blogId);
@@ -211,6 +213,7 @@ export const Slider: FC<IProps> = function (props: IProps): JSX.Element {
         border-right: 1px solid #eaecef;
         overflow-y: auto;
       `}
+      style={{ position: _isMobile ? 'absolute' : 'fixed' }}
     >
       <ul
         className={css`

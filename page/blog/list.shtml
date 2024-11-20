@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta data-draft-node="block" data-draft-type="table" data-size="normal" data-row-style="normal" />
-    <link rel="manifest" href="https://www.yanquankun.com/cdn/blog/manifest.json" />
+    <link rel="manifest" href="/cdn/blog/manifest.json" />
     <link rel="icon" type="image/x-icon" href="https://www.yanquankun.com/cdn/favicon.ico" />
     <!--#include file="/page/includes/meta.shtml"-->
     <title>堃堃blog</title>

@@ -39,7 +39,7 @@ export default {
       target: '_blank',
     },
     {
-      icon: 'https://www.yanquankun.com:9300/cdn/MUI-logo.png',
+      icon: 'https://www.yanquankun.com/cdn/MUI-logo.png',
       title: 'Angular Frame',
       desc: '个人开发AngularUI库',
       url: 'https://www.yanquankun.com/ng-mui/#/start',

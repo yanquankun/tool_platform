@@ -70,7 +70,7 @@ export const Header: FC<IProps> = function (props: IProps): JSX.Element {
         </Tag>
         <Popover
           placement="bottom"
-          title={<Image width={200} src="https://www.yanquankun.com:9300/cdn/mini-program-qrcode.png" />}
+          title={<Image width={200} src="https://www.yanquankun.com/cdn/mini-program-qrcode.png" />}
           trigger="hover"
         >
           <Tag
@@ -97,9 +97,9 @@ export const Header: FC<IProps> = function (props: IProps): JSX.Element {
           placement="bottom"
           title={
             <Space direction="vertical">
-              <Image width={250} src="https://www.yanquankun.com:9300/cdn/gongzhonghao-qrcode.jpg" />
-              <Image width={250} src="https://www.yanquankun.com:9300/cdn/gongzhonghao-scan.png" />
-              <Image width={250} src="https://www.yanquankun.com:9300/cdn/gongzhonghao-search.png" />
+              <Image width={250} src="https://www.yanquankun.com/cdn/gongzhonghao-qrcode.jpg" />
+              <Image width={250} src="https://www.yanquankun.com/cdn/gongzhonghao-scan.png" />
+              <Image width={250} src="https://www.yanquankun.com/cdn/gongzhonghao-search.png" />
             </Space>
           }
           trigger="hover"

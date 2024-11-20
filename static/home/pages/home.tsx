@@ -68,7 +68,7 @@ export const App: FC = function () {
                   borderRadius: '24px',
                 }}
                 width={48}
-                src="https://www.yanquankun.com:9300/cdn/self-icon.jpg"
+                src="https://www.yanquankun.com/cdn/self-icon.jpg"
               />
             }
             title="闫全堃(Mint)"

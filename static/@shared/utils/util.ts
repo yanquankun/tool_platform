@@ -64,3 +64,7 @@ export const isMobile = () => {
   }
   return flag;
 };
+
+export function isSafari() {
+  return /Safari/.test(navigator.userAgent) && !/CriOS/.test(navigator.userAgent);
+}

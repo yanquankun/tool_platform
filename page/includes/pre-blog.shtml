@@ -1,11 +1,45 @@
 <style>
-  #loadTip {
-    font-size: 20px;
+  /* 加载组件容器 */
+  .loading-widget {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background-color: #ffffff;
+    width: 100%;
+    height: 100vh; /* 设置为全屏高度，可根据需求调整 */
     text-align: center;
-    height: 100vh;
-    line-height: 100vh;
+  }
+
+  /* 加载动画 */
+  .loading-spinner {
+    width: 50px;
+    height: 50px;
+    border: 4px solid #e0e0e0; /* 外圈颜色 */
+    border-top: 4px solid #888888; /* 动态旋转的颜色 */
+    border-radius: 50%;
+    animation: loading-spin 1s linear infinite;
+  }
+
+  /* 提示文字 */
+  .loading-message {
+    margin-top: 20px;
+    font-size: 16px;
+    color: #666666;
+    letter-spacing: 1px;
+  }
+
+  /* 加载动画关键帧 */
+  @keyframes loading-spin {
+    0% {
+      transform: rotate(0deg);
+    }
+    100% {
+      transform: rotate(360deg);
+    }
   }
 </style>
-<html lang="en">
-  <div id="loadTip">blog主页正在加载中，请稍等..</div>
-</html>
+<div class="loading-widget" id="loadTip">
+  <div class="loading-spinner"></div>
+  <p class="loading-message">博客加载中，请稍候...</p>
+</div>

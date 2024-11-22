@@ -37,7 +37,7 @@ export const App: FC = () => {
         <span
           id="install_btn"
           className={css`
-            position: absolute;
+            position: fixed;
             background: #fcf4f4;
             border: 2px dotted #302d2d;
             border-radius: 6px;

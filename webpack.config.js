@@ -34,6 +34,7 @@ module.exports = Object.keys(entryPathMap).map((entryDirectoryName, index) => {
       path: path.join(ROOT_PATH, `dist/bundle/${entryDirectoryName}`),
       publicPath: `${webpackTool.isProduction ? '../../bundle/' : '/dist/bundle/'}${entryDirectoryName}/`,
       filename: `[name].${webpackTool.isProduction ? 'bundle.[contenthash]' : 'bundle'}.js`,
+      // 动态导入的模块chunk 使用了分包后
       chunkFilename: `[name].${webpackTool.isProduction ? 'bundle.[contenthash]' : 'bundle'}.js`,
     },
 
@@ -183,6 +184,8 @@ module.exports = Object.keys(entryPathMap).map((entryDirectoryName, index) => {
           filename: pathMap[pageBaseName],
           inject: 'body',
           scriptLoading: 'defer',
+          // 注入该entry的入口文件，split chunks会自动注入
+          // 不指定会导致bundle下多entry注入
           chunks: [pageBaseName + '-entry'],
         });
       }),

@@ -54,7 +54,7 @@ const request = async ({
 
   if (isNeedLoading) {
     loadingInstance = message.loading({
-      content: '请求中...',
+      content: '获取数据中...',
       duration: 0,
       key: loadingkey,
     });

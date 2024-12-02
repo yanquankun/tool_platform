@@ -6,7 +6,7 @@ import { isMobile } from '~shared/utils/util';
 import { Slider } from './slider';
 
 interface IProps {
-  transportBlogId: (blogId: string, content: string) => void;
+  transportBlogId: (blogId: string) => void;
 }
 export const Header: FC<IProps> = function (props: IProps): JSX.Element {
   const _isMobile = isMobile();

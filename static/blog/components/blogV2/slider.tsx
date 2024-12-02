@@ -7,6 +7,7 @@ import { IBlogArticleItem, IBlogTitleItem } from '../../interfaces/blogSidebar';
 import { localBlogList } from './localBlog';
 import dayjs from 'dayjs';
 import { isMobile } from '~shared/utils/util';
+import { message } from 'antd';
 
 const commonStyle = {
   firstTitle: css`
@@ -177,23 +178,34 @@ export const Slider: FC<IProps> = function (props: IProps): JSX.Element {
   };
 
   const blogClick = (blog: IBlogTitleItem) => {
+    if (!blog.blogId) return message.error('该文章获取失败，请先查看前天文章');
+
     if (blog.from === 'static' || blog.from === 'secondTitle') return;
     setCurBlogId(blog.blogId);
-    let content = '';
+    let article;
     if (blog.from === 'github') {
-      content = JSON.stringify({
-        article: gitTitleList.filter((item: IBlogTitleItem) => item.blogId == blog.blogId)[0],
-      });
+      article = gitTitleList.filter((item: IBlogTitleItem) => item.blogId == blog.blogId)[0];
     } else if (blog.from === 'wx') {
-      content = JSON.stringify({
-        article: wxTitleList.filter((item: IBlogTitleItem) => item.blogId == blog.blogId)[0],
-      });
+      article = wxTitleList.filter((item: IBlogTitleItem) => item.blogId == blog.blogId)[0];
     } else if (blog.from === 'local') {
-      content = JSON.stringify({
-        article: localBlogList.filter((item: IBlogTitleItem) => item.blogId == blog.blogId)[0],
-      });
+      article = localBlogList.filter((item: IBlogTitleItem) => item.blogId == blog.blogId)[0];
     }
-    props.transportBlog(blog.blogId, content);
+
+    const id = btoa(
+      encodeURIComponent(
+        JSON.stringify({
+          blogId: blog.blogId || '',
+          from: blog.from,
+          title: blog.title || '',
+          path: blog.path || '',
+          htmlUrl: article?.htmlUrl || '',
+        })
+      )
+    );
+    const title = blog.title || '';
+    window.history.replaceState(null, '', `?title=${title}&id=${id}`);
+
+    props.transportBlog(blog.blogId, blog.blogId || '');
   };
 
   return (

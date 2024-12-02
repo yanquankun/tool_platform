@@ -8,13 +8,20 @@ import 'prismjs/plugins/line-numbers/prism-line-numbers';
 import { getGithubFileContent } from '~shared/apis/git_cp';
 import { base64ToArrayBuffer } from '~shared/utils/util';
 import { isMobile } from '~shared/utils/util';
+import { IBlogTitleItem } from '../../interfaces/blogSidebar';
 
 const commonStyle = {
   content: css`
-    padding: 5rem 5rem 3rem 23rem;
     overflow-y: auto;
     min-height: calc(100vh - 10rem);
     display: flex;
+    width: calc(100% - 20rem);
+    margin-top: 3.6rem;
+    margin-left: 20rem;
+    justify-content: center;
+    align-items: center;
+    padding: 5rem 3rem;
+    box-sizing: border-box;
   `,
   m_content: css`
     padding: 20px;
@@ -22,6 +29,7 @@ const commonStyle = {
     min-height: calc(100vh - 10rem);
     display: flex;
     margin-top: calc(3.6rem - 30px);
+    margin-top: 3.6rem;
   `,
 };
 
@@ -32,24 +40,44 @@ interface IProps {
 export const Content: FC<IProps> = function (props): JSX.Element {
   const _isMobile = isMobile();
   const [code, setCode] = useState<string>('');
-  useEffect(() => {}, [props.blogId, props.content]);
+  const [blogReqParam, setBlogReqParam] = useState<IBlogTitleItem>();
+  const [showErrorPage, setShowErrorPage] = useState<boolean>(false);
 
   useEffect(() => {
-    (async function () {
-      if (props.content && JSON.parse(props.content).article.from === 'github') {
-        const fileRaw = await getGithubFileContent('learn', 'master', JSON.parse(props.content).article.path);
-        const content = new Blob([base64ToArrayBuffer(fileRaw.content)]).text();
-        const code = await content;
-        setCode(code);
-      }
-    })();
-  }, [props.content]);
+    if (props.blogId) {
+      setCode('');
+
+      const urlParams = new URLSearchParams(location.search);
+      const id = decodeURIComponent(window.atob(urlParams.get('id') || ''));
+      setBlogReqParam(id ? JSON.parse(id) : {});
+    }
+  }, [props.blogId]);
+
+  useEffect(() => {
+    if (blogReqParam?.from === 'github') {
+      getGithubBlog('learn', 'master', blogReqParam?.path ?? '');
+    }
+  }, [blogReqParam]);
+
+  const getGithubBlog = async (packageName: string, feature: string, path: string) => {
+    if (!path) {
+      setShowErrorPage(true);
+      return;
+    }
+    const fileRaw = await getGithubFileContent(packageName, feature, path);
+    const content = new Blob([base64ToArrayBuffer(fileRaw.content)]).text();
+    const code = await content;
+    if (code) {
+      setShowErrorPage(false);
+      setCode(code);
+    }
+  };
 
   const createTitleArea = () => {
     return (
       <Fragment>
         {/* 一级标题 */}
-        {_isMobile ? null : (
+        {_isMobile && (
           <Row
             className={css`
               display: flex;
@@ -58,11 +86,11 @@ export const Content: FC<IProps> = function (props): JSX.Element {
               font-size: 22px;
             `}
           >
-            {JSON.parse(props.content)?.article?.title ?? ''}
+            {blogReqParam?.title ?? ''}
           </Row>
         )}
         {/* 二级标题 */}
-        {(JSON.parse(props.content)?.article?.subtitle ?? '') && (
+        {(blogReqParam?.subtitle ?? '') && (
           <Row
             className={css`
               display: flex;
@@ -71,7 +99,7 @@ export const Content: FC<IProps> = function (props): JSX.Element {
               font-size: 14px;
             `}
           >
-            {JSON.parse(props.content)?.article?.subtitle ?? ''}
+            {blogReqParam?.subtitle ?? ''}
           </Row>
         )}
         <Divider
@@ -84,49 +112,49 @@ export const Content: FC<IProps> = function (props): JSX.Element {
   };
 
   const createArticleInfoArea = () => {
-    return (
-      <Fragment>
-        {/* 作者 */}
-        {JSON.parse(props.content).article.author && (
-          <Row>
-            <span style={{ fontSize: '16px' }}>作者：{JSON.parse(props.content).article.author}</span>
-          </Row>
-        )}
-        {/* 创建时间 */}
-        {JSON.parse(props.content).article.create_time && (
-          <Row style={{ fontSize: '16px' }}>创建时间：{JSON.parse(props.content).article.create_time}</Row>
-        )}
-        {/* 更新时间 */}
-        {JSON.parse(props.content).article.update_time && (
-          <Row style={{ fontSize: '16px' }}>更新时间：{JSON.parse(props.content).article.update_time}</Row>
-        )}
-        {/* 图文消息的摘要 */}
-        {JSON.parse(props.content).article.digest && (
-          <Row style={{ fontSize: '16px' }}>摘要：{JSON.parse(props.content).article.digest}</Row>
-        )}
-        <Divider style={{ margin: '12px 0' }} />
-      </Fragment>
-    );
+    // return (
+    //   <Fragment>
+    //     {/* 作者 */}
+    //     {blogReqParam?.author && (
+    //       <Row>
+    //         <span style={{ fontSize: '16px' }}>作者：{blogReqParam?.author}</span>
+    //       </Row>
+    //     )}
+    //     {/* 创建时间 */}
+    //     {blogReqParam?.create_time && (
+    //       <Row style={{ fontSize: '16px' }}>创建时间：{blogReqParam?.create_time}</Row>
+    //     )}
+    //     {/* 更新时间 */}
+    //     {blogReqParam?.update_time && (
+    //       <Row style={{ fontSize: '16px' }}>更新时间：{blogReqParam?.update_time}</Row>
+    //     )}
+    //     {/* 图文消息的摘要 */}
+    //     {blogReqParam?.digest && (
+    //       <Row style={{ fontSize: '16px' }}>摘要：{blogReqParam?.digest}</Row>
+    //     )}
+    //     <Divider style={{ margin: '12px 0' }} />
+    //   </Fragment>
+    // );
   };
 
   const createThumbArea = () => {
-    return (
-      /* 封面图片 */
-      JSON.parse(props.content).article.thumb_url && (
-        <Fragment>
-          <div
-            className={css`
-              font-size: 18px;
-              font-weight: 500;
-            `}
-          >
-            封面图
-          </div>
-          <Image src={JSON.parse(props.content).article.thumb_url} />
-          <Divider />
-        </Fragment>
-      )
-    );
+    // return (
+    //   /* 封面图片 */
+    //   blogReqParam?.thumb_url && (
+    //     <Fragment>
+    //       <div
+    //         className={css`
+    //           font-size: 18px;
+    //           font-weight: 500;
+    //         `}
+    //       >
+    //         封面图
+    //       </div>
+    //       <Image src={blogReqParam?.thumb_url} />
+    //       <Divider />
+    //     </Fragment>
+    //   )
+    // );
   };
 
   const renderHtmlText = (content: string[]) => {
@@ -157,59 +185,59 @@ export const Content: FC<IProps> = function (props): JSX.Element {
   };
 
   const createContentArea = () => {
-    const content = JSON.parse(props.content).article.content;
-    if (!content) {
-      message.error('获取文章失败，请重试', 2);
-    } else if (Array.isArray(content)) return renderHtmlText(content);
-    else if (typeof content === 'string') return renderHtmlText([content]);
+    // const content = blogReqParam?.content;
+    // if (!content) {
+    //   message.error('获取文章失败，请重试', 2);
+    // } else if (Array.isArray(content)) return renderHtmlText(content);
+    // else if (typeof content === 'string') return renderHtmlText([content]);
   };
 
   const createArticleQuoteArea = () => {
-    return (
-      <Fragment>
-        {(JSON.parse(props.content).article.url || JSON.parse(props.content).article.content_source_url) && (
-          <Divider
-            style={{
-              color: 'rgb(0,0,0,0.4)',
-            }}
-          />
-        )}
-        {JSON.parse(props.content).article.url ? (
-          <Row align="middle" style={{ fontSize: '16px' }}>
-            公众号原文链接：
-            <Button type="link">
-              <a
-                style={{ fontSize: '16px' }}
-                onClick={() => {
-                  window.open(JSON.parse(props.content).article.url);
-                }}
-              >
-                点击跳转公众号原文链接
-              </a>
-            </Button>
-          </Row>
-        ) : (
-          <></>
-        )}
-        {JSON.parse(props.content).article.content_source_url ? (
-          <Row align="middle" style={{ fontSize: '16px' }}>
-            内容引用原文链接：
-            <Button type="link">
-              <a
-                style={{ fontSize: '16px' }}
-                onClick={() => {
-                  window.open(JSON.parse(props.content).article.content_source_url);
-                }}
-              >
-                点击跳转内容引用原文链接
-              </a>
-            </Button>
-          </Row>
-        ) : (
-          <></>
-        )}
-      </Fragment>
-    );
+    // return (
+    //   <Fragment>
+    //     {(blogReqParam?.url || blogReqParam?.content_source_url) && (
+    //       <Divider
+    //         style={{
+    //           color: 'rgb(0,0,0,0.4)',
+    //         }}
+    //       />
+    //     )}
+    //     {blogReqParam?.url ? (
+    //       <Row align="middle" style={{ fontSize: '16px' }}>
+    //         公众号原文链接：
+    //         <Button type="link">
+    //           <a
+    //             style={{ fontSize: '16px' }}
+    //             onClick={() => {
+    //               window.open(blogReqParam?.url);
+    //             }}
+    //           >
+    //             点击跳转公众号原文链接
+    //           </a>
+    //         </Button>
+    //       </Row>
+    //     ) : (
+    //       <></>
+    //     )}
+    //     {blogReqParam?.content_source_url ? (
+    //       <Row align="middle" style={{ fontSize: '16px' }}>
+    //         内容引用原文链接：
+    //         <Button type="link">
+    //           <a
+    //             style={{ fontSize: '16px' }}
+    //             onClick={() => {
+    //               window.open(blogReqParam?.content_source_url);
+    //             }}
+    //           >
+    //             点击跳转内容引用原文链接
+    //           </a>
+    //         </Button>
+    //       </Row>
+    //     ) : (
+    //       <></>
+    //     )}
+    //   </Fragment>
+    // );
   };
 
   const createWaitArea = () => {
@@ -242,8 +270,7 @@ export const Content: FC<IProps> = function (props): JSX.Element {
   };
 
   const createCodeContent = () => {
-    const fileSuffixName = JSON.parse(props.content).article.fileSuffixName;
-    if (fileSuffixName === 'md') {
+    if (blogReqParam?.path?.endsWith('.md')) {
       return (
         <>
           {code && (
@@ -253,21 +280,21 @@ export const Content: FC<IProps> = function (props): JSX.Element {
               }}
             ></div>
           )}
-          {JSON.parse(props.content).article.htmlUrl && (
+          {blogReqParam.htmlUrl && (
             <Divider
               style={{
                 color: 'rgb(0,0,0,0.4)',
               }}
             />
           )}
-          {JSON.parse(props.content).article.htmlUrl ? (
+          {blogReqParam.htmlUrl ? (
             <Row align="middle" style={{ fontSize: '16px' }}>
               github原文链接：
               <Button type="link">
                 <a
                   style={{ fontSize: '16px' }}
                   onClick={() => {
-                    window.open(JSON.parse(props.content).article.htmlUrl);
+                    window.open(blogReqParam.htmlUrl);
                   }}
                 >
                   点击跳转github链接
@@ -292,29 +319,27 @@ export const Content: FC<IProps> = function (props): JSX.Element {
             ></code>
           </pre>
         )}
-        {JSON.parse(props.content).article.htmlUrl && (
+        {blogReqParam?.htmlUrl && (
           <Divider
             style={{
               color: 'rgb(0,0,0,0.4)',
             }}
           />
         )}
-        {JSON.parse(props.content).article.htmlUrl ? (
+        {blogReqParam?.htmlUrl && (
           <Row align="middle" style={{ fontSize: '16px' }}>
             github原文链接：
             <Button type="link">
               <a
                 style={{ fontSize: '16px' }}
                 onClick={() => {
-                  window.open(JSON.parse(props.content).article.htmlUrl);
+                  window.open(blogReqParam?.htmlUrl);
                 }}
               >
                 点击跳转github链接
               </a>
             </Button>
           </Row>
-        ) : (
-          <></>
         )}
       </>
     );
@@ -322,29 +347,35 @@ export const Content: FC<IProps> = function (props): JSX.Element {
 
   return (
     <Watermark content="堃堃Blog">
-      {props.content ? (
-        <Space direction="vertical" className={_isMobile ? commonStyle.m_content : commonStyle.content}>
+      <div className={_isMobile ? commonStyle.m_content : commonStyle.content}>
+        {/* {showErrorPage ? ( */}
+        <Space direction="vertical">
           {/* 标题区域 */}
           {createTitleArea()}
           {/* 代码区域 */}
-          {JSON.parse(props.content).article.from === 'github' && createCodeContent()}
-          {JSON.parse(props.content).article.from != 'github' && (
+          {blogReqParam?.from && (
             <>
-              {/* 文章信息区域 */}
-              {createArticleInfoArea()}
-              {/* 封面图片区域 */}
-              {createThumbArea()}
-              {/* 文章内容区域 */}
-              {createContentArea()}
-              {/* 底部引用区域 */}
-              {createArticleQuoteArea()}
+              {blogReqParam?.from === 'github' && createCodeContent()}
+              {blogReqParam?.from != 'github' && (
+                <>
+                  {/* 文章信息区域 */}
+                  {createArticleInfoArea()}
+                  {/* 封面图片区域 */}
+                  {createThumbArea()}
+                  {/* 文章内容区域 */}
+                  {createContentArea()}
+                  {/* 底部引用区域 */}
+                  {createArticleQuoteArea()}
+                </>
+              )}
             </>
           )}
         </Space>
-      ) : (
-        /** 等待状态区域 */
-        createWaitArea()
-      )}
+        {/* ) : ( */}
+        {/* 等待状态区域 */}
+        {/* createWaitArea()
+        )} */}
+      </div>
     </Watermark>
   );
 };

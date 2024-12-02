@@ -13,9 +13,8 @@ export const App: FC = () => {
   const [blogId, setBlogId] = useState<string>(_isMobile ? 'local-1' : '');
   const [content, setContent] = useState<string>(_isMobile ? JSON.stringify({ article: localBlogList[0] }) : '');
   const transportBlogId = useCallback(
-    (blogId: string, content: string) => {
+    (blogId: string) => {
       setBlogId(blogId);
-      setContent(content);
     },
     [blogId]
   );

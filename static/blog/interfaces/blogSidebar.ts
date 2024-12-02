@@ -70,5 +70,8 @@ enum blogFrom {
 export interface IBlogTitleItem {
   blogId: string;
   title: string;
+  path?: string;
+  subtitle?: string;
+  htmlUrl?: string;
   from: keyof typeof blogFrom;
 }

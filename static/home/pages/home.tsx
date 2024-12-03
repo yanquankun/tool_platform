@@ -52,7 +52,7 @@ export const App: FC = function () {
               <Space
                 className="emailCopy"
                 onClick={() => {
-                  copy('.emailCopy', '邮箱地址复制成功', '邮箱地址复制失败，请重试~');
+                  copy('.emailCopy', '17600610907@163.com', '邮箱地址复制成功', '邮箱地址复制失败，请重试~');
                 }}
               >
                 <MailOutlined key="ellipsis" />

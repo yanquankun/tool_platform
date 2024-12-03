@@ -8,13 +8,16 @@ import { message } from 'antd';
  *  @param { string } string successMsg string = '复制成功'
  *  @param { string } string errorMsg string = '复制失败'
  */
-export const copy = (className: string, successMsg: string = '复制成功', errorMsg: string = '复制失败') => {
+export const copy = (
+  className: string,
+  text: string,
+  successMsg: string = '复制成功',
+  errorMsg: string = '复制失败'
+) => {
   /* eslint-disable @typescript-eslint/no-explicit-any */
   let copyInstance: any = null;
   copyInstance = new window.ClipboardJS(className, {
-    text: function () {
-      return '17600610907@163.com';
-    },
+    text: () => text,
   })
     .on('success', function () {
       copyInstance && copyInstance.listener.destroy();

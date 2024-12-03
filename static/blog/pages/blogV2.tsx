@@ -4,8 +4,35 @@ import { Slider } from '../components/blogV2/slider';
 import { Content } from '../components/blogV2/content';
 import { isMobile, isSafari } from '~shared/utils/util';
 import { localBlogList } from '../components/blogV2/localBlog';
-import { css } from '@emotion/css';
+import { cx, css } from '@emotion/css';
 import { beforeInsall } from '~shared/utils/pwa';
+import { copy } from '~shared/utils/util';
+
+const styled = {
+  pwa: css`
+    position: fixed;
+    background: #fcf4f4;
+    border: 2px dotted #302d2d;
+    border-radius: 6px;
+    padding: 5px;
+    cursor: pointer;
+    font-family: cursive;
+    right: 10px;
+    bottom: 40px;
+    width: 19px;
+    z-index: 999;
+    display: none;
+  `,
+  share: css`
+    width: 55px;
+    position: fixed;
+    right: 15px;
+    bottom: 100px;
+    cursor: pointer;
+    z-index: 999;
+    border-radius: 50%;
+  `,
+};
 
 export const App: FC = () => {
   const _isMobile = isMobile();
@@ -28,32 +55,27 @@ export const App: FC = () => {
     beforeInsall('install_btn');
   }, []);
 
+  const copyCurBlogUrl = () => {
+    const url = window.location.href;
+    copy('.urlCopy', url, '当前博客地址已复制', '复制失败');
+  };
+
   return (
     <Fragment>
       <Header transportBlogId={transportBlogId} />
       {_isMobile ? null : <Slider transportBlog={transportBlogId} />}
       <Content blogId={blogId} content={content} />
       {!_isMobile && (
-        <span
-          id="install_btn"
-          className={css`
-            position: fixed;
-            background: #fcf4f4;
-            border: 2px dotted #302d2d;
-            border-radius: 6px;
-            padding: 5px;
-            cursor: pointer;
-            font-family: cursive;
-            right: 10px;
-            bottom: 40px;
-            width: 19px;
-            z-index: 999;
-            display: none;
-          `}
-        >
+        <span id="install_btn" className={styled.pwa}>
           安装为桌面应用
         </span>
       )}
+      <img
+        onClick={copyCurBlogUrl}
+        className={cx('urlCopy', styled.share)}
+        src="https://www.yanquankun.com:9300/cdn/blog/share-animate.gif"
+        alt="share animate"
+      />
     </Fragment>
   );
 };

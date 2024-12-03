@@ -225,7 +225,7 @@ export const Slider: FC<IProps> = function (props: IProps): JSX.Element {
         article: localBlogList.filter((item: IBlogTitleItem) => item.blogId == blog.blogId)[0],
       });
     }
-    window.history.replaceState('', '', `?id=${blog.blogId}&type=${blog.from}`);
+    window.history.replaceState('', '', `?name=${blog?.title}&id=${blog.blogId}&type=${blog.from}`);
     props.transportBlog(blog.blogId, content);
   };
 

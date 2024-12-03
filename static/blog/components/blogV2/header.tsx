@@ -1,9 +1,11 @@
-import { FC, Fragment, useState } from 'react';
+import { FC, Fragment, useEffect, useState } from 'react';
 import { css } from '@emotion/css';
 import { Space, Image, Tag, Popover, Button, Drawer } from 'antd';
 import { QrcodeOutlined, DownOutlined } from '@ant-design/icons';
 import { isMobile } from '~shared/utils/util';
 import { Slider } from './slider';
+import { getStaticConfig } from '~shared/apis/static';
+import MarqueeText from '~shared/components/marquee';
 
 interface IProps {
   transportBlogId: (blogId: string, content: string) => void;
@@ -12,6 +14,19 @@ export const Header: FC<IProps> = function (props: IProps): JSX.Element {
   const _isMobile = isMobile();
   const [open, setOpen] = useState(false);
   const [extraOpen, setExtraOpen] = useState(false);
+  const [tip, setTip] = useState<string>('');
+
+  useEffect(() => {
+    setStaticConfig();
+  }, []);
+
+  const setStaticConfig = async () => {
+    const res = await getStaticConfig();
+    if (res.code == 200) {
+      const tip = res.data.tip || '';
+      setTip(tip);
+    }
+  };
 
   const getSvgComponent = (): JSX.Element => {
     return (
@@ -255,6 +270,7 @@ export const Header: FC<IProps> = function (props: IProps): JSX.Element {
           {getExtraDom()}
         </div>
       )}
+      {MarqueeText(tip, 57)}
     </header>
   );
 };

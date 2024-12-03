@@ -15,10 +15,6 @@ import routes from './route';
 import { FC } from 'react';
 import { DateComp } from '~shared/components/timer';
 import { Document, Page, pdfjs } from 'react-pdf';
-import MarqueeText from '~shared/components/marquee';
-import { getStaticConfig } from '~shared/apis/static';
-// import 'react-pdf/dist/esm/Page/TextLayer.css';
-// import 'react-pdf/dist/esm/Page/AnnotationLayer.css';
 
 pdfjs.GlobalWorkerOptions.workerSrc = `//unpkg.com/pdfjs-dist@${pdfjs.version}/build/pdf.worker.min.js`;
 interface IContainerProps {
@@ -28,7 +24,6 @@ type themeType = 'default' | 'eyeHelathy';
 const Container: FC<IContainerProps> = (props: IContainerProps) => {
   const [open, setOpen] = useState(false);
   const [theme, setTheme] = useState<themeType>('default');
-  const [tip, setTip] = useState<string>('');
 
   const settings: ProSettings | undefined = {
     fixSiderbar: true,
@@ -47,16 +42,6 @@ const Container: FC<IContainerProps> = (props: IContainerProps) => {
     const body = document.body;
     body.style.filter = checked ? 'invert(1)' : 'none';
   };
-
-  useEffect(function () {
-    (async function () {
-      const res = await getStaticConfig();
-      if (res.code == 200) {
-        const tip = res.data.tip || '';
-        setTip(tip);
-      }
-    })();
-  }, []);
 
   useEffect(() => {
     const themeCache = (localStorage.getItem('theme') || 'default') as themeType;
@@ -322,7 +307,6 @@ const Container: FC<IContainerProps> = (props: IContainerProps) => {
         >
           {props.children ? (
             <>
-              {MarqueeText(tip)}
               {props.children}
               <Drawer
                 title="项目规划"

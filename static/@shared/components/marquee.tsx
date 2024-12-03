@@ -1,32 +1,42 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, Fragment } from 'react';
 import { css } from '@emotion/css';
 import { CloseCircleFilled } from '@ant-design/icons';
 
 const style = {
-  wrapper: `@keyframes scroll {
-    0% {
-      transform: translateX(100%);
-    }
-    100% {
-      left: 30px;
-    }
-  };
-  position: absolute;
-  top: 0;
-  display: flex;
-  align-items: center;
-  padding: 0 30px;
-  background: papayawhip;
-  height: 24px;
-  width: -webkit-fill-available;
-  left: 0;
-  overflow: hidden;
-  white-space: nowrap;
-  text-overflow: ellipsis;
-  -o-text-overflow:ellipsis;`,
+  wrapper: `
+    @keyframes scroll {
+      0% {
+        transform: translateX(100%);
+      }
+      100% {
+        left: 30px;
+      }
+    };
+    position: absolute;
+    top: 0;
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-align-items: center;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    padding: 0px 40px 0 30px;
+    background: papayawhip;
+    width: -webkit-fill-available;
+    left: 0;
+    top: 57px;
+    /* flex-wrap: wrap; */
+    width: 100%;
+    box-sizing: border-box;
+  `,
+  inner: `
+    line-height: 25px;
+  `,
 };
 
-const MarqueeText = (text: string, showCloseBtn: boolean = true) => {
+const MarqueeText = (text: string, top: number = 0, showCloseBtn: boolean = true) => {
   const textContentRef = useRef<HTMLDivElement>(null);
   const [visible, setVisible] = useState<boolean>(false);
   const [closeBtnVisible, setCloseBtnVisible] = useState<boolean>(false);
@@ -51,16 +61,16 @@ const MarqueeText = (text: string, showCloseBtn: boolean = true) => {
   }, [text, showCloseBtn]);
 
   return (
-    <>
+    <Fragment>
       {visible && text && (
-        <div className={css(style.wrapper)}>
-          <div className={css(`position:absolute;`)} ref={textContentRef}></div>
+        <div className={css(style.wrapper, `top:${top}px`)}>
+          <span className={css(style.inner)} ref={textContentRef}></span>
           {closeBtnVisible && (
-            <CloseCircleFilled className={css(`position:absolute;right:30px`)} onClick={() => setVisible(false)} />
+            <CloseCircleFilled className={css(`position:absolute;right:20px`)} onClick={() => setVisible(false)} />
           )}
         </div>
       )}
-    </>
+    </Fragment>
   );
 };
 

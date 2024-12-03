@@ -9,7 +9,7 @@
     <link rel="manifest" href="/cdn/blog/manifest.json" as="json" />
     <link rel="icon" type="image/x-icon" href="/cdn/favicon.ico" />
     <!--#include file="/page/includes/meta.shtml"-->
-    <title>堃堃blog</title>
+    <title>堃堃博客</title>
     <style>
       body {
         margin: 0;

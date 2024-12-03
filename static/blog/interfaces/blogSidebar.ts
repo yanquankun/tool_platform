@@ -54,7 +54,7 @@ export interface IBlogListMap {
   item_count?: number;
 }
 
-enum blogFrom {
+export enum blogFrom {
   /** 微信公众号文章 */
   wx,
   /** github文章 */

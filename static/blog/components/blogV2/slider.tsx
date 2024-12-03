@@ -3,7 +3,7 @@ import { css } from '@emotion/css';
 // TODO:暂未找到为什么路径为~shared/apis/git时，页面无报错，却无法加载react
 import { getGithubRepoContents, getGithubRepoSubContents } from '~shared/apis/git_cp';
 import { getWxArticles, getWxPublishArticles } from '~shared/apis/wx';
-import { IBlogArticleItem, IBlogTitleItem } from '../../interfaces/blogSidebar';
+import { IBlogArticleItem, IBlogTitleItem, blogFrom } from '../../interfaces/blogSidebar';
 import { localBlogList } from './localBlog';
 import dayjs from 'dayjs';
 import { isMobile } from '~shared/utils/util';
@@ -66,13 +66,45 @@ export const Slider: FC<IProps> = function (props: IProps): JSX.Element {
 
   useEffect(function () {
     (async function () {
-      getWxList();
+      await getWxList();
       const _gitTitleList = await getGitHubList();
       setGitTitleList(_gitTitleList || []);
 
       props.transportBlog(localBlogList[0].blogId, JSON.stringify({ article: localBlogList[0] }));
     })();
   }, []);
+
+  const getCurBlog = () => {
+    const urlSearch = new window.URLSearchParams(window.location.search);
+    const id = urlSearch.get('id');
+    const type = urlSearch.get('type') as keyof typeof blogFrom;
+
+    if (!id) return;
+
+    if (type === 'wx' && wxTitleList.length) {
+      blogClick({
+        blogId: id,
+        from: 'wx',
+        title: '',
+      });
+    }
+    if (type === 'github' && gitTitleList.length) {
+      blogClick({
+        blogId: id,
+        from: 'github',
+        title: '',
+      });
+    }
+    if (type === 'local' && localBlogList.length) {
+      blogClick({
+        blogId: id,
+        from: 'local',
+        title: '',
+      });
+    }
+  };
+
+  useEffect(getCurBlog, [wxTitleList, gitTitleList]);
 
   const getWxList = async () => {
     // 获取媒体文章
@@ -193,6 +225,7 @@ export const Slider: FC<IProps> = function (props: IProps): JSX.Element {
         article: localBlogList.filter((item: IBlogTitleItem) => item.blogId == blog.blogId)[0],
       });
     }
+    window.history.replaceState('', '', `?id=${blog.blogId}&type=${blog.from}`);
     props.transportBlog(blog.blogId, content);
   };
 

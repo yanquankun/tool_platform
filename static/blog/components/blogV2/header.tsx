@@ -213,6 +213,10 @@ export const Header: FC<IProps> = function (props: IProps): JSX.Element {
           >
             <Slider transportBlog={props.transportBlogId} />
           </Drawer>
+          {/* 展示默认的博客，先显示一次侧边栏 */}
+          <div style={{ display: 'none' }}>
+            <Slider transportBlog={props.transportBlogId} />
+          </div>
           <div
             className={css`
               display: flex;

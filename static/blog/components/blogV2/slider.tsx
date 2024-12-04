@@ -231,6 +231,7 @@ export const Slider: FC<IProps> = function (props: IProps): JSX.Element {
 
   return (
     <div
+      id="slider"
       className={css`
         font-size: 16px;
         background-color: #fff;

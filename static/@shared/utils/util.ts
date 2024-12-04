@@ -1,4 +1,5 @@
 import { message } from 'antd';
+import { getStaticConfig } from '~shared/apis/static';
 
 /**
  * @Date 2023-10-19 19:37:26

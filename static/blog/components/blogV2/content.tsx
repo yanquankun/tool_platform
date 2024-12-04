@@ -321,30 +321,32 @@ export const Content: FC<IProps> = function (props): JSX.Element {
   };
 
   return (
-    <Watermark content="堃堃Blog">
-      {props.content ? (
-        <Space direction="vertical" className={_isMobile ? commonStyle.m_content : commonStyle.content}>
-          {/* 标题区域 */}
-          {createTitleArea()}
-          {/* 代码区域 */}
-          {JSON.parse(props.content).article.from === 'github' && createCodeContent()}
-          {JSON.parse(props.content).article.from != 'github' && (
-            <>
-              {/* 文章信息区域 */}
-              {createArticleInfoArea()}
-              {/* 封面图片区域 */}
-              {createThumbArea()}
-              {/* 文章内容区域 */}
-              {createContentArea()}
-              {/* 底部引用区域 */}
-              {createArticleQuoteArea()}
-            </>
-          )}
-        </Space>
-      ) : (
-        /** 等待状态区域 */
-        createWaitArea()
-      )}
-    </Watermark>
+    <div id="content">
+      <Watermark content="堃堃Blog">
+        {props.content ? (
+          <Space direction="vertical" className={_isMobile ? commonStyle.m_content : commonStyle.content}>
+            {/* 标题区域 */}
+            {createTitleArea()}
+            {/* 代码区域 */}
+            {JSON.parse(props.content).article.from === 'github' && createCodeContent()}
+            {JSON.parse(props.content).article.from != 'github' && (
+              <>
+                {/* 文章信息区域 */}
+                {createArticleInfoArea()}
+                {/* 封面图片区域 */}
+                {createThumbArea()}
+                {/* 文章内容区域 */}
+                {createContentArea()}
+                {/* 底部引用区域 */}
+                {createArticleQuoteArea()}
+              </>
+            )}
+          </Space>
+        ) : (
+          /** 等待状态区域 */
+          createWaitArea()
+        )}
+      </Watermark>
+    </div>
   );
 };

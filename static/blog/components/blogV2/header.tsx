@@ -1,11 +1,11 @@
 import { FC, Fragment, useEffect, useState } from 'react';
 import { css } from '@emotion/css';
-import { Space, Image, Tag, Popover, Button, Drawer } from 'antd';
+import { Space, Image, Tag, Popover, Button, Drawer, message } from 'antd';
 import { QrcodeOutlined, DownOutlined } from '@ant-design/icons';
 import { isMobile } from '~shared/utils/util';
 import { Slider } from './slider';
-import { getStaticConfig } from '~shared/apis/static';
-import MarqueeText from '~shared/components/marquee';
+import useMarqueeText from '~shared/components/marquee';
+import { getLastedNotice } from '~shared/apis/static';
 
 interface IProps {
   transportBlogId: (blogId: string, content: string) => void;
@@ -15,18 +15,25 @@ export const Header: FC<IProps> = function (props: IProps): JSX.Element {
   const [open, setOpen] = useState(false);
   const [extraOpen, setExtraOpen] = useState(false);
   const [tip, setTip] = useState<string>('');
+  const { height, createMarguee } = useMarqueeText(tip, 57);
 
   useEffect(() => {
-    setStaticConfig();
+    (async function () {
+      const message = await getLastedNotice();
+      setTip(message);
+    })();
   }, []);
 
-  const setStaticConfig = async () => {
-    const res = await getStaticConfig();
-    if (res.code == 200) {
-      const tip = res.data.tip || '';
-      setTip(tip);
+  useEffect(() => {
+    const slider = document.getElementById('slider');
+    const content = document.getElementById('content');
+    if (slider) {
+      slider.style.paddingTop = `${height}px`;
     }
-  };
+    if (content) {
+      content.style.paddingTop = `${height}px`;
+    }
+  }, [height]);
 
   const getSvgComponent = (): JSX.Element => {
     return (
@@ -270,7 +277,7 @@ export const Header: FC<IProps> = function (props: IProps): JSX.Element {
           {getExtraDom()}
         </div>
       )}
-      {MarqueeText(tip, 57)}
+      {createMarguee()}
     </header>
   );
 };

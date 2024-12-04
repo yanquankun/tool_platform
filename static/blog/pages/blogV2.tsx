@@ -49,21 +49,12 @@ export const App: FC = () => {
   );
 
   useEffect(function () {
-    setStaticConfig();
     // beforeinstallprompt 事件：
     // 谷歌浏览器不支持这个事件，无法显示“安装到主屏幕”的提示。
     // 安装 PWA 的功能仅在 Safari 中可用，其他浏览器只能运行，但无法提供安装选项。
     // 移动端暂不支持pwa提示
     beforeInsall('install_btn');
   }, []);
-
-  const setStaticConfig = async () => {
-    // const res = await getStaticConfigs();
-    // if (res.code == 200) {
-    //   const tip = res.data.tip || '';
-    //   setTip(tip);
-    // }
-  };
 
   const copyCurBlogUrl = () => {
     const url = window.location.href;

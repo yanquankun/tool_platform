@@ -17,8 +17,8 @@ const styled = {
     padding: 5px;
     cursor: pointer;
     font-family: cursive;
-    right: 10px;
-    bottom: 40px;
+    right: 28px;
+    bottom: 160px;
     width: 19px;
     z-index: 999;
     display: none;

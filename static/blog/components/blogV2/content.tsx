@@ -15,6 +15,10 @@ const commonStyle = {
     overflow-y: auto;
     min-height: calc(100vh - 10rem);
     display: flex;
+
+    img {
+      max-width: 100%;
+    }
   `,
   m_content: css`
     padding: 20px;
@@ -22,6 +26,10 @@ const commonStyle = {
     min-height: calc(100vh - 10rem);
     display: flex;
     margin-top: calc(3.6rem - 30px);
+
+    img {
+      max-width: 100%;
+    }
   `,
 };
 

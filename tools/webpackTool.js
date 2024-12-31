@@ -11,7 +11,7 @@ const devServer = {
     directory: path.join(ROOT_PATH, 'dist'),
   },
   compress: true,
-  allowedHosts: ['.yanquankun.com'],
+  allowedHosts: ['.yanquankun.cn'],
   // 允许在浏览器中设置日志级别，例如在重载之前，在一个错误之前或者 热模块替换 启用时。
   client: {
     logging: 'info',

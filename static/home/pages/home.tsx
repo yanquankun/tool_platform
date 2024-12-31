@@ -31,7 +31,7 @@ export const App: FC = function () {
             <Tooltip title="点击跳转个人网站~">
               <Space
                 onClick={() => {
-                  window.open('https://www.yanquankun.com/myself/index.html', '_blank');
+                  window.open('https://www.yanquankun.cn/myself/index.html', '_blank');
                 }}
               >
                 <HomeOutlined key="selfWebsite" />
@@ -41,7 +41,7 @@ export const App: FC = function () {
             <Tooltip title="点击跳转个人AngularUI库~">
               <Space
                 onClick={() => {
-                  window.open('https://www.yanquankun.com/ng-mui/#/start', '_blank');
+                  window.open('https://www.yanquankun.cn/ng-mui/#/start', '_blank');
                 }}
               >
                 <SketchOutlined key="angularUi" />
@@ -68,7 +68,7 @@ export const App: FC = function () {
                   borderRadius: '24px',
                 }}
                 width={48}
-                src="https://www.yanquankun.com/cdn/self-icon.jpg"
+                src="https://www.yanquankun.cn/cdn/self-icon.jpg"
               />
             }
             title="闫全堃(Mint)"

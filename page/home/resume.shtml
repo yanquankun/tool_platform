@@ -10,7 +10,7 @@
     <meta name="description" content="Khushal Sharma: programmer from India." />
 
     <!--#include file="/page/includes/resume.shtml"-->
-    <link rel="shortcut icon" href="https://www.yanquankun.com/cdn/resume/rfavicon.ico" type="image/x-icon" />
+    <link rel="shortcut icon" href="https://www.yanquankun.cn/cdn/resume/rfavicon.ico" type="image/x-icon" />
     <script src="https://kit.fontawesome.com/1a48924413.js" crossorigin="anonymous"></script>
 </head>
 
@@ -57,12 +57,12 @@
                     <div class="topic_header">TALKS</div>
                     <div class="topic_text miniprogram_flex">
                         <ul class="miniprogram_wrap">
-                            <img class="qrcode" src="https://www.yanquankun.com/cdn/mini-program-qrcode.png"
+                            <img class="qrcode" src="https://www.yanquankun.cn/cdn/mini-program-qrcode.png"
                                 alt="小程序二维码">
                             <a class="qrcode_text">个人微信小程序</a>
                         </ul>
                         <ul class="officialAccount_wrap">
-                            <img class="qrcode" src="https://www.yanquankun.com/cdn/gongzhonghao-qrcode.jpg"
+                            <img class="qrcode" src="https://www.yanquankun.cn/cdn/gongzhonghao-qrcode.jpg"
                                 alt="公众号二维码">
                             <a class="qrcode_text">个人公众号</a>
                         </ul>
@@ -96,14 +96,14 @@
                 <a href="https://www.npmjs.com/~yanquankun" target="_blank" rel="noopener" aria-label="Npm"><i
                         class="fab fa-npm fa-lg fa-max"></i></a>
                 <ul class="camera_wrap">
-                    <img class="qrcode" src="https://www.yanquankun.com/cdn/resume/myself.jpg" alt="个人照">
+                    <img class="qrcode" src="https://www.yanquankun.cn/cdn/resume/myself.jpg" alt="个人照">
                     <a><i class="qrcode_text fas fa-camera fa-lg fa-max"></i></a>
                 </ul>
             </div>
 
             <div class="wrap">
                 <a href="/home/project">Projects</a>
-                <a href="https://www.yanquankun.com/blog/list" target="_blank">Blog</a>
+                <a href="https://www.yanquankun.cn/blog/list" target="_blank">Blog</a>
             </div>
         </div>
     </footer>

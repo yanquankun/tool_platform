@@ -208,7 +208,7 @@ const Container: FC<IContainerProps> = (props: IContainerProps) => {
               color="#3b5999"
               onClick={() => {
                 window.open(
-                  'https://www.yanquankun.com/cdn/%E9%97%AB%E5%85%A8%E5%A0%83-%E5%89%8D%E7%AB%AF%E5%BC%80%E5%8F%91%E5%B7%A5%E7%A8%8B%E5%B8%88.pdf',
+                  'https://www.yanquankun.cn/cdn/%E9%97%AB%E5%85%A8%E5%A0%83-%E5%89%8D%E7%AB%AF%E5%BC%80%E5%8F%91%E5%B7%A5%E7%A8%8B%E5%B8%88.pdf',
                   '_blank'
                 );
               }}
@@ -217,7 +217,7 @@ const Container: FC<IContainerProps> = (props: IContainerProps) => {
             </Tag>,
             <Popover
               placement="bottom"
-              title={<Image width={200} src="https://www.yanquankun.com/cdn/mini-program-qrcode.png" />}
+              title={<Image width={200} src="https://www.yanquankun.cn/cdn/mini-program-qrcode.png" />}
               trigger="hover"
             >
               <Tag icon={<WechatOutlined />} color="#3b5999">
@@ -228,9 +228,9 @@ const Container: FC<IContainerProps> = (props: IContainerProps) => {
               placement="bottom"
               title={
                 <Space direction="vertical">
-                  <Image width={250} src="https://www.yanquankun.com/cdn/gongzhonghao-qrcode.jpg" />
-                  <Image width={250} src="https://www.yanquankun.com/cdn/gongzhonghao-scan.png" />
-                  <Image width={250} src="https://www.yanquankun.com/cdn/gongzhonghao-search.png" />
+                  <Image width={250} src="https://www.yanquankun.cn/cdn/gongzhonghao-qrcode.jpg" />
+                  <Image width={250} src="https://www.yanquankun.cn/cdn/gongzhonghao-scan.png" />
+                  <Image width={250} src="https://www.yanquankun.cn/cdn/gongzhonghao-search.png" />
                 </Space>
               }
               trigger="hover"

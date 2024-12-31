@@ -28,28 +28,28 @@ export default {
     ],
   },
   location: {
-    pathname: 'http://www.yanquankun.com/',
+    pathname: 'http://www.yanquankun.cn/',
   },
   appList: [
     {
       icon: <UserOutlined style={{ fontSize: 30 }} />,
       title: '个人履历',
       desc: '个人履历，更新较少，可移步个人小程序',
-      url: 'https://www.yanquankun.com/myself/index.html',
+      url: 'https://www.yanquankun.cn/myself/index.html',
       target: '_blank',
     },
     {
-      icon: 'https://www.yanquankun.com/cdn/MUI-logo.png',
+      icon: 'https://www.yanquankun.cn/cdn/MUI-logo.png',
       title: 'Angular Frame',
       desc: '个人开发AngularUI库',
-      url: 'https://www.yanquankun.com/ng-mui/#/start',
+      url: 'https://www.yanquankun.cn/ng-mui/#/start',
       target: '_blank',
     },
     {
       icon: <EditOutlined style={{ fontSize: 30 }} />,
       title: 'JS Editor',
       desc: '闲余时间小小JS编辑器',
-      url: 'https://www.yanquankun.com/mint_editor/editor.html',
+      url: 'https://www.yanquankun.cn/mint_editor/editor.html',
       target: '_blank',
     },
     {

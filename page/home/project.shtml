@@ -7,7 +7,7 @@
   <title>Projects | YanQuankun</title>
   <meta name="description" content="Some of the (mini)projects, I Have done listed on this page." />
   <meta name="keywords" content="Projects By YanQuankun" />
-  <link rel="shortcut icon" href="https://www.yanquankun.com/cdn/resume/rfavicon.ico" type="image/x-icon" />
+  <link rel="shortcut icon" href="https://www.yanquankun.cn/cdn/resume/rfavicon.ico" type="image/x-icon" />
   <!--#include file="/page/includes/project.shtml"-->
   <script src="https://kit.fontawesome.com/1a48924413.js" crossorigin="anonymous"></script>
 
@@ -54,7 +54,7 @@
 
         <div class="wrap">
           <a href="/home/resume">Home</a>
-          <a href="https://www.yanquankun.com/blog/list" target="_blank">Blog</a>
+          <a href="https://www.yanquankun.cn/blog/list" target="_blank">Blog</a>
         </div>
       </div>
     </footer>

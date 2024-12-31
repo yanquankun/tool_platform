@@ -74,7 +74,7 @@ export const App: FC = () => {
       <img
         onClick={copyCurBlogUrl}
         className={cx('urlCopy', styled.share)}
-        src="https://www.yanquankun.com:9300/cdn/blog/share-animate.gif"
+        src="https://www.yanquankun.cn/cdn/blog/share-animate.gif"
         alt="share animate"
       />
     </Fragment>

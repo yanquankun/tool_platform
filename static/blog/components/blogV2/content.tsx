@@ -13,9 +13,8 @@ const commonStyle = {
   content: css`
     padding: 5rem 5rem 3rem 23rem;
     overflow-y: auto;
-    min-height: calc(100vh - 10rem);
+    min-height: calc(100vh - 10rem - 30px);
     display: flex;
-
     img {
       max-width: 100%;
     }
@@ -23,13 +22,35 @@ const commonStyle = {
   m_content: css`
     padding: 20px;
     overflow-y: auto;
-    min-height: calc(100vh - 10rem);
+    min-height: calc(100vh - 10rem - 30px);
     display: flex;
     margin-top: calc(3.6rem - 30px);
-
     img {
       max-width: 100%;
     }
+  `,
+  beian: css`
+    height: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 999;
+    width: 100vw;
+    margin-bottom: 20px;
+  `,
+  beianIcon: css`
+    width: 20px;
+    height: 20px;
+  `,
+  beianLink: css`
+    margin-left: 8px;
+    font-size: 12px;
+    color: rgba(116, 154, 227);
+  `,
+  beianNum: css`
+    margin-left: 5px;
+    font-size: 12px;
+    color: rgba(116, 154, 227);
   `,
 };
 
@@ -354,6 +375,18 @@ export const Content: FC<IProps> = function (props): JSX.Element {
           /** 等待状态区域 */
           createWaitArea()
         )}
+        <div className={commonStyle.beian}>
+          <img className={commonStyle.beianIcon} src="https://www.yanquankun.cn/cdn/beian-icon.png" />
+          <a
+            className={commonStyle.beianLink}
+            href="https://beian.mps.gov.cn/#/query/webSearch?code=11011402054483"
+            rel="noreferrer"
+            target="_blank"
+          >
+            京公网安备11011402054483号
+          </a>
+          <span className={commonStyle.beianNum}>京ICP备2023030808号-2</span>
+        </div>
       </Watermark>
     </div>
   );

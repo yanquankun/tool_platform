@@ -2,6 +2,7 @@ import React, { useEffect, useRef, KeyboardEvent } from 'react';
 import { css } from '@emotion/css';
 import { Avatar, Button } from 'antd';
 import { CloseOutlined, SendOutlined } from '@ant-design/icons';
+import { isMobile } from '~shared/utils/util';
 
 // 在文件顶部 import 下方添加
 interface IMessage {
@@ -17,7 +18,7 @@ interface IProps {
 // 修复 header 样式
 const styles = {
   container: css`
-    max-width: 400px;
+    max-width: ${isMobile() ? '75%' : '400px'};
     margin: 0 auto;
     position: fixed;
     bottom: 75px;

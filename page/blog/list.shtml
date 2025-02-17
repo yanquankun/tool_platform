@@ -31,6 +31,8 @@
 
     <script src="https://cdn.bootcdn.net/ajax/libs/marked/2.0.3/marked.min.js"></script>
     <script defer src="https://cdn.staticfile.org/clipboard.js/2.0.4/clipboard.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.25.0/prism.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.25.0/components/prism-javascript.min.js"></script>
     <!-- Dependencies -->
     <script src="/dist/bundle/blog/includes/react-common.vendor.js"></script>
     <script src="/dist/bundle/blog/includes/antd.vendor.js"></script>

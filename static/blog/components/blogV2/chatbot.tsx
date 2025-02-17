@@ -3,6 +3,7 @@ import { css } from '@emotion/css';
 import { Avatar, Button } from 'antd';
 import { CloseOutlined, SendOutlined } from '@ant-design/icons';
 import { isMobile } from '~shared/utils/util';
+import { deepChat } from '~shared/apis/ai';
 
 // 在文件顶部 import 下方添加
 interface IMessage {
@@ -164,9 +165,21 @@ const ChatBot: React.FC<IProps> = (props: IProps) => {
     };
   }, [props]);
   // 在 ChatBot 组件内添加模拟回复函数
-  const mockBotReply = async (userMessage: string) => {
-    await new Promise((resolve) => setTimeout(resolve, 1000));
-    return `这是对 "${userMessage}" 的回复`;
+  const mockBotReply = async (userMessage: string, onProgress: (data: string) => void) => {
+    // return new Promise((resolve) => {
+    deepChat({
+      message: userMessage,
+      onProgress: (data: string) => {
+        if (data === '[DONE]') {
+          // 结束回复
+        }
+        onProgress(data);
+        // resolve(data || '服务错误，请重试');
+      },
+    });
+    // });
+    // await new Promise((resolve) => setTimeout(resolve, 1000));
+    // return `这是对 "${userMessage}" 的回复`;
   };
 
   // 修改 handleSendMessage 函数
@@ -181,17 +194,22 @@ const ChatBot: React.FC<IProps> = (props: IProps) => {
       setMessages((prev) => [...prev, { content: '', isBot: true, loading: true }]);
 
       // 获取机器人回复
-      const reply = await mockBotReply(userMessage);
+      let reply = '',
+        done = false;
+      mockBotReply(userMessage, (data) => {
+        if (data !== '[DONE]') reply += data;
+        else done = true;
 
-      // 更新机器人消息
-      setMessages((prev) =>
-        prev.map((msg, index) => {
-          if (index === prev.length - 1) {
-            return { content: reply, isBot: true };
-          }
-          return msg;
-        })
-      );
+        // 更新机器人消息
+        setMessages((prev) =>
+          prev.map((msg, index) => {
+            if (index === prev.length - 1) {
+              return { content: reply, isBot: true };
+            }
+            return msg;
+          })
+        );
+      });
     }
   };
 

@@ -10,13 +10,17 @@ interface IMessage {
   loading?: boolean;
 }
 
+interface IProps {
+  onClose: () => void;
+}
+
 const styles = {
   container: css`
     max-width: 400px;
     margin: 0 auto;
     position: absolute;
     bottom: 75px;
-    right: 95px;
+    right: 75px;
     z-index: 999;
   `,
   header: css`
@@ -69,7 +73,7 @@ const styles = {
   `,
 };
 
-const ChatBot: React.FC = () => {
+const ChatBot: React.FC<IProps> = (props: IProps) => {
   const [messages, setMessages] = React.useState<IMessage[]>([
     {
       content: "Hi I'm DocsBot. I'm here to help you explain how I work.",
@@ -181,7 +185,7 @@ const ChatBot: React.FC = () => {
     <div className={styles.container}>
       <div className={styles.header}>
         <span>智慧QA</span>
-        <CloseOutlined className={styles.closeButton} />
+        <CloseOutlined className={styles.closeButton} onClick={props.onClose} />
       </div>
       {/* 修改消息渲染部分 */}
       <div className={styles.chatArea} ref={chatAreaRef}>

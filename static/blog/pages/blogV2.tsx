@@ -34,10 +34,10 @@ const styled = {
     border-radius: 50%;
   `,
   robot: css`
-    width: 55px;
+    width: 47px;
     position: fixed;
     right: 15px;
-    bottom: 50px;
+    bottom: 55px;
     cursor: pointer;
     z-index: 999;
     border-radius: 50%;
@@ -99,7 +99,7 @@ export const App: FC = () => {
 robot-assistant.png"
         alt="chatbot robot"
       />
-      {showChatbot && <ChatBot />}
+      {showChatbot && <ChatBot onClose={() => setShowChatbot(false)} />}
     </Fragment>
   );
 };

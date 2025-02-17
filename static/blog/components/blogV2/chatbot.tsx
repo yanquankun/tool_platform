@@ -14,6 +14,7 @@ interface IProps {
   onClose: () => void;
 }
 
+// 修复 header 样式
 const styles = {
   container: css`
     max-width: 400px;
@@ -22,54 +23,73 @@ const styles = {
     bottom: 75px;
     right: 75px;
     z-index: 999;
+    border-radius: 12px;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
   `,
   header: css`
-    padding: 5px 0 5px 20px;
-    background-color: #efe8e8;
-    border-radius: 8px 8px 0 0;
-    border-bottom: 1px solid #fff;
+    padding: 16px;
+    background-color: white;
+    border-bottom: 1px solid #f0f0f0;
     display: flex;
     justify-content: space-between;
     align-items: center;
   `,
-  closeButton: css`
-    padding: 0 16px;
-    cursor: pointer;
-    &:hover {
-      color: #40798c;
-    }
+  headerTitle: css`
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  `,
+  headerName: css`
+    font-size: 16px;
+    font-weight: 500;
+  `,
+  headerStatus: css`
+    font-size: 12px;
+    color: #52c41a;
   `,
   chatArea: css`
-    height: 300px;
+    height: 400px;
     overflow-y: auto;
     padding: 20px;
-    background-color: #efe8e8;
+    background-color: #f7f7f7;
   `,
   messageContainer: css`
     display: flex;
     margin-bottom: 16px;
     gap: 12px;
   `,
-  botMessage: css`
-    justify-content: flex-start;
-  `,
-  userMessage: css`
-    justify-content: flex-end;
-  `,
   message: css`
     max-width: 70%;
     padding: 12px 16px;
-    border-radius: 8px;
-    background-color: #40798c;
-    color: white;
+    border-radius: 12px;
+    font-size: 14px;
+    line-height: 1.5;
   `,
   inputArea: css`
     display: flex;
     padding: 16px;
-    background-color: #efe8e8;
-    border-top: 1px solid #fff;
+    background-color: white;
+    gap: 12px;
+    border-top: 1px solid #f0f0f0;
     border-radius: 0 0 8px 8px;
     gap: 8px;
+  `,
+};
+const messageStyles = {
+  botMessage: css`
+    justify-content: flex-start;
+    .${styles.message} {
+      background-color: white;
+      color: #333;
+    }
+  `,
+  userMessage: css`
+    justify-content: flex-end;
+    .${styles.message} {
+      background-color: #1677ff;
+      color: white;
+    }
   `,
 };
 
@@ -129,7 +149,7 @@ const ChatBot: React.FC<IProps> = (props: IProps) => {
     {messages.map((message, index) => (
       <div
         key={index}
-        className={`${styles.messageContainer} ${message.isBot ? styles.botMessage : styles.userMessage}`}
+        className={`${styles.messageContainer} ${message.isBot ? messageStyles.botMessage : messageStyles.userMessage}`}
       >
         {message.isBot ? (
           <>
@@ -184,15 +204,17 @@ const ChatBot: React.FC<IProps> = (props: IProps) => {
   return (
     <div className={styles.container}>
       <div className={styles.header}>
-        <span>智慧QA</span>
-        <CloseOutlined className={styles.closeButton} onClick={props.onClose} />
+        <div className={styles.headerTitle}>
+          <span className={styles.headerName}>AI 助手</span>
+          <span className={styles.headerStatus}>在线</span>
+        </div>
       </div>
       {/* 修改消息渲染部分 */}
       <div className={styles.chatArea} ref={chatAreaRef}>
         {messages.map((message, index) => (
           <div
             key={index}
-            className={`${styles.messageContainer} ${message.isBot ? styles.botMessage : styles.userMessage}`}
+            className={`${styles.messageContainer} ${message.isBot ? messageStyles.botMessage : messageStyles.userMessage}`}
           >
             {message.isBot ? (
               <>

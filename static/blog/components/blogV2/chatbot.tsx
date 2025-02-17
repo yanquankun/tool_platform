@@ -2,6 +2,7 @@ import React, { useEffect, useRef, KeyboardEvent } from 'react';
 import { css } from '@emotion/css';
 import { Avatar, Button } from 'antd';
 import { CloseOutlined, SendOutlined } from '@ant-design/icons';
+import { send } from 'process';
 
 // 在文件顶部 import 下方添加
 interface IMessage {
@@ -19,7 +20,7 @@ const styles = {
   container: css`
     max-width: 400px;
     margin: 0 auto;
-    position: absolute;
+    position: fixed;
     bottom: 75px;
     right: 75px;
     z-index: 999;
@@ -34,6 +35,13 @@ const styles = {
     display: flex;
     justify-content: space-between;
     align-items: center;
+  `,
+  closeButton: css`
+    padding: 0 16px;
+    cursor: pointer;
+    &:hover {
+      color: #40798c;
+    }
   `,
   headerTitle: css`
     display: flex;
@@ -52,27 +60,36 @@ const styles = {
     height: 400px;
     overflow-y: auto;
     padding: 20px;
-    background-color: #ffffff; // 修改背景色为白色
+    background-color: #f9fafb;
+    /* 自定义滚动条样式 */
+    &::-webkit-scrollbar {
+      width: 8px; /* 滚动条宽度 */
+    }
+    &::-webkit-scrollbar-thumb {
+      background-color: #ffffff; /* 滚动条颜色 */
+      border-radius: 4px;
+    }
+    &::-webkit-scrollbar-track {
+      background-color: transparent; /* 滚动条轨道颜色 */
+    }
   `,
   messageContainer: css`
     display: flex;
     margin-bottom: 16px;
     gap: 12px;
-    align-items: flex-end;
+    align-items: flex-start;
   `,
   message: css`
     max-width: 70%;
-    padding: 12px 16px;
-    border-radius: 12px;
-    font-size: 14px;
+    border-radius: 20px;
     line-height: 1.5;
-    background-color: #f0f0f0; // 为每条消息添加背景色
+    padding: 10px 12px;
   `,
   timeStamp: css`
     font-size: 12px;
     color: #999;
     margin-top: 4px;
-    text-align: left; // 确保时间戳在左侧对齐
+    text-align: left;
   `,
   inputArea: css`
     display: flex;
@@ -81,20 +98,32 @@ const styles = {
     gap: 12px;
     border-top: 1px solid #f0f0f0;
   `,
+  userMessageContent: css`
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+  `,
+  messageContent: css`
+    width: calc(100% - 45px);
+  `,
+  sendBtn: css`
+    backgroundcolor: #1677ff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  `,
 };
 
 const messageStyles = {
   botMessage: css`
     justify-content: flex-start;
     .${styles.message} {
-      background-color: white;
       color: #333;
     }
   `,
   userMessage: css`
     justify-content: flex-end;
     .${styles.message} {
-      background-color: #1677ff;
       color: white;
     }
   `,
@@ -164,8 +193,9 @@ const ChatBot: React.FC<IProps> = (props: IProps) => {
           <span className={styles.headerName}>AI 助手</span>
           <span className={styles.headerStatus}>在线</span>
         </div>
-        {/* <CloseOutlined className={styles.closeButton} onClick={props.onClose} /> */}
+        <CloseOutlined className={styles.closeButton} onClick={props.onClose} />
       </div>
+      {/* 修改消息渲染部分 */}
       <div className={styles.chatArea} ref={chatAreaRef}>
         {messages.map((message, index) => (
           <div
@@ -175,40 +205,57 @@ const ChatBot: React.FC<IProps> = (props: IProps) => {
             {message.isBot ? (
               <>
                 <Avatar style={{ backgroundColor: '#87d068' }}>B</Avatar>
-                <div className={styles.message}>
-                  {message.loading ? (
-                    <span
-                      className={css`
-                        display: inline-block;
-                        width: 70px;
-                        text-align: center;
-                        &::after {
-                          content: '...';
-                          animation: ellipsis 1.5s infinite;
-                        }
-                        @keyframes ellipsis {
-                          0% {
-                            content: '.';
-                          }
-                          33% {
-                            content: '..';
-                          }
-                          66% {
+                <div className={styles.messageContent}>
+                  <div className={styles.message} style={{ backgroundColor: '#fff', borderRadius: '8px 8px 8px 0' }}>
+                    {message.loading ? (
+                      <span
+                        className={css`
+                          display: inline-block;
+                          width: calc(100% - 45px);
+                          text-align: left;
+                          &::after {
                             content: '...';
+                            animation: ellipsis 1.5s infinite;
                           }
-                        }
-                      `}
-                    >
-                      正在输入
-                    </span>
-                  ) : (
-                    message.content
+                          @keyframes ellipsis {
+                            0% {
+                              content: '.';
+                            }
+                            33% {
+                              content: '..';
+                            }
+                            66% {
+                              content: '...';
+                            }
+                          }
+                        `}
+                      >
+                        正在输入
+                      </span>
+                    ) : (
+                      message.content
+                    )}
+                  </div>
+                  {!message.loading && (
+                    <div className={styles.timeStamp}>
+                      {new Date().toLocaleTimeString('zh-CN', { hour12: true, hour: '2-digit', minute: '2-digit' })}
+                    </div>
                   )}
                 </div>
               </>
             ) : (
               <>
-                <div className={styles.message}>{message.content}</div>
+                <div className={styles.userMessageContent}>
+                  <div
+                    className={styles.message}
+                    style={{ backgroundColor: '#2B6BF3', borderRadius: '8px 8px 0 8px', color: 'white' }}
+                  >
+                    {message.content}
+                  </div>
+                  <div className={styles.timeStamp}>
+                    {new Date().toLocaleTimeString('zh-CN', { hour12: true, hour: '2-digit', minute: '2-digit' })}
+                  </div>
+                </div>
                 <Avatar style={{ backgroundColor: '#40798c' }}>U</Avatar>
               </>
             )}
@@ -238,7 +285,7 @@ const ChatBot: React.FC<IProps> = (props: IProps) => {
           shape="circle"
           icon={<SendOutlined />}
           onClick={handleSendMessage}
-          style={{ backgroundColor: '#1677ff' }}
+          className={styles.sendBtn}
         />
       </div>
     </div>

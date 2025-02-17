@@ -2,7 +2,6 @@ import React, { useEffect, useRef, KeyboardEvent } from 'react';
 import { css } from '@emotion/css';
 import { Avatar, Button } from 'antd';
 import { CloseOutlined, SendOutlined } from '@ant-design/icons';
-import { send } from 'process';
 
 // 在文件顶部 import 下方添加
 interface IMessage {
@@ -142,12 +141,27 @@ const ChatBot: React.FC<IProps> = (props: IProps) => {
   ]);
   const [inputValue, setInputValue] = React.useState<string>('');
   const chatAreaRef = useRef<HTMLDivElement>(null);
+  const containerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     if (chatAreaRef.current) {
       chatAreaRef.current.scrollTop = chatAreaRef.current.scrollHeight;
     }
   }, [messages]);
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      const chatBot = document.getElementsByClassName('chatbot')[0];
+      if (containerRef.current && !containerRef.current.contains(event.target as Node) && event.target !== chatBot) {
+        props.onClose();
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [props]);
   // 在 ChatBot 组件内添加模拟回复函数
   const mockBotReply = async (userMessage: string) => {
     await new Promise((resolve) => setTimeout(resolve, 1000));
@@ -187,7 +201,7 @@ const ChatBot: React.FC<IProps> = (props: IProps) => {
   };
 
   return (
-    <div className={styles.container}>
+    <div className={styles.container} ref={containerRef}>
       <div className={styles.header}>
         <div className={styles.headerTitle}>
           <span className={styles.headerName}>AI 助手</span>

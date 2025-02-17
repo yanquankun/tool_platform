@@ -52,12 +52,13 @@ const styles = {
     height: 400px;
     overflow-y: auto;
     padding: 20px;
-    background-color: #f7f7f7;
+    background-color: #ffffff; // 修改背景色为白色
   `,
   messageContainer: css`
     display: flex;
     margin-bottom: 16px;
     gap: 12px;
+    align-items: flex-end;
   `,
   message: css`
     max-width: 70%;
@@ -65,6 +66,13 @@ const styles = {
     border-radius: 12px;
     font-size: 14px;
     line-height: 1.5;
+    background-color: #f0f0f0; // 为每条消息添加背景色
+  `,
+  timeStamp: css`
+    font-size: 12px;
+    color: #999;
+    margin-top: 4px;
+    text-align: left; // 确保时间戳在左侧对齐
   `,
   inputArea: css`
     display: flex;
@@ -72,10 +80,9 @@ const styles = {
     background-color: white;
     gap: 12px;
     border-top: 1px solid #f0f0f0;
-    border-radius: 0 0 8px 8px;
-    gap: 8px;
   `,
 };
+
 const messageStyles = {
   botMessage: css`
     justify-content: flex-start;
@@ -144,57 +151,6 @@ const ChatBot: React.FC<IProps> = (props: IProps) => {
     }
   };
 
-  // 在消息渲染部分修改
-  <div className={styles.chatArea} ref={chatAreaRef}>
-    {messages.map((message, index) => (
-      <div
-        key={index}
-        className={`${styles.messageContainer} ${message.isBot ? messageStyles.botMessage : messageStyles.userMessage}`}
-      >
-        {message.isBot ? (
-          <>
-            <Avatar style={{ backgroundColor: '#87d068' }}>B</Avatar>
-            <div className={styles.message}>
-              {message.loading ? (
-                <span
-                  className={css`
-                    display: inline-block;
-                    width: 50px;
-                    text-align: center;
-                    &::after {
-                      content: '...';
-                      animation: ellipsis 1.5s infinite;
-                    }
-                    @keyframes ellipsis {
-                      0% {
-                        content: '.';
-                      }
-                      33% {
-                        content: '..';
-                      }
-                      66% {
-                        content: '...';
-                      }
-                    }
-                  `}
-                >
-                  正在输入
-                </span>
-              ) : (
-                message.content
-              )}
-            </div>
-          </>
-        ) : (
-          <>
-            <div className={styles.message}>{message.content}</div>
-            <Avatar style={{ backgroundColor: '#40798c' }}>U</Avatar>
-          </>
-        )}
-      </div>
-    ))}
-  </div>;
-
   const handleKeyPress = (e: KeyboardEvent<HTMLInputElement>) => {
     if (e.key === 'Enter') {
       handleSendMessage();
@@ -208,8 +164,8 @@ const ChatBot: React.FC<IProps> = (props: IProps) => {
           <span className={styles.headerName}>AI 助手</span>
           <span className={styles.headerStatus}>在线</span>
         </div>
+        {/* <CloseOutlined className={styles.closeButton} onClick={props.onClose} /> */}
       </div>
-      {/* 修改消息渲染部分 */}
       <div className={styles.chatArea} ref={chatAreaRef}>
         {messages.map((message, index) => (
           <div
@@ -219,7 +175,36 @@ const ChatBot: React.FC<IProps> = (props: IProps) => {
             {message.isBot ? (
               <>
                 <Avatar style={{ backgroundColor: '#87d068' }}>B</Avatar>
-                <div className={styles.message}>{message.content}</div>
+                <div className={styles.message}>
+                  {message.loading ? (
+                    <span
+                      className={css`
+                        display: inline-block;
+                        width: 70px;
+                        text-align: center;
+                        &::after {
+                          content: '...';
+                          animation: ellipsis 1.5s infinite;
+                        }
+                        @keyframes ellipsis {
+                          0% {
+                            content: '.';
+                          }
+                          33% {
+                            content: '..';
+                          }
+                          66% {
+                            content: '...';
+                          }
+                        }
+                      `}
+                    >
+                      正在输入
+                    </span>
+                  ) : (
+                    message.content
+                  )}
+                </div>
               </>
             ) : (
               <>
@@ -236,23 +221,24 @@ const ChatBot: React.FC<IProps> = (props: IProps) => {
           value={inputValue}
           onChange={(e) => setInputValue(e.target.value)}
           onKeyPress={handleKeyPress}
-          placeholder="Write your message here"
+          placeholder="输入消息..."
           className={css`
             flex: 1;
-            padding: 8px 12px;
-            border: 1px solid #d9d9d9;
-            border-radius: 4px;
+            padding: 8px 16px;
+            border: 1px solid #e8e8e8;
+            border-radius: 20px;
             &:focus {
               outline: none;
-              border-color: #40798c;
+              border-color: #1677ff;
             }
           `}
         />
         <Button
           type="primary"
+          shape="circle"
           icon={<SendOutlined />}
           onClick={handleSendMessage}
-          style={{ backgroundColor: '#40798c' }}
+          style={{ backgroundColor: '#1677ff' }}
         />
       </div>
     </div>

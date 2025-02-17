@@ -25,7 +25,7 @@ const deepChat = async ({
       body: JSON.stringify({
         message,
         stream,
-        max_tokens: 512,
+        max_tokens: 1024,
         model,
       }),
     });
@@ -64,12 +64,12 @@ const deepChat = async ({
                 onProgress('[DONE]');
               } else {
                 const jsonData = JSON.parse(data);
-                if (!endThink && data.indexOf('</think>') > -1) endThink = true;
-                else if (endThink && !jsonData.usage) {
+                console.log('Received SSE data:', jsonData);
+                // if (!endThink && data.indexOf('</think>') > -1) endThink = true;
+                if (!jsonData.usage) {
                   onProgress(jsonData.response);
                 }
               }
-              // console.log('Received SSE data:', jsonData);
             } catch (error) {
               console.error('Error parsing SSE data:', error);
               onProgress('\n Error: ' + error);

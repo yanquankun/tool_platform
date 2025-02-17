@@ -8,6 +8,13 @@
     <link rel="apple-touch-icon" href="/cdn/blog/fe-192.png" />
     <link rel="manifest" href="/cdn/blog/manifest.json" as="json" />
     <link rel="icon" type="image/x-icon" href="/cdn/favicon.ico" />
+    <!-- 引入 Prism CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" />
+    <!-- 引入 Prism 行号 CSS -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/line-numbers/prism-line-numbers.min.css"
+    />
     <!--#include file="/page/includes/meta.shtml"-->
     <title>堃堃博客</title>
     <style>
@@ -21,7 +28,6 @@
         height: fit-content;
       }
     </style>
-    <!--#include file="/page/includes/prism.shtml"-->
   </head>
   <body>
     <!-- <span id="install_btn">安装为桌面应用</span> -->
@@ -31,8 +37,6 @@
 
     <script src="https://cdn.bootcdn.net/ajax/libs/marked/2.0.3/marked.min.js"></script>
     <script defer src="https://cdn.staticfile.org/clipboard.js/2.0.4/clipboard.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.25.0/prism.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.25.0/components/prism-javascript.min.js"></script>
     <!-- Dependencies -->
     <script src="/dist/bundle/blog/includes/react-common.vendor.js"></script>
     <script src="/dist/bundle/blog/includes/antd.vendor.js"></script>

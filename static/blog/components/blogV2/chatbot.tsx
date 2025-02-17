@@ -4,6 +4,10 @@ import { Avatar, Button } from 'antd';
 import { CloseOutlined, SendOutlined } from '@ant-design/icons';
 import { isMobile } from '~shared/utils/util';
 import { deepChat } from '~shared/apis/ai';
+import MarkdownHighlighter from './MarkdownHighlighter';
+import Prism from 'prismjs';
+import 'prismjs/components/prism-javascript';
+import 'prismjs/plugins/line-numbers/prism-line-numbers';
 
 // 在文件顶部 import 下方添加
 interface IMessage {
@@ -239,12 +243,23 @@ const ChatBot: React.FC<IProps> = (props: IProps) => {
               <>
                 <Avatar style={{ backgroundColor: '#87d068' }}>B</Avatar>
                 <div className={styles.messageContent}>
+                  {/* 带行数代码示例 */}
+                  {/* <div>
+                    <pre className="language-javascript line-numbers">
+                      <code
+                        className="language-javascript"
+                        dangerouslySetInnerHTML={{
+                          __html: Prism.highlight(`var data = 1;`, Prism.languages.javascript, 'javascript'),
+                        }}
+                      ></code>
+                    </pre>
+                  </div> */}
                   <div className={styles.message} style={{ backgroundColor: '#fff', borderRadius: '8px 8px 8px 0' }}>
                     {message.loading ? (
                       <span
                         className={css`
                           display: inline-block;
-                          width: calc(100% - 45px);
+                          width: calc(100% - 20px);
                           text-align: left;
                           &::after {
                             content: '...';
@@ -263,10 +278,10 @@ const ChatBot: React.FC<IProps> = (props: IProps) => {
                           }
                         `}
                       >
-                        正在输入
+                        正在思考中，请等待
                       </span>
                     ) : (
-                      message.content
+                      <MarkdownHighlighter markdown={message.content} />
                     )}
                   </div>
                   {!message.loading && (

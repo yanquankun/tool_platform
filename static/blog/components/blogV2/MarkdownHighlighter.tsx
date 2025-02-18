@@ -1,19 +1,30 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
+import { css, cx } from '@emotion/css';
 import { marked } from 'marked';
 import Prism from 'prismjs';
 // 引入你需要的语言支持
 import 'prismjs/components/prism-javascript';
 import 'prismjs/components/prism-markdown';
 
+const styles = {
+  code: css`
+    * {
+      max-width: 100%;
+    }
+  `,
+};
+
 interface IProps {
   markdown: string;
+  isMedia?: boolean;
 }
-const MarkdownHighlighter = ({ markdown = '' }: IProps) => {
+const MarkdownHighlighter = ({ markdown = '', isMedia = false }: IProps) => {
   const [html, setHtml] = useState('');
 
   useEffect(() => {
     // 使用 marked 解析 Markdown
     const parsedHtml = marked.parse(markdown) as string;
+    console.log(parsedHtml);
     setHtml(parsedHtml);
   }, [markdown]);
 
@@ -29,17 +40,31 @@ const MarkdownHighlighter = ({ markdown = '' }: IProps) => {
         margin: 0,
       }}
     >
-      <code
-        className="language-javascript"
-        style={{
-          width: '100%',
-          whiteSpace: 'pre-wrap',
-          /* 旧版浏览器使用 word-wrap，新版使用 overflow-wrap */
-          wordWrap: 'break-word',
-          overflowWrap: 'break-word',
-        }}
-        dangerouslySetInnerHTML={{ __html: html }}
-      ></code>
+      {isMedia ? (
+        <div
+          className={cx('language-javascript', styles.code)}
+          style={{
+            width: '100%',
+            whiteSpace: 'pre-wrap',
+            /* 旧版浏览器使用 word-wrap，新版使用 overflow-wrap */
+            wordWrap: 'break-word',
+            overflowWrap: 'break-word',
+          }}
+          dangerouslySetInnerHTML={{ __html: html }}
+        ></div>
+      ) : (
+        <code
+          className="language-javascript"
+          style={{
+            width: '100%',
+            whiteSpace: 'pre-wrap',
+            /* 旧版浏览器使用 word-wrap，新版使用 overflow-wrap */
+            wordWrap: 'break-word',
+            overflowWrap: 'break-word',
+          }}
+          dangerouslySetInnerHTML={{ __html: html }}
+        ></code>
+      )}
     </pre>
   );
 };

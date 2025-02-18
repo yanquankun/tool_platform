@@ -1,19 +1,24 @@
 import React, { useEffect, useRef, KeyboardEvent } from 'react';
 import { css } from '@emotion/css';
 import { Avatar, Button } from 'antd';
-import { CloseOutlined, SendOutlined } from '@ant-design/icons';
+import { CloseOutlined, SendOutlined, PauseCircleTwoTone } from '@ant-design/icons';
 import { isMobile } from '~shared/utils/util';
 import { deepChat } from '~shared/apis/ai';
 import MarkdownHighlighter from './MarkdownHighlighter';
-import Prism from 'prismjs';
-import 'prismjs/components/prism-javascript';
-import 'prismjs/plugins/line-numbers/prism-line-numbers';
+import { copy } from '~shared/utils/util';
+// import Prism from 'prismjs';
+// import 'prismjs/components/prism-javascript';
+// import 'prismjs/plugins/line-numbers/prism-line-numbers';
 
-// 在文件顶部 import 下方添加
 interface IMessage {
   content: string;
   isBot: boolean;
   loading?: boolean;
+  isMedia?: boolean;
+  btns?: Array<{
+    name: string;
+    onClick: (text: string) => void;
+  }>;
 }
 
 interface IProps {
@@ -118,6 +123,12 @@ const styles = {
     justify-content: center;
     align-items: center;
   `,
+  btns: css`
+    display: flex;
+    gap: 8px;
+    margin-top: 8px;
+    justify-content: flex-end;
+  `,
 };
 
 const messageStyles = {
@@ -141,13 +152,20 @@ const ChatBot: React.FC<IProps> = (props: IProps) => {
       content: `你好，我是堃堃的机器人，有问题可以问我哦~😄`,
       isBot: true,
     },
+    {
+      content: `**欢迎关注个人小程序和微信公众号**\n![个人小程序](https://www.yanquankun.cn/cdn/mini-program-qrcode.png)![个人公众号](https://www.yanquankun.cn/cdn/gongzhonghao-qrcode.jpg)`,
+      isMedia: true,
+      isBot: true,
+    },
   ]);
+  const [streamOutputIng, setStreamOutputIng] = React.useState<boolean>(false);
+
   const [inputValue, setInputValue] = React.useState<string>('');
   const chatAreaRef = useRef<HTMLDivElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
 
   // 数据流Reader，用于控制流的读取
-  let streamReader = null;
+  let streamReader: ReadableStreamDefaultReader<Uint8Array> | null = null;
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -188,7 +206,12 @@ const ChatBot: React.FC<IProps> = (props: IProps) => {
     deepChat({
       message: userMessage,
       onProgress: (data: string) => {
+        console.log('data:', data);
+        // 开始输出标志
+        !streamOutputIng && setStreamOutputIng(true);
+
         if (data === '[DONE]') {
+          setStreamOutputIng(false);
           // 结束回复
           // 需要异步等待一段时间后再滚动到底部，否则获取不到真实的滚动高度
           // setTimeout(() => {
@@ -205,6 +228,12 @@ const ChatBot: React.FC<IProps> = (props: IProps) => {
 
   // 修改 handleSendMessage 函数
   const handleSendMessage = async () => {
+    if (streamOutputIng) {
+      streamReader?.cancel();
+      setStreamOutputIng(false);
+      return;
+    }
+
     if (inputValue.trim()) {
       const userMessage = inputValue;
       setInputValue('');
@@ -223,7 +252,23 @@ const ChatBot: React.FC<IProps> = (props: IProps) => {
         setMessages((prev) =>
           prev.map((msg, index) => {
             if (index === prev.length - 1) {
-              return { content: reply, isBot: true };
+              return {
+                content: reply,
+                isBot: true,
+                btns: [
+                  {
+                    name: '复制',
+                    onClick: (text: string) => {
+                      if ('clipboard' in navigator) {
+                        navigator.clipboard.writeText(text);
+                      } else {
+                        // 不支持 Clipboard API，使用传统方法
+                        copy('.code-text', text);
+                      }
+                    },
+                  },
+                ],
+              };
             }
             return msg;
           })
@@ -296,8 +341,21 @@ const ChatBot: React.FC<IProps> = (props: IProps) => {
                         正在思考中，请等待
                       </span>
                     ) : (
-                      <MarkdownHighlighter markdown={message.content} />
+                      <MarkdownHighlighter markdown={message.content} isMedia={message.isMedia} />
                     )}
+                    <div className={styles.btns}>
+                      {message.btns?.map((btn, index) => (
+                        <Button
+                          className="code-text"
+                          key={index}
+                          type="default"
+                          size="small"
+                          onClick={() => btn.onClick(message.content)}
+                        >
+                          {btn.name}
+                        </Button>
+                      ))}
+                    </div>
                   </div>
                   {!message.loading && (
                     <div className={styles.timeStamp}>
@@ -319,7 +377,7 @@ const ChatBot: React.FC<IProps> = (props: IProps) => {
                     {new Date().toLocaleTimeString('zh-CN', { hour12: true, hour: '2-digit', minute: '2-digit' })}
                   </div>
                 </div>
-                <Avatar style={{ backgroundColor: '#40798c' }}>你</Avatar>
+                <Avatar style={{ backgroundColor: '#1677ff' }}>你</Avatar>
               </>
             )}
           </div>
@@ -346,9 +404,10 @@ const ChatBot: React.FC<IProps> = (props: IProps) => {
         <Button
           type="primary"
           shape="circle"
-          icon={<SendOutlined />}
-          onClick={handleSendMessage}
+          loading={streamOutputIng}
+          icon={streamOutputIng ? <PauseCircleTwoTone /> : <SendOutlined />}
           className={styles.sendBtn}
+          onClick={handleSendMessage}
         />
       </div>
     </div>

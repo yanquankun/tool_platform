@@ -35,7 +35,8 @@
     <!--#include file="/page/includes/pre-blog.shtml"-->
     <!--#include file="/page/includes/pwa.shtml"-->
 
-    <script src="https://cdn.bootcdn.net/ajax/libs/marked/2.0.3/marked.min.js"></script>
+    <script defer src="https://cdn.bootcdn.net/ajax/libs/marked/2.0.3/marked.min.js"></script>
+    <script defer src="https://cdn.staticfile.org/clipboard.js/2.0.4/clipboard.min.js"></script>
     <script defer src="https://cdn.staticfile.org/clipboard.js/2.0.4/clipboard.min.js"></script>
     <!-- Dependencies -->
     <script src="/dist/bundle/blog/includes/react-common.vendor.js"></script>

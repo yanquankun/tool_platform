@@ -27,7 +27,6 @@ const deepChat = async ({
       body: JSON.stringify({
         message,
         stream,
-        // max_tokens: 1024,
         max_tokens: 256,
         model,
       }),
@@ -72,7 +71,7 @@ const deepChat = async ({
                 onProgress('[DONE]');
               } else {
                 const jsonData = JSON.parse(data);
-                console.log('Received SSE data:', jsonData);
+                // console.log('Received SSE data:', jsonData);
                 // if (!endThink && data.indexOf('</think>') > -1) endThink = true;
                 if (!jsonData.usage) {
                   onProgress(jsonData.response);

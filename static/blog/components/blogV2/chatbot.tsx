@@ -85,7 +85,7 @@ const styles = {
     align-items: flex-start;
   `,
   message: css`
-    max-width: 70%;
+    max-width: 90%;
     border-radius: 20px;
     line-height: 1.5;
     padding: 10px 12px;
@@ -138,11 +138,7 @@ const messageStyles = {
 const ChatBot: React.FC<IProps> = (props: IProps) => {
   const [messages, setMessages] = React.useState<IMessage[]>([
     {
-      content: '你好，我是‘堃堃’的机器人，有问题可以问我哦~',
-      isBot: true,
-    },
-    {
-      content: '目前使用模型为deepseek，后续将支持更多模型',
+      content: `你好，我是堃堃的机器人，有问题可以问我哦~😄`,
       isBot: true,
     },
   ]);
@@ -260,7 +256,7 @@ const ChatBot: React.FC<IProps> = (props: IProps) => {
           >
             {message.isBot ? (
               <>
-                <Avatar style={{ backgroundColor: '#87d068' }}>B</Avatar>
+                <Avatar style={{ backgroundColor: '#87d068' }}>闫</Avatar>
                 <div className={styles.messageContent}>
                   {/* 带行数代码示例 */}
                   {/* <div>
@@ -323,7 +319,7 @@ const ChatBot: React.FC<IProps> = (props: IProps) => {
                     {new Date().toLocaleTimeString('zh-CN', { hour12: true, hour: '2-digit', minute: '2-digit' })}
                   </div>
                 </div>
-                <Avatar style={{ backgroundColor: '#40798c' }}>U</Avatar>
+                <Avatar style={{ backgroundColor: '#40798c' }}>你</Avatar>
               </>
             )}
           </div>

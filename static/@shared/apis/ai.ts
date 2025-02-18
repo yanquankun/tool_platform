@@ -7,15 +7,17 @@ enum modelName {
 
 interface IDeepReqOptions {
   message: string;
-  stream?: boolean;
   onProgress: (data: string) => void;
+  stream?: boolean;
   showOutputThinkProgress?: boolean;
   model?: modelName;
+  closeReader?: (reader: ReadableStreamDefaultReader<Uint8Array> | null) => void;
 }
 const deepChat = async ({
   message,
   stream = true,
   onProgress,
+  closeReader,
   showOutputThinkProgress = false,
   model = modelName.deepseek_32b,
 }: IDeepReqOptions) => {
@@ -25,7 +27,8 @@ const deepChat = async ({
       body: JSON.stringify({
         message,
         stream,
-        max_tokens: 1024,
+        // max_tokens: 1024,
+        max_tokens: 256,
         model,
       }),
     });
@@ -42,6 +45,8 @@ const deepChat = async ({
     const reader = response.body.getReader();
     const decoder = new TextDecoder('utf-8');
     let buffer = '';
+
+    if (closeReader && typeof closeReader === 'function') closeReader(reader);
 
     while (true) {
       const { done, value } = await reader.read();
@@ -61,6 +66,9 @@ const deepChat = async ({
             try {
               // 尝试将数据解析为 JSON
               if (data.indexOf('[DONE]') > -1) {
+                // 结束后，自动重置reader
+                if (closeReader && typeof closeReader === 'function') closeReader(null);
+
                 onProgress('[DONE]');
               } else {
                 const jsonData = JSON.parse(data);
@@ -72,61 +80,13 @@ const deepChat = async ({
               }
             } catch (error) {
               console.error('Error parsing SSE data:', error);
+              if (closeReader && typeof closeReader === 'function') closeReader(null);
               onProgress('\n Error: ' + error);
             }
           }
         }
       }
     }
-
-    // // 流数据是否已返回结束思考过程标记
-    // let endThink = showOutputThinkProgress;
-
-    // requestTask.onChunkReceived((response) => {
-    //   try {
-    //     // 将 Uint8Array 转换为字符串
-    //     // const decoder = new TextDecoder();
-    //     // const text = decoder.decode(response.data);
-    //     const array = new Uint8Array(response.data);
-    //     let text = '';
-    //     for (let i = 0; i < array.length; i++) {
-    //       text += String.fromCharCode(array[i]);
-    //     }
-    //     // 使用 decodeURIComponent 和 escape 来正确处理 UTF-8 编码
-    //     text = decodeURIComponent(escape(text));
-
-    //     // 处理接收到的数据块
-    //     const lines = text.split('\n');
-
-    //     lines.forEach((line) => {
-    //       if (line.startsWith('data: ')) {
-    //         const jsonStr = line.slice(6);
-    //         if (jsonStr === '[DONE]') {
-    //           // 数据传输完成
-    //           onProgress('[DONE]');
-    //           return;
-    //         }
-    //         try {
-    //           const jsonData = JSON.parse(jsonStr);
-    //           if (!endThink && jsonData.response.indexOf('</think>') > -1) endThink = true;
-    //           else if (jsonData.response && endThink) {
-    //             console.log('Received chunk:', jsonData.response);
-    //             // 调用回调函数，传递增量内容
-    //             onProgress(jsonData.response);
-    //           }
-    //         } catch (e) {
-    //           onProgress('\n Error: ' + jsonStr);
-    //           console.error('Parse chunk error:', e);
-    //           requestTask.abort();
-    //         }
-    //       }
-    //     });
-    //   } catch (error) {
-    //     onProgress('\n Error: ' + error);
-    //     console.error('Process chunk error:', error);
-    //     requestTask.abort();
-    //   }
-    // });
   } else {
     try {
       const { data: response } = await request({

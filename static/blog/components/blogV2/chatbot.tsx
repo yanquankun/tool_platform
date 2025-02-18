@@ -107,6 +107,7 @@ const styles = {
     display: flex;
     flex-direction: column;
     align-items: flex-end;
+    width: 70%;
   `,
   messageContent: css`
     width: calc(100% - 45px);
@@ -137,11 +138,11 @@ const messageStyles = {
 const ChatBot: React.FC<IProps> = (props: IProps) => {
   const [messages, setMessages] = React.useState<IMessage[]>([
     {
-      content: "Hi I'm DocsBot. I'm here to help you explain how I work.",
+      content: '你好，我是‘堃堃’的机器人，有问题可以问我哦~',
       isBot: true,
     },
     {
-      content: "Here's a quick overview over what I need to function. ask me about the different parts to dive deeper.",
+      content: '目前使用模型为deepseek，后续将支持更多模型',
       isBot: true,
     },
   ]);
@@ -149,11 +150,8 @@ const ChatBot: React.FC<IProps> = (props: IProps) => {
   const chatAreaRef = useRef<HTMLDivElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
 
-  useEffect(() => {
-    if (chatAreaRef.current) {
-      chatAreaRef.current.scrollTop = chatAreaRef.current.scrollHeight;
-    }
-  }, [messages]);
+  // 数据流Reader，用于控制流的读取
+  let streamReader = null;
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -168,6 +166,27 @@ const ChatBot: React.FC<IProps> = (props: IProps) => {
       document.removeEventListener('mousedown', handleClickOutside);
     };
   }, [props]);
+
+  useEffect(() => {
+    const observer = new MutationObserver(() => {
+      scrollToTop();
+    });
+
+    if (chatAreaRef.current) {
+      observer.observe(chatAreaRef.current, { childList: true, subtree: true });
+    }
+
+    return () => {
+      observer.disconnect();
+    };
+  }, [messages]);
+
+  const scrollToTop = () => {
+    if (chatAreaRef.current) {
+      chatAreaRef.current.scrollTop = chatAreaRef.current.scrollHeight;
+    }
+  };
+
   // 在 ChatBot 组件内添加模拟回复函数
   const mockBotReply = async (userMessage: string, onProgress: (data: string) => void) => {
     deepChat({
@@ -175,8 +194,15 @@ const ChatBot: React.FC<IProps> = (props: IProps) => {
       onProgress: (data: string) => {
         if (data === '[DONE]') {
           // 结束回复
+          // 需要异步等待一段时间后再滚动到底部，否则获取不到真实的滚动高度
+          // setTimeout(() => {
+          //   scrollToTop();
+          // }, 50);
         }
         onProgress(data);
+      },
+      closeReader: (reader) => {
+        streamReader = reader;
       },
     });
   };

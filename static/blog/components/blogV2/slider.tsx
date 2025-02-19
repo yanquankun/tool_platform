@@ -211,22 +211,16 @@ export const Slider: FC<IProps> = function (props: IProps): JSX.Element {
   const blogClick = (blog: IBlogTitleItem) => {
     if (blog.from === 'static' || blog.from === 'secondTitle') return;
     setCurBlogId(blog.blogId);
-    let content = '';
+    let content;
     if (blog.from === 'github') {
-      content = JSON.stringify({
-        article: gitTitleList.filter((item: IBlogTitleItem) => item.blogId == blog.blogId)[0],
-      });
+      content = gitTitleList.filter((item: IBlogTitleItem) => item.blogId == blog.blogId)[0];
     } else if (blog.from === 'wx') {
-      content = JSON.stringify({
-        article: wxTitleList.filter((item: IBlogTitleItem) => item.blogId == blog.blogId)[0],
-      });
+      content = wxTitleList.filter((item: IBlogTitleItem) => item.blogId == blog.blogId)[0];
     } else if (blog.from === 'local') {
-      content = JSON.stringify({
-        article: localBlogList.filter((item: IBlogTitleItem) => item.blogId == blog.blogId)[0],
-      });
+      content = localBlogList.filter((item: IBlogTitleItem) => item.blogId == blog.blogId)[0];
     }
-    window.history.replaceState('', '', `?name=${blog?.title}&id=${blog.blogId}&type=${blog.from}`);
-    props.transportBlog(blog.blogId, content);
+    window.history.replaceState('', '', `?name=${content?.title}&id=${content?.blogId}&type=${content?.from}`);
+    props.transportBlog(blog.blogId, JSON.stringify({ article: content }));
   };
 
   return (

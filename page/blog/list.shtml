@@ -8,6 +8,11 @@
     <link rel="apple-touch-icon" href="/cdn/blog/fe-192.png" />
     <link rel="manifest" href="/cdn/blog/manifest.json" as="json" />
     <link rel="icon" type="image/x-icon" href="/cdn/favicon.ico" />
+    <!-- 预加载css -->
+    <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" as="style" />
+    <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/line-numbers/prism-line-numbers.min.css" as="style" />
+    <!-- 预加载js -->
+    <link rel="preload" href="https://cdn.staticfile.org/clipboard.js/2.0.4/clipboard.min.js" as="script">
     <!-- 引入 Prism CSS -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" />
     <!-- 引入 Prism 行号 CSS -->
@@ -35,8 +40,6 @@
     <!--#include file="/page/includes/pre-blog.shtml"-->
     <!--#include file="/page/includes/pwa.shtml"-->
 
-    <script defer src="https://cdn.bootcdn.net/ajax/libs/marked/2.0.3/marked.min.js"></script>
-    <script defer src="https://cdn.staticfile.org/clipboard.js/2.0.4/clipboard.min.js"></script>
     <script defer src="https://cdn.staticfile.org/clipboard.js/2.0.4/clipboard.min.js"></script>
     <!-- Dependencies -->
     <script src="/dist/bundle/blog/includes/react-common.vendor.js"></script>

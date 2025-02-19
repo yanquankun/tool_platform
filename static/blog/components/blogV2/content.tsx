@@ -8,6 +8,7 @@ import 'prismjs/plugins/line-numbers/prism-line-numbers';
 import { getGithubFileContent } from '~shared/apis/git_cp';
 import { base64ToArrayBuffer } from '~shared/utils/util';
 import { isMobile } from '~shared/utils/util';
+import { marked } from 'marked';
 
 const commonStyle = {
   content: css`
@@ -278,7 +279,7 @@ export const Content: FC<IProps> = function (props): JSX.Element {
           {code && (
             <div
               dangerouslySetInnerHTML={{
-                __html: window.marked(code.trim()),
+                __html: marked(code.trim()),
               }}
             ></div>
           )}

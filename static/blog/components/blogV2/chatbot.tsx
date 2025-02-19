@@ -206,7 +206,6 @@ const ChatBot: React.FC<IProps> = (props: IProps) => {
     deepChat({
       message: userMessage,
       onProgress: (data: string) => {
-        console.log('data:', data);
         // 开始输出标志
         !streamOutputIng && setStreamOutputIng(true);
 

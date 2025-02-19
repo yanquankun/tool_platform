@@ -30,8 +30,6 @@ export const copy = (
       copyInstance = null;
       message.error(errorMsg);
     });
-
-  console.log('copyInstance', copyInstance);
 };
 
 /**

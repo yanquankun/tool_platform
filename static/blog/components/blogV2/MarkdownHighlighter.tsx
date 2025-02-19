@@ -22,9 +22,12 @@ const MarkdownHighlighter = ({ markdown = '', isMedia = false }: IProps) => {
   const [html, setHtml] = useState('');
 
   useEffect(() => {
+    if (markdown.indexOf('</think>') > -1) {
+      markdown = `<p>思考过程🤔...\n ${markdown.replace('</think>', '')}</p>`;
+    }
+
     // 使用 marked 解析 Markdown
     const parsedHtml = marked.parse(markdown) as string;
-    console.log(parsedHtml);
     setHtml(parsedHtml);
   }, [markdown]);
 

@@ -27,7 +27,7 @@ const deepChat = async ({
       body: JSON.stringify({
         message,
         stream,
-        max_tokens: 256,
+        max_tokens: 512,
         model,
       }),
     });
@@ -39,7 +39,7 @@ const deepChat = async ({
     }
 
     // 流数据是否已返回结束思考过程标记
-    let endThink = showOutputThinkProgress;
+    // let endThink = showOutputThinkProgress;
 
     const reader = response.body.getReader();
     const decoder = new TextDecoder('utf-8');

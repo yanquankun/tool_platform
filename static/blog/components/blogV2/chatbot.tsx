@@ -146,6 +146,9 @@ const messageStyles = {
   `,
 };
 
+// 数据流Reader，用于控制流的读取
+let streamReader: ReadableStreamDefaultReader<Uint8Array> | null = null;
+
 const ChatBot: React.FC<IProps> = (props: IProps) => {
   const [messages, setMessages] = React.useState<IMessage[]>([
     {
@@ -163,9 +166,6 @@ const ChatBot: React.FC<IProps> = (props: IProps) => {
   const [inputValue, setInputValue] = React.useState<string>('');
   const chatAreaRef = useRef<HTMLDivElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
-
-  // 数据流Reader，用于控制流的读取
-  let streamReader: ReadableStreamDefaultReader<Uint8Array> | null = null;
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -219,7 +219,7 @@ const ChatBot: React.FC<IProps> = (props: IProps) => {
         }
         onProgress(data);
       },
-      closeReader: (reader) => {
+      getReader: (reader) => {
         streamReader = reader;
       },
     });
@@ -403,10 +403,10 @@ const ChatBot: React.FC<IProps> = (props: IProps) => {
         <Button
           type="primary"
           shape="circle"
-          loading={streamOutputIng}
-          icon={streamOutputIng ? <PauseCircleTwoTone /> : <SendOutlined />}
+          // loading={streamOutputIng}
+          icon={streamOutputIng ? <PauseCircleTwoTone style={{ fontSize: '32px' }} /> : <SendOutlined />}
           className={styles.sendBtn}
-          onClick={handleSendMessage}
+          onClick={() => handleSendMessage()}
         />
       </div>
     </div>

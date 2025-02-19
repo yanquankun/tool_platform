@@ -11,13 +11,13 @@ interface IDeepReqOptions {
   stream?: boolean;
   showOutputThinkProgress?: boolean;
   model?: modelName;
-  closeReader?: (reader: ReadableStreamDefaultReader<Uint8Array> | null) => void;
+  getReader?: (reader: ReadableStreamDefaultReader<Uint8Array> | null) => void;
 }
 const deepChat = async ({
   message,
   stream = true,
   onProgress,
-  closeReader,
+  getReader,
   showOutputThinkProgress = false,
   model = modelName.deepseek_32b,
 }: IDeepReqOptions) => {
@@ -45,7 +45,7 @@ const deepChat = async ({
     const decoder = new TextDecoder('utf-8');
     let buffer = '';
 
-    if (closeReader && typeof closeReader === 'function') closeReader(reader);
+    if (getReader && typeof getReader === 'function') getReader(reader);
 
     while (true) {
       const { done, value } = await reader.read();
@@ -66,7 +66,7 @@ const deepChat = async ({
               // 尝试将数据解析为 JSON
               if (data.indexOf('[DONE]') > -1) {
                 // 结束后，自动重置reader
-                if (closeReader && typeof closeReader === 'function') closeReader(null);
+                if (getReader && typeof getReader === 'function') getReader(null);
 
                 onProgress('[DONE]');
               } else {
@@ -79,7 +79,7 @@ const deepChat = async ({
               }
             } catch (error) {
               console.error('Error parsing SSE data:', error);
-              if (closeReader && typeof closeReader === 'function') closeReader(null);
+              if (getReader && typeof getReader === 'function') getReader(null);
               onProgress('\n Error: ' + error);
             }
           }

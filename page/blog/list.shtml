@@ -2,10 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta data-draft-node="block" data-draft-type="table" data-size="normal" data-row-style="normal" />
-    <meta name="apple-mobile-web-app-capable" content="yes" />
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <!--#include file="/page/includes/meta.shtml"-->
     <link rel="apple-touch-icon" href="/cdn/blog/fe-192.png" />
     <link rel="manifest" href="/cdn/blog/manifest.json" as="json" />
     <link rel="icon" type="image/x-icon" href="/cdn/favicon.ico" />
@@ -21,7 +18,6 @@
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/line-numbers/prism-line-numbers.min.css"
     />
-    <!--#include file="/page/includes/meta.shtml"-->
     <title>堃堃博客</title>
     <style>
       body {

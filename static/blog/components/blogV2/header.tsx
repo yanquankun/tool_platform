@@ -15,7 +15,7 @@ export const Header: FC<IProps> = function (props: IProps): JSX.Element {
   const [open, setOpen] = useState(false);
   const [extraOpen, setExtraOpen] = useState(false);
   const [tip, setTip] = useState<string>('');
-  const { height, createMarguee } = useMarqueeText(tip, 57);
+  const { height, createMarguee } = useMarqueeText(tip);
 
   useEffect(() => {
     (async function () {

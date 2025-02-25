@@ -1,7 +1,6 @@
 import { useState, useEffect, useRef, Fragment, useMemo, useCallback } from 'react';
 import { css } from '@emotion/css';
-import { CloseCircleFilled } from '@ant-design/icons';
-import { he } from 'element-plus/es/locale';
+import { CloseCircleOutlined } from '@ant-design/icons';
 
 const style = {
   wrapper: `
@@ -13,31 +12,24 @@ const style = {
         left: 30px;
       }
     };
-    position: absolute;
-    top: 0;
-    display: -webkit-box;
-    display: -webkit-flex;
-    display: -ms-flexbox;
     display: flex;
-    -webkit-align-items: center;
-    -webkit-box-align: center;
-    -ms-flex-align: center;
     align-items: center;
-    padding: 0px 40px 0 30px;
-    background: papayawhip;
-    width: -webkit-fill-available;
-    left: 0;
-    top: 57px;
-    /* flex-wrap: wrap; */
+    justify-content: space-between;
+    background: #FFFBEB;
+    border: 1px solid #FEF3C7;
     width: 100%;
     box-sizing: border-box;
+    height: auto;
+    padding: 10px 20px;
   `,
   inner: `
-    line-height: 25px;
+   font-size: 15px;
+   font-weight: 300;
+   margin-right: 10px;
   `,
 };
 
-const useMarqueeText = (text: string, top: number = 0, showCloseBtn: boolean = true) => {
+const useMarqueeText = (text: string, showCloseBtn: boolean = true) => {
   const textContentRef = useRef<HTMLDivElement>(null);
   const marqueeContentRef = useRef<HTMLDivElement>(null);
   const [visible, setVisible] = useState<boolean>(false);
@@ -71,11 +63,10 @@ const useMarqueeText = (text: string, top: number = 0, showCloseBtn: boolean = t
       return (
         <Fragment>
           {visible && text && (
-            <div ref={marqueeContentRef} id="marquee" className={css(style.wrapper, `top:${top}px`)}>
+            <div ref={marqueeContentRef} id="marquee" className={css(style.wrapper)}>
               <span className={css(style.inner)} ref={textContentRef}></span>
               {closeBtnVisible && (
-                <CloseCircleFilled
-                  className={css(`position:absolute;right:20px`)}
+                <CloseCircleOutlined
                   onClick={() => {
                     setVisible(false);
                     setHeight(0);

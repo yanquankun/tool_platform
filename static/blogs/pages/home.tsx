@@ -4,6 +4,8 @@ import Slider from '../components/slider';
 import Contet from '../components/content';
 import { Progress } from 'antd';
 import { css } from '@emotion/css';
+import useMarqueeText from '~shared/components/marquee';
+import { getLastedNotice } from '~shared/apis/static';
 
 const styled = {
   progress: css`
@@ -12,12 +14,22 @@ const styled = {
     left: 0;
     z-index: 9999;
   `,
+  container: css`
+    flex: 1;
+  `,
 };
 
 const App: FC = () => {
   const [progress, setProgress] = useState<number>(0);
+  const [tip, setTip] = useState<string>('');
+  const { height, createMarguee } = useMarqueeText(tip);
 
   useEffect(() => {
+    (async function () {
+      const message = await getLastedNotice();
+      setTip(message);
+    })();
+
     // 创建一个 PerformanceObserver 对象
     const observer = new PerformanceObserver((list) => {
       const entries = list.getEntries() as PerformanceResourceTiming[];
@@ -49,11 +61,6 @@ const App: FC = () => {
       loadedBytes += resource.encodedBodySize || resource.decodedBodySize;
     }
 
-    // 计算加载进度
-    const progress = (loadedBytes / totalBytes) * 100;
-    console.log(loadedBytes, totalBytes);
-    console.log(`静态资源加载进度：${progress.toFixed(2)}%`);
-
     setProgress(Math.max(100, totalBytes === 100 ? 1 : (loadedBytes / totalBytes) * 100));
 
     return () => {
@@ -61,6 +68,17 @@ const App: FC = () => {
       observer.disconnect();
     };
   }, []);
+
+  useEffect(() => {
+    const slider = document.getElementById('slider');
+    const content = document.getElementById('content');
+    if (slider) {
+      slider.style.paddingTop = `${height}px`;
+    }
+    if (content) {
+      content.style.paddingTop = `${height}px`;
+    }
+  }, [height]);
 
   return (
     <Suspense
@@ -75,9 +93,15 @@ const App: FC = () => {
         />
       }
     >
+      {/* 头部区域 */}
       <Header />
-      <Slider />
-      <Contet />
+      {/* 跑马灯 */}
+      {createMarguee()}
+      {/* 内容区域 */}
+      <div className={styled.container}>
+        <Slider />
+        <Contet />
+      </div>
     </Suspense>
   );
 };

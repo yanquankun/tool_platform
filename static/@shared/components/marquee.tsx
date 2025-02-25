@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef, Fragment, useMemo, useCallback } from 'react';
 import { css } from '@emotion/css';
-import { CloseCircleOutlined } from '@ant-design/icons';
+import { CloseCircleOutlined, SoundFilled } from '@ant-design/icons';
 
 const style = {
   wrapper: `
@@ -23,9 +23,26 @@ const style = {
     padding: 10px 20px;
   `,
   inner: `
-   font-size: 15px;
+   font-size: 0.98rem;
    font-weight: 300;
    margin-right: 10px;
+  `,
+  trumpet: css`
+    margin-right: 0.5rem;
+    animation: scaleIcon 2.4s ease-in-out 3;
+    @keyframes scaleIcon {
+      0%,
+      100% {
+        transform: scale(1);
+      }
+      50% {
+        transform: scale(1.2);
+      }
+    }
+  `,
+  close: css`
+    width: 0.8rem;
+    cursor: pointer;
   `,
 };
 
@@ -64,13 +81,16 @@ const useMarqueeText = (text: string, showCloseBtn: boolean = true) => {
         <Fragment>
           {visible && text && (
             <div ref={marqueeContentRef} id="marquee" className={css(style.wrapper)}>
+              <SoundFilled className={style.trumpet} />
               <span className={css(style.inner)} ref={textContentRef}></span>
               {closeBtnVisible && (
-                <CloseCircleOutlined
+                <img
+                  className={css(style.close)}
                   onClick={() => {
                     setVisible(false);
-                    setHeight(0);
                   }}
+                  src="https://www.yanquankun.cn/cdn/blog/close.png"
+                  alt=""
                 />
               )}
             </div>

@@ -24,7 +24,7 @@ export async function getLastedNotice(): Promise<string> {
         deadline: number;
       }[]
     )
-      .filter((notice: { deadline: number }) => (notice?.deadline ?? 0) > 0)
+      .filter((notice: { deadline: number }) => (notice?.deadline ?? 0) > now)
       .sort((a, b) => b?.priority - a?.priority)[0]?.message;
   }
 

@@ -8,6 +8,7 @@ const styled = {
     height: 100vh;
     border-right: 1px solid #e5e7eb;
     box-sizing: border-box;
+    padding: 1.5rem 0.95rem;
   `,
   slider: css`
     height: 100vh;

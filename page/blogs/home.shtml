@@ -42,6 +42,20 @@
           font-size: 12px;
         }
       }
+      ::-webkit-scrollbar {
+        width: 3px;
+      }
+      ::-webkit-scrollbar-track {
+        background: #f1f1f1;
+      }
+      ::-webkit-scrollbar-thumb {
+        background: #e0e0e0;
+        border-radius: 3px;
+      }
+      /* 滑块悬停时的样式 */
+      ::-webkit-scrollbar-thumb:hover {
+        background: #faf6f6;
+      }
       #app {
         display: flex;
         flex-direction: column;
@@ -57,10 +71,10 @@
 
     <script defer src="https://cdn.staticfile.org/clipboard.js/2.0.4/clipboard.min.js"></script>
     <!-- Dependencies -->
-    <script src="/dist/bundle/blog/includes/react-common.vendor.js"></script>
-    <script src="/dist/bundle/blog/includes/antd.vendor.js"></script>
-    <script src="/dist/bundle/blog/includes/ant-design.vendor.js"></script>
-    <script src="/dist/bundle/blog/includes/dep.vendor.js"></script>
+    <script src="/dist/bundle/blogs/includes/react-common.vendor.js"></script>
+    <script src="/dist/bundle/blogs/includes/antd.vendor.js"></script>
+    <script src="/dist/bundle/blogs/includes/ant-design.vendor.js"></script>
+    <script src="/dist/bundle/blogs/includes/dep.vendor.js"></script>
     <!-- bundle entry -->
     <script src="/dist/bundle/blogs/home-entry.bundle.js"></script>
     <!-- Dependencies -->

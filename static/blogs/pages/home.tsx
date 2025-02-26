@@ -16,6 +16,7 @@ const styled = {
   `,
   container: css`
     flex: 1;
+    display: flex;
   `,
 };
 

@@ -1,6 +1,8 @@
-import React, { Fragment } from 'react';
+import React, { Fragment, MouseEvent, MouseEventHandler, useState } from 'react';
 import { css } from '@emotion/css';
 import { IBlogCategory } from '../interfaces/blog';
+import { Tooltip } from 'antd';
+import { isEllipsisShown } from '@shared/utils/util';
 
 const styled = {
   firstTitle: css`
@@ -15,15 +17,24 @@ const styled = {
   `,
   secondTitle: css`
     font-size: 0.875rem;
-    color: #666;
     padding: 0.375rem 0 0.375rem 1rem;
     cursor: pointer;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
     &:hover {
       font-weight: 500;
       color: #333;
     }
   `,
-  arrow: css``,
+  secondTitleSelect: css`
+    color: rgb(62, 175, 124);
+    font-weight: 500;
+  `,
+  unSecondTitleSelect: css`
+    color: #666;
+    font-weight: 400;
+  `,
   arrowUp: css`
     transition: transform 0.3s ease-in-out;
     transform: rotate(180deg);
@@ -50,15 +61,18 @@ const styled = {
 
 const BlogTitleListItem = React.memo<{
   blog: IBlogCategory;
+  currentBlogId?: string;
   onToggleExpand: (blog: IBlogCategory) => void;
-}>(({ blog, onToggleExpand }) => {
+  onSelectBlog: (id: string) => void;
+}>(({ blog, currentBlogId, onToggleExpand, onSelectBlog }) => {
   const getArrow = (expand: boolean) => (
     <img
-      className={css(styled.arrow, expand ? styled.arrowUp : styled.arrowDown)}
+      className={css(expand ? styled.arrowUp : styled.arrowDown)}
       src="https://www.yanquankun.cn/cdn/blog/arrow.png"
       alt=""
     />
   );
+  const [ellipsisSource, setEllipsisSource] = useState<string>('');
 
   return (
     <Fragment>
@@ -71,9 +85,22 @@ const BlogTitleListItem = React.memo<{
         {blog.children.length > 0 &&
           blog.children.map((child, index) => (
             //   二级菜单
-            <div key={index} className={styled.secondTitle}>
-              {child.title}
-            </div>
+            <Tooltip placement="right" title={ellipsisSource}>
+              <div
+                key={index}
+                className={css(
+                  styled.secondTitle,
+                  child.id === currentBlogId ? styled.secondTitleSelect : styled.unSecondTitleSelect
+                )}
+                onClick={() => onSelectBlog(child.id)}
+                onMouseEnter={(e: Parameters<MouseEventHandler>[0]) => {
+                  if (isEllipsisShown(e.target as HTMLElement)) setEllipsisSource(child.title);
+                  else setEllipsisSource('');
+                }}
+              >
+                <span>{child.title}</span>
+              </div>
+            </Tooltip>
           ))}
       </div>
     </Fragment>

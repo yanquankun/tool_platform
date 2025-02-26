@@ -9,7 +9,7 @@ const styled = {
     min-width: 150px;
     border-right: 1px solid #e5e7eb;
     box-sizing: border-box;
-    padding: 1.5rem 0.95rem;
+    padding: 0.6rem 0.95rem 1.5rem 0.95rem;
     font-size: 1rem;
     font-weight: 400;
   `,
@@ -26,7 +26,7 @@ const Slider: FC = () => {
       children: [
         {
           title: 'github文章',
-          id: 1,
+          id: '1',
         },
       ],
     },
@@ -36,19 +36,20 @@ const Slider: FC = () => {
       children: [
         {
           title: 'github文章2',
-          id: 2,
+          id: '2',
         },
         {
           title: 'github文章2123',
-          id: 22,
+          id: '22',
         },
         {
-          title: 'github文章23123',
-          id: 21,
+          title: 'github文github文章23123github文章23123章23123',
+          id: '21',
         },
       ],
     },
   ]);
+  const [currentBlogId, setCurrentBlogId] = useState<string>();
 
   const handleToggleExpand = useCallback(
     (blog: IBlogCategory) => {
@@ -58,10 +59,20 @@ const Slider: FC = () => {
     [blogTitleList]
   );
 
+  const handleSelectBlog = useCallback((id: string) => {
+    setCurrentBlogId(id);
+  }, []);
+
   return (
     <div className={styled.sliderWrap}>
       {blogTitleList.map((blog, index) => (
-        <BlogTitleListItem key={index} blog={blog} onToggleExpand={handleToggleExpand} />
+        <BlogTitleListItem
+          key={index}
+          blog={blog}
+          currentBlogId={currentBlogId}
+          onToggleExpand={handleToggleExpand}
+          onSelectBlog={handleSelectBlog}
+        />
       ))}
     </div>
   );

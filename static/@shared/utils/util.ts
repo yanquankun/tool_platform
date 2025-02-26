@@ -1,4 +1,5 @@
 import { message } from 'antd';
+import { el } from 'element-plus/es/locale';
 
 /**
  * @Date 2023-10-19 19:37:26
@@ -71,4 +72,26 @@ export const isMobile = () => {
 
 export function isSafari() {
   return /Safari/.test(navigator.userAgent) && !/CriOS/.test(navigator.userAgent);
+}
+
+/**
+ * 2025-02-26 17:16:32
+ * @author Mint.Yan
+ * @description 判断文本是否被省略
+ * @param element 文本元素
+ * @return {boolean}
+ */
+export function isEllipsisShown(element: HTMLElement) {
+  const text = element.textContent || '';
+  const style = window.getComputedStyle(element);
+  const fontSize = style.fontSize;
+  const fontFamily = style.fontFamily;
+
+  // 创建一个canvas元素来测量文本宽度
+  const canvas = document.createElement('canvas');
+  const ctx = canvas.getContext('2d');
+  ctx!.font = `${fontSize} ${fontFamily}`;
+  const textWidth = ctx!.measureText(text).width;
+
+  return textWidth > element.offsetWidth;
 }

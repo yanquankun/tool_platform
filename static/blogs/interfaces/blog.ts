@@ -1,6 +1,6 @@
 interface IBlogItem {
   title: string;
-  id: number;
+  id: string;
 }
 
 interface IBlogCategory {

@@ -1,6 +1,6 @@
-import { FC } from 'react';
+import { FC, useState } from 'react';
 import { css } from '@emotion/css';
-import { Divider, Button } from 'antd';
+import { Divider, Button, Breadcrumb } from 'antd';
 import dayjs from 'dayjs';
 
 const styled = {
@@ -10,6 +10,17 @@ const styled = {
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
     box-sizing: border-box;
     overflow-y: auto;
+  `,
+  breadcrumb: css`
+    color: #4b5563;
+    > ol {
+      > li:last-child {
+        color: #3b82f6;
+      }
+    }
+  `,
+  separatorIcon: css`
+    margin-top: 0.4rem;
   `,
   title: css`
     font-size: 1.5rem;
@@ -68,8 +79,22 @@ const styled = {
 };
 
 const Content: FC = () => {
+  const [breads, setBreads] = useState([
+    {
+      title: 'Ant Design',
+    },
+    {
+      title: 'Button',
+    },
+  ]);
+
   return (
     <div className={styled.contentWrap}>
+      <Breadcrumb
+        className={styled.breadcrumb}
+        items={breads}
+        separator={<img className={styled.separatorIcon} src="https://www.yanquankun.cn/cdn/blog/separator.png" />}
+      />
       {/* 标题区域 */}
       <h1 className={styled.title}>React 性能优化最佳实践：从入门到精通</h1>
       {/* 著作区域 */}

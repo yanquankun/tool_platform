@@ -1,4 +1,4 @@
-import React, { FC, Fragment, useState, useCallback } from 'react';
+import React, { Fragment } from 'react';
 import { css } from '@emotion/css';
 import { IBlogCategory } from '../interfaces/blog';
 
@@ -7,11 +7,21 @@ const styled = {
     display: flex;
     align-items: center;
     justify-content: space-between;
+    font-size: 1rem;
+    font-weight: 500;
+    color: #333;
+    padding: 0.5rem 0;
     cursor: pointer;
   `,
   secondTitle: css`
-    text-indent: 1rem;
+    font-size: 0.875rem;
+    color: #666;
+    padding: 0.375rem 0 0.375rem 1rem;
     cursor: pointer;
+    &:hover {
+      font-weight: 500;
+      color: #333;
+    }
   `,
   arrow: css``,
   arrowUp: css`
@@ -23,19 +33,15 @@ const styled = {
     transform: rotate(0deg);
   `,
   childrenUp: css`
-    transition:
-      transform 0.3s ease-in-out,
-      opacity 0.3s ease-in-out;
+    transition: all 0.3s ease-in-out;
     transform: translateY(0);
     height: auto;
     opacity: 1;
     overflow: hidden;
   `,
   childrenDown: css`
-    transition:
-      transform 0.3s ease-in-out,
-      opacity 0.3s ease-in-out;
-    transform: translateY(-10px);
+    transition: all 0.3s ease-in-out;
+    transform: translateY(-0.625rem);
     height: 0;
     opacity: 0;
     overflow: hidden;
@@ -56,16 +62,20 @@ const BlogTitleListItem = React.memo<{
 
   return (
     <Fragment>
+      {/* 一级菜单 */}
       <div className={styled.firstTitle} onClick={() => onToggleExpand(blog)}>
         <span>{blog.title}</span>
         {getArrow(blog.expand)}
       </div>
-      {blog.children.length &&
-        blog.children.map((child, index) => (
-          <div key={index} className={css(styled.secondTitle, blog.expand ? styled.childrenUp : styled.childrenDown)}>
-            {child.title}
-          </div>
-        ))}
+      <div className={blog.expand ? styled.childrenUp : styled.childrenDown}>
+        {blog.children.length > 0 &&
+          blog.children.map((child, index) => (
+            //   二级菜单
+            <div key={index} className={styled.secondTitle}>
+              {child.title}
+            </div>
+          ))}
+      </div>
     </Fragment>
   );
 });

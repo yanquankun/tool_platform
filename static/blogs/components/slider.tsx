@@ -30,6 +30,24 @@ const Slider: FC = () => {
         },
       ],
     },
+    {
+      title: '技术文章2',
+      expand: true,
+      children: [
+        {
+          title: 'github文章2',
+          id: 2,
+        },
+        {
+          title: 'github文章2123',
+          id: 22,
+        },
+        {
+          title: 'github文章23123',
+          id: 21,
+        },
+      ],
+    },
   ]);
 
   const handleToggleExpand = useCallback(

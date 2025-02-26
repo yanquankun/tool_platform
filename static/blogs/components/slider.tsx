@@ -5,7 +5,6 @@ const styled = {
   sliderWrap: css`
     width: 15rem;
     min-width: 150px;
-    height: 100vh;
     border-right: 1px solid #e5e7eb;
     box-sizing: border-box;
     padding: 1.5rem 0.95rem;

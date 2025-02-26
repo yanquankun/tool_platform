@@ -90,6 +90,11 @@ const Header: FC = () => {
     return (
       <div>
         <Tag bordered={false} className={styled.tag}>
+          <a href="https://www.yanquankun.cn/pdf/?lang=zh_CN" target={_isMobile ? '_self' : '_blank'}>
+            pdf工具
+          </a>
+        </Tag>
+        <Tag bordered={false} className={styled.tag}>
           <a href="/home/resume" target={_isMobile ? '_self' : '_blank'}>
             个人主页
           </a>

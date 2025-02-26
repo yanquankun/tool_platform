@@ -1,7 +1,7 @@
 import React, { Fragment, MouseEvent, MouseEventHandler, useState } from 'react';
 import { css } from '@emotion/css';
 import { IBlogCategory } from '../interfaces/blog';
-import { Tooltip } from 'antd';
+import { Popover } from 'antd';
 import { isEllipsisShown } from '@shared/utils/util';
 
 const styled = {
@@ -85,7 +85,7 @@ const BlogTitleListItem = React.memo<{
         {blog.children.length > 0 &&
           blog.children.map((child, index) => (
             //   二级菜单
-            <Tooltip placement="right" title={ellipsisSource}>
+            <Popover placement="rightTop" content={ellipsisSource}>
               <div
                 key={index}
                 className={css(
@@ -100,7 +100,7 @@ const BlogTitleListItem = React.memo<{
               >
                 <span>{child.title}</span>
               </div>
-            </Tooltip>
+            </Popover>
           ))}
       </div>
     </Fragment>

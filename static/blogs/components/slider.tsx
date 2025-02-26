@@ -1,7 +1,8 @@
 import { FC, useState, useCallback } from 'react';
 import { css } from '@emotion/css';
 import BlogTitleListItem from './blogTitleItem';
-import { IBlogCategory, SECOND_TITLE_ID } from '../interfaces/blog';
+import { IBlogCategory, SECOND_TITLE_ID, BlogFrom } from '../interfaces/blog';
+import { localBlogList } from '../interfaces/localBlog';
 
 const styled = {
   sliderWrap: css`
@@ -24,12 +25,7 @@ const Slider: FC = () => {
       title: '写在前面',
       expand: true,
       id: 'local',
-      children: [
-        {
-          title: 'github文章',
-          id: '1',
-        },
-      ],
+      children: localBlogList,
     },
     {
       title: '微信公众号文章',
@@ -39,14 +35,17 @@ const Slider: FC = () => {
         {
           title: 'github文章2',
           id: '2',
+          from: BlogFrom.WX,
         },
         {
           title: 'github文章2123',
           id: '22',
+          from: BlogFrom.WX,
         },
         {
           title: 'github文github文章23123github文章23123章23123',
           id: '21',
+          from: BlogFrom.WX,
         },
       ],
     },
@@ -58,27 +57,32 @@ const Slider: FC = () => {
         {
           title: '基础',
           id: SECOND_TITLE_ID,
+          from: BlogFrom.GITHUB,
         },
         {
           title: 'github文章2',
           id: '2213',
+          from: BlogFrom.GITHUB,
         },
         {
           title: '技术',
           id: SECOND_TITLE_ID,
+          from: BlogFrom.GITHUB,
         },
         {
           title: 'github文章2123',
           id: '214122',
+          from: BlogFrom.GITHUB,
         },
         {
           title: 'github文github文章23123章23123',
           id: '21231',
+          from: BlogFrom.GITHUB,
         },
       ],
     },
   ]);
-  const [currentBlogId, setCurrentBlogId] = useState<string>('1');
+  const [currentBlogId, setCurrentBlogId] = useState<string>('local-1');
 
   const handleToggleExpand = useCallback(
     (blog: IBlogCategory) => {

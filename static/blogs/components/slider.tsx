@@ -1,7 +1,7 @@
 import { FC, useState, useCallback } from 'react';
 import { css } from '@emotion/css';
 import BlogTitleListItem from './blogTitleItem';
-import { IBlogCategory } from '../interfaces/blog';
+import { IBlogCategory, SECOND_TITLE_ID } from '../interfaces/blog';
 
 const styled = {
   sliderWrap: css`
@@ -21,8 +21,9 @@ const styled = {
 const Slider: FC = () => {
   const [blogTitleList, setBlogTitleList] = useState<IBlogCategory[]>([
     {
-      title: '技术文章',
+      title: '写在前面',
       expand: true,
+      id: 'local',
       children: [
         {
           title: 'github文章',
@@ -31,8 +32,9 @@ const Slider: FC = () => {
       ],
     },
     {
-      title: '技术文章2',
+      title: '微信公众号文章',
       expand: true,
+      id: 'gongzhonghao',
       children: [
         {
           title: 'github文章2',
@@ -48,8 +50,35 @@ const Slider: FC = () => {
         },
       ],
     },
+    {
+      title: 'Github文章',
+      expand: true,
+      id: 'github',
+      children: [
+        {
+          title: '基础',
+          id: SECOND_TITLE_ID,
+        },
+        {
+          title: 'github文章2',
+          id: '2213',
+        },
+        {
+          title: '技术',
+          id: SECOND_TITLE_ID,
+        },
+        {
+          title: 'github文章2123',
+          id: '214122',
+        },
+        {
+          title: 'github文github文章23123章23123',
+          id: '21231',
+        },
+      ],
+    },
   ]);
-  const [currentBlogId, setCurrentBlogId] = useState<string>();
+  const [currentBlogId, setCurrentBlogId] = useState<string>('1');
 
   const handleToggleExpand = useCallback(
     (blog: IBlogCategory) => {

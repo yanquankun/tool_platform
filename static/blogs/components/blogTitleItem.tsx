@@ -1,6 +1,6 @@
-import React, { Fragment, MouseEvent, MouseEventHandler, useState } from 'react';
+import React, { Fragment, MouseEventHandler, useState } from 'react';
 import { css } from '@emotion/css';
-import { IBlogCategory } from '../interfaces/blog';
+import { IBlogCategory, SECOND_TITLE_ID } from '../interfaces/blog';
 import { Popover } from 'antd';
 import { isEllipsisShown } from '@shared/utils/util';
 
@@ -16,6 +16,10 @@ const styled = {
     cursor: pointer;
   `,
   secondTitle: css`
+    margin-left: 2rem;
+    font-size: 1rem;
+  `,
+  thirdTitle: css`
     font-size: 0.875rem;
     padding: 0.375rem 0 0.375rem 1rem;
     cursor: pointer;
@@ -27,11 +31,11 @@ const styled = {
       color: #333;
     }
   `,
-  secondTitleSelect: css`
+  thirdTitleSelect: css`
     color: rgb(62, 175, 124);
     font-weight: 500;
   `,
-  unSecondTitleSelect: css`
+  unthirdTitleSelect: css`
     color: #666;
     font-weight: 400;
   `,
@@ -84,23 +88,29 @@ const BlogTitleListItem = React.memo<{
       <div className={blog.expand ? styled.childrenUp : styled.childrenDown}>
         {blog.children.length > 0 &&
           blog.children.map((child, index) => (
-            //   二级菜单
-            <Popover placement="rightTop" content={ellipsisSource}>
-              <div
-                key={index}
-                className={css(
-                  styled.secondTitle,
-                  child.id === currentBlogId ? styled.secondTitleSelect : styled.unSecondTitleSelect
-                )}
-                onClick={() => onSelectBlog(child.id)}
-                onMouseEnter={(e: Parameters<MouseEventHandler>[0]) => {
-                  if (isEllipsisShown(e.target as HTMLElement)) setEllipsisSource(child.title);
-                  else setEllipsisSource('');
-                }}
-              >
-                <span>{child.title}</span>
-              </div>
-            </Popover>
+            <Fragment key={child.id + index}>
+              {/* 二级菜单 */}
+              {child.id === SECOND_TITLE_ID && <span className={styled.secondTitle}>{child.title}</span>}
+              {/* 三级菜单 */}
+              {child.id !== SECOND_TITLE_ID && (
+                <Popover placement="rightTop" content={ellipsisSource}>
+                  <div
+                    key={index}
+                    className={css(
+                      styled.thirdTitle,
+                      child.id === currentBlogId ? styled.thirdTitleSelect : styled.unthirdTitleSelect
+                    )}
+                    onClick={() => child.id && onSelectBlog(child.id)}
+                    onMouseEnter={(e: Parameters<MouseEventHandler>[0]) => {
+                      if (isEllipsisShown(e.target as HTMLElement)) setEllipsisSource(child.title);
+                      else setEllipsisSource('');
+                    }}
+                  >
+                    <span className={styled.thirdTitle}>{child.title}</span>
+                  </div>
+                </Popover>
+              )}
+            </Fragment>
           ))}
       </div>
     </Fragment>

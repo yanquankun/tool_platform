@@ -6,7 +6,11 @@ interface IBlogItem {
 interface IBlogCategory {
   title: string;
   expand: boolean;
+  id: string;
   children: IBlogItem[];
 }
 
-export { IBlogItem, IBlogCategory };
+/** 统一二级标题id */
+const SECOND_TITLE_ID = 'second-title';
+
+export { IBlogItem, IBlogCategory, SECOND_TITLE_ID };

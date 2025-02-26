@@ -9,9 +9,10 @@ const styled = {
     border-right: 1px solid #e5e7eb;
     box-sizing: border-box;
     padding: 1.5rem 0.95rem;
+    font-size: 1rem;
+    font-weight: 400;
   `,
   slider: css`
-    height: 100vh;
     overflow-y: auto;
   `,
 };

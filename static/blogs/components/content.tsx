@@ -4,15 +4,23 @@ import { Divider, Button, Breadcrumb } from 'antd';
 import dayjs from 'dayjs';
 
 const styled = {
-  contentWrap: css`
+  containerWrap: css`
     flex: 1;
     padding: 1rem 1.9rem 1.5rem 1.9rem;
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
     box-sizing: border-box;
     overflow-y: auto;
   `,
+  backgroundPlate: css`
+    background: #fff;
+    position: absolute;
+    top: 0;
+    width: 100%;
+  `,
   breadcrumb: css`
     color: #4b5563;
+    position: sticky;
+    top: 0;
     > ol {
       > li:last-child {
         color: #3b82f6;
@@ -27,11 +35,15 @@ const styled = {
     font-weight: bold;
     margin-bottom: 0.8rem;
     color: #2c3e50;
+    position: sticky;
+    top: 1.5rem;
   `,
   blogInfoWrap: css`
     font-size: 0.9rem;
     color: #666;
     margin-bottom: 0.8rem;
+    position: sticky;
+    top: 3.5rem;
     > span {
       margin-right: 0.9rem;
     }
@@ -45,6 +57,8 @@ const styled = {
     font-weight: normal;
     color: #666;
     margin-bottom: 0.8rem;
+    position: sticky;
+    top: 5.5rem;
   `,
   content: css`
     font-size: 1.125rem;
@@ -89,7 +103,9 @@ const Content: FC = () => {
   ]);
 
   return (
-    <div className={styled.contentWrap}>
+    <div className={styled.containerWrap}>
+      {/* 背景板 为了占位 */}
+      <div className={styled.backgroundPlate}></div>
       <Breadcrumb
         className={styled.breadcrumb}
         items={breads}

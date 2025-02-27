@@ -26,7 +26,6 @@ const styled = {
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
-    border: 1px;
     &:hover {
       font-weight: 500;
       color: #333;

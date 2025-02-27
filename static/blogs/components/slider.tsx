@@ -5,6 +5,7 @@ import { IBlogCategory, IBlogItem } from '../interfaces/blog';
 import { localBlogList } from '../interfaces/localBlog';
 import { getGitHubList } from '../services/githubBlog';
 import { getWxBlogList } from '../services/wxBlog';
+import { getBlogContext } from '../services/context';
 
 const styled = {
   sliderWrap: css`
@@ -22,6 +23,7 @@ const styled = {
   `,
 };
 
+const BlogContext = getBlogContext(null);
 const Slider: FC = () => {
   const [blogTitleList, setBlogTitleList] = useState<IBlogCategory[]>([
     {
@@ -44,8 +46,12 @@ const Slider: FC = () => {
     },
   ]);
   const [currentBlogId, setCurrentBlogId] = useState<string>('local-1');
+  const [blog, setBlog] = useState<IBlogItem | null>(null);
 
   useEffect(() => {
+    // 默认本地文章第一个
+    setBlog(localBlogList[0]);
+
     (async function () {
       const wxBlogList = await getWxBlogList();
       const githubBlogList = await getGitHubList();
@@ -82,6 +88,7 @@ const Slider: FC = () => {
         if (!!blog.id && pre !== blog.id) {
           console.log('cur blog:', blog);
           // 此处进行文章分发
+          setBlog(blog);
         }
         return blog.id;
       });
@@ -90,17 +97,19 @@ const Slider: FC = () => {
   );
 
   return (
-    <div className={styled.sliderWrap}>
-      {blogTitleList.map((blog, index) => (
-        <BlogTitleListItem
-          key={index}
-          blog={blog}
-          currentBlogId={currentBlogId}
-          onToggleExpand={handleToggleExpand}
-          onSelectBlog={handleSelectBlog}
-        />
-      ))}
-    </div>
+    <BlogContext.Provider value={blog}>
+      <div className={styled.sliderWrap}>
+        {blogTitleList.map((blog, index) => (
+          <BlogTitleListItem
+            key={index}
+            blog={blog}
+            currentBlogId={currentBlogId}
+            onToggleExpand={handleToggleExpand}
+            onSelectBlog={handleSelectBlog}
+          />
+        ))}
+      </div>
+    </BlogContext.Provider>
   );
 };
 

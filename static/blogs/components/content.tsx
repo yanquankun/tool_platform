@@ -1,7 +1,8 @@
-import { FC, useState } from 'react';
+import { FC, useState, useContext, useEffect } from 'react';
 import { css } from '@emotion/css';
 import { Divider, Button, Breadcrumb } from 'antd';
 import dayjs from 'dayjs';
+import { getBlogContext } from '../services/context';
 
 const styled = {
   containerWrap: css`
@@ -91,6 +92,7 @@ const styled = {
   `,
 };
 
+const BlogContext = getBlogContext(null);
 const Content: FC = () => {
   const [breads, setBreads] = useState([
     {
@@ -100,6 +102,15 @@ const Content: FC = () => {
       title: 'Button',
     },
   ]);
+  const blog = useContext(BlogContext)!;
+
+  useEffect(() => {
+    console.log('当前博客', blog);
+
+    // if (blog?.id) {
+    //   console.log('当前博客', blog);
+    // }
+  }, [blog]);
 
   return (
     <div className={styled.containerWrap}>

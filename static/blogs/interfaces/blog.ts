@@ -2,6 +2,7 @@ enum BlogFrom {
   LOCAL = 'local',
   GITHUB = 'github',
   WX = 'wx',
+  UNKONE = 'unknow',
 }
 
 enum FileType {
@@ -11,8 +12,8 @@ enum FileType {
 }
 
 interface IBlogItem {
-  title: string;
   id: string;
+  title: string;
   /** 原文链接 */
   url?: string;
   /** 引用链接 */

@@ -1,4 +1,4 @@
-import { FC, Suspense, useEffect, useState, Fragment } from 'react';
+import { FC, Suspense, useEffect, useState, Fragment, createContext } from 'react';
 import Header from '../components/header';
 import Slider from '../components/slider';
 import Contet from '../components/content';
@@ -180,7 +180,6 @@ const App: FC = () => {
             alt="chatbot robot"
           />
         </Tooltip>
-
         {/* 聊天机器人 */}
         {showChatbot && <ChatBot onClose={() => setShowChatbot(false)} />}
       </Fragment>

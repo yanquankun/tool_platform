@@ -10,17 +10,14 @@ const styled = {
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
     box-sizing: border-box;
     overflow-y: auto;
-  `,
-  backgroundPlate: css`
-    background: #fff;
-    position: absolute;
-    top: 0;
-    width: 100%;
+    position: relative;
   `,
   breadcrumb: css`
     color: #4b5563;
     position: sticky;
-    top: 0;
+    top: -1rem;
+    background: #fff;
+    line-height: 1.5rem;
     > ol {
       > li:last-child {
         color: #3b82f6;
@@ -36,14 +33,16 @@ const styled = {
     margin-bottom: 0.8rem;
     color: #2c3e50;
     position: sticky;
-    top: 1.5rem;
+    top: 0.5rem;
+    background: #fff;
   `,
   blogInfoWrap: css`
     font-size: 0.9rem;
     color: #666;
     margin-bottom: 0.8rem;
     position: sticky;
-    top: 3.5rem;
+    top: 2.5rem;
+    background: #fff;
     > span {
       margin-right: 0.9rem;
     }
@@ -58,7 +57,8 @@ const styled = {
     color: #666;
     margin-bottom: 0.8rem;
     position: sticky;
-    top: 5.5rem;
+    top: 4.5rem;
+    background: #fff;
   `,
   content: css`
     font-size: 1.125rem;
@@ -104,8 +104,6 @@ const Content: FC = () => {
 
   return (
     <div className={styled.containerWrap}>
-      {/* 背景板 为了占位 */}
-      <div className={styled.backgroundPlate}></div>
       <Breadcrumb
         className={styled.breadcrumb}
         items={breads}

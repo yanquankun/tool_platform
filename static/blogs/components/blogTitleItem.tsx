@@ -1,6 +1,6 @@
-import React, { Fragment, MouseEventHandler, useState } from 'react';
+import React, { Fragment, MouseEventHandler, useCallback, useEffect, useState } from 'react';
 import { css } from '@emotion/css';
-import { IBlogCategory, SECOND_TITLE_ID } from '../interfaces/blog';
+import { IBlogCategory, IBlogItem, SECOND_TITLE_ID } from '../interfaces/blog';
 import { Popover } from 'antd';
 import { isEllipsisShown } from '@shared/utils/util';
 
@@ -16,7 +16,7 @@ const styled = {
     cursor: pointer;
   `,
   secondTitle: css`
-    margin-left: 2rem;
+    margin-left: 0.9rem;
     font-size: 1rem;
   `,
   thirdTitle: css`
@@ -67,7 +67,7 @@ const BlogTitleListItem = React.memo<{
   blog: IBlogCategory;
   currentBlogId?: string;
   onToggleExpand: (blog: IBlogCategory) => void;
-  onSelectBlog: (id: string) => void;
+  onSelectBlog: (blog: IBlogItem) => void;
 }>(({ blog, currentBlogId, onToggleExpand, onSelectBlog }) => {
   const getArrow = (expand: boolean) => (
     <img
@@ -100,7 +100,7 @@ const BlogTitleListItem = React.memo<{
                       styled.thirdTitle,
                       child.id === currentBlogId ? styled.thirdTitleSelect : styled.unthirdTitleSelect
                     )}
-                    onClick={() => child.id && onSelectBlog(child.id)}
+                    onClick={() => onSelectBlog(child)}
                     onMouseEnter={(e: Parameters<MouseEventHandler>[0]) => {
                       if (isEllipsisShown(e.target as HTMLElement)) setEllipsisSource(child.title);
                       else setEllipsisSource('');

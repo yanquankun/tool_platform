@@ -10,7 +10,6 @@ const styled = {
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
     box-sizing: border-box;
     overflow-y: auto;
-    position: relative;
   `,
   breadcrumb: css`
     color: #4b5563;

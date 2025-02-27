@@ -1,8 +1,10 @@
-import { FC, useState, useCallback } from 'react';
+import { FC, useState, useCallback, useEffect } from 'react';
 import { css } from '@emotion/css';
 import BlogTitleListItem from './blogTitleItem';
-import { IBlogCategory, SECOND_TITLE_ID, BlogFrom } from '../interfaces/blog';
+import { IBlogCategory, IBlogItem } from '../interfaces/blog';
 import { localBlogList } from '../interfaces/localBlog';
+import { getGitHubList } from '../services/githubBlog';
+import { getWxBlogList } from '../services/wxBlog';
 
 const styled = {
   sliderWrap: css`
@@ -13,6 +15,7 @@ const styled = {
     padding: 0.6rem 0.95rem 1.5rem 0.95rem;
     font-size: 1rem;
     font-weight: 400;
+    overflow-y: auto;
   `,
   slider: css`
     overflow-y: auto;
@@ -31,58 +34,39 @@ const Slider: FC = () => {
       title: '微信公众号文章',
       expand: true,
       id: 'gongzhonghao',
-      children: [
-        {
-          title: 'github文章2',
-          id: '2',
-          from: BlogFrom.WX,
-        },
-        {
-          title: 'github文章2123',
-          id: '22',
-          from: BlogFrom.WX,
-        },
-        {
-          title: 'github文github文章23123github文章23123章23123',
-          id: '21',
-          from: BlogFrom.WX,
-        },
-      ],
+      children: [],
     },
     {
       title: 'Github文章',
       expand: true,
       id: 'github',
-      children: [
-        {
-          title: '基础',
-          id: SECOND_TITLE_ID,
-          from: BlogFrom.GITHUB,
-        },
-        {
-          title: 'github文章2',
-          id: '2213',
-          from: BlogFrom.GITHUB,
-        },
-        {
-          title: '技术',
-          id: SECOND_TITLE_ID,
-          from: BlogFrom.GITHUB,
-        },
-        {
-          title: 'github文章2123',
-          id: '214122',
-          from: BlogFrom.GITHUB,
-        },
-        {
-          title: 'github文github文章23123章23123',
-          id: '21231',
-          from: BlogFrom.GITHUB,
-        },
-      ],
+      children: [],
     },
   ]);
   const [currentBlogId, setCurrentBlogId] = useState<string>('local-1');
+
+  useEffect(() => {
+    (async function () {
+      const wxBlogList = await getWxBlogList();
+      const githubBlogList = await getGitHubList();
+
+      setBlogTitleList([
+        blogTitleList[0],
+        {
+          title: '微信公众号文章',
+          expand: true,
+          id: 'gongzhonghao',
+          children: wxBlogList || [],
+        },
+        {
+          title: 'Github文章',
+          expand: true,
+          id: 'github',
+          children: githubBlogList || [],
+        },
+      ]);
+    })();
+  }, []);
 
   const handleToggleExpand = useCallback(
     (blog: IBlogCategory) => {
@@ -92,9 +76,18 @@ const Slider: FC = () => {
     [blogTitleList]
   );
 
-  const handleSelectBlog = useCallback((id: string) => {
-    setCurrentBlogId(id);
-  }, []);
+  const handleSelectBlog = useCallback(
+    (blog: IBlogItem) => {
+      setCurrentBlogId((pre) => {
+        if (!!blog.id && pre !== blog.id) {
+          console.log('cur blog:', blog);
+          // 此处进行文章分发
+        }
+        return blog.id;
+      });
+    },
+    [currentBlogId]
+  );
 
   return (
     <div className={styled.sliderWrap}>

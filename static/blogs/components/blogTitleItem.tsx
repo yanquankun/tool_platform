@@ -1,4 +1,4 @@
-import React, { Fragment, MouseEventHandler, useCallback, useEffect, useState } from 'react';
+import React, { Fragment, MouseEventHandler, useState } from 'react';
 import { css } from '@emotion/css';
 import { IBlogCategory, IBlogItem, SECOND_TITLE_ID } from '../interfaces/blog';
 import { Popover } from 'antd';
@@ -16,8 +16,9 @@ const styled = {
     cursor: pointer;
   `,
   secondTitle: css`
-    margin-left: 0.9rem;
     font-size: 1rem;
+    margin: 0.3rem 0 0.3rem 0.9rem;
+    display: flex;
   `,
   thirdTitle: css`
     font-size: 0.875rem;

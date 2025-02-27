@@ -1,5 +1,5 @@
 import dayjs from 'dayjs';
-import { IBlogItem, SECOND_TITLE_ID, BlogFrom, FileType } from '../interfaces/blog';
+import { IBlogItem } from '../interfaces/blog';
 import { getWxArticles, getWxPublishArticles } from '~shared/apis/wx';
 
 export const getWxBlogList = (): Promise<IBlogItem[]> => {

@@ -26,6 +26,7 @@ const styled = {
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+    border: 1px;
     &:hover {
       font-weight: 500;
       color: #333;
@@ -106,7 +107,7 @@ const BlogTitleListItem = React.memo<{
                       else setEllipsisSource('');
                     }}
                   >
-                    <span className={styled.thirdTitle}>{child.title}</span>
+                    <span>{child.title}</span>
                   </div>
                 </Popover>
               )}

@@ -25,7 +25,9 @@ export const getWxBlogList = (): Promise<IBlogItem[]> => {
           from: 'wx',
           id: blog.media_id,
           title: news_item.title,
+          bread: ['微信公众号文章', news_item.title],
           content: news_item.content,
+          thumb_url: news_item?.thumb_url,
           timestamp: dayjs((blog.content?.create_time ?? 0) * 1000).format('YYYY-MM-DD HH:mm:ss'),
         };
       }
@@ -46,6 +48,8 @@ export const getWxBlogList = (): Promise<IBlogItem[]> => {
           id: blog?.article_id ?? '',
           title: news_item.title,
           content: news_item.content,
+          thumb_url: news_item?.thumb_url,
+          bread: ['微信公众号文章', news_item.title],
           timestamp: dayjs((blog.content?.create_time ?? 0) * 1000).format('YYYY-MM-DD HH:mm:ss'),
         };
       }

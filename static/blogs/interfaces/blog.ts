@@ -14,6 +14,11 @@ enum FileType {
 interface IBlogItem {
   id: string;
   title: string;
+  from: BlogFrom;
+  /** 副标题 */
+  subTitle?: string;
+  /** 面包屑 */
+  bread?: string[];
   /** 原文链接 */
   url?: string;
   /** 引用链接 */
@@ -21,7 +26,6 @@ interface IBlogItem {
   author?: string;
   /** 文章内容 */
   content?: string | string[];
-  from: BlogFrom;
   /** 发布时间 */
   timestamp?: string;
   fileSuffixName?: FileType;

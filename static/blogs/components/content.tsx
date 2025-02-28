@@ -35,6 +35,7 @@ const styled = {
     position: sticky;
     top: 0.5rem;
     background: #fff;
+    line-height: 33px;
   `,
   blogInfoWrap: css`
     font-size: 0.9rem;
@@ -59,6 +60,9 @@ const styled = {
     position: sticky;
     top: 4.5rem;
     background: #fff;
+  `,
+  Thumb: css`
+    max-width: 100%;
   `,
   content: css`
     font-size: 1.125rem;
@@ -93,19 +97,14 @@ const styled = {
 };
 
 const Content: FC<{ receiveBlog: IBlogItem }> = ({ receiveBlog }) => {
-  const [breads, setBreads] = useState([
-    {
-      title: 'Ant Design',
-    },
-    {
-      title: 'Button',
-    },
-  ]);
+  const [breads, setBreads] = useState<{ title: string }[]>();
   const [blog, setBlog] = useState<IBlogItem>();
 
   useEffect(() => {
     if (receiveBlog && receiveBlog.id) {
       setBlog(receiveBlog);
+      console.log(receiveBlog);
+      Array.isArray(receiveBlog.bread) && setBreads(receiveBlog.bread.map((item) => ({ title: item })));
     }
   }, [receiveBlog]);
 
@@ -117,23 +116,27 @@ const Content: FC<{ receiveBlog: IBlogItem }> = ({ receiveBlog }) => {
         separator={<img className={styled.separatorIcon} src="https://www.yanquankun.cn/cdn/blog/separator.png" />}
       />
       {/* 标题区域 */}
-      <h1 className={styled.title}>React 性能优化最佳实践：从入门到精通</h1>
+      {blog?.title && <h1 className={styled.title}>{blog.title}</h1>}
       {/* 著作区域 */}
       <div className={styled.blogInfoWrap}>
         {/* 作者 */}
-        <span>作者：技术团队</span>
+        {blog?.author && <span>作者：{blog.author}</span>}
         {/* 发布时间 */}
-        <span>发布时间：2024-02-20</span>
+        {blog?.timestamp && <span>发布时间：{blog.timestamp}</span>}
         {/* 原文链接 */}
-        <span>
-          原文链接：
-          <Button className={styled.link} href="https://www.baidu.com" target="_blank" type="link">
-            点击跳转原文链接
-          </Button>
-        </span>
+        {blog?.url && (
+          <span>
+            原文链接：
+            <Button className={styled.link} href={blog.url} target="_blank" type="link">
+              点击跳转原文链接
+            </Button>
+          </span>
+        )}
       </div>
       {/* 副标题 */}
-      <div className={styled.subTitle}>这是副标题</div>
+      {blog?.subTitle && <div className={styled.subTitle}>{blog.subTitle}</div>}
+      {/* 封面图 */}
+      {blog?.thumb_url && <img src={blog.thumb_url} className={styled.Thumb} alt="cover" />}
       {/* 正文 */}
       <div className={styled.content}>
         在当今的 Web 开发领域，React

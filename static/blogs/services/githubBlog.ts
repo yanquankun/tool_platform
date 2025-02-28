@@ -13,18 +13,25 @@ export const getGitHubList = (): Promise<IBlogItem[]> => {
           id: SECOND_TITLE_ID,
           title: contentDirs[idx].name,
           from: BlogFrom.GITHUB,
+          a: 1,
         });
         githubBlogList.push(
-          ...content.map((subContent: any) => {
+          ...content.map((subContent: IBlogItem) => {
             const suffix = (subContent?.name ?? '').match(new RegExp(`(${FileType.JS}|${FileType.MD})`, 'g')) || [
               FileType.UNKONE,
             ];
+            const subContentName = (subContent.name as string).replace(
+              new RegExp(`(.${FileType.JS}|.${FileType.MD})`, 'g'),
+              ''
+            );
             return {
-              title: (subContent.name as string).replace(new RegExp(`(.${FileType.JS}|.${FileType.MD})`, 'g'), ''),
+              title: subContentName,
               id: subContent.sha,
               from: BlogFrom.GITHUB,
               url: subContent.html_url,
               fileSuffixName: suffix[0],
+              author: 'Mint',
+              bread: ['Github文章', contentDirs[idx].name, subContentName],
             };
           })
         );

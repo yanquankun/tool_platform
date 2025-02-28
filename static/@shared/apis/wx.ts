@@ -6,14 +6,6 @@ import request, { IResponseData } from '@shared/utils/fetch';
  * @see https://developers.weixin.qq.com/doc/offiaccount/Basic_Information/Get_access_token.html
  */
 const getWxAccessToken = async (): Promise<IResponseData> => {
-  return Promise.resolve({
-    code: 0,
-    data: {
-      access_token:
-        '89_6u3zrwbJtKLnqN3MaULnAJKde0XzMioaRd0CNhnbJ8esxCYN9pwsn21ErScnTGktaJPp4HhJ0-v6Gb1RuLC9dWsSL4FPZpredPcihCdHhh-yhmjd2l5SLwNFfaYANGgACAJWP',
-    },
-    msg: '',
-  });
   return await request({
     url: '/wxapi/cgi-bin/stable_token',
     isNeedLoading: true,

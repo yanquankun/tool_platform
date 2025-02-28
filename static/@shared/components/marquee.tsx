@@ -54,6 +54,7 @@ const useMarqueeText = (text: string, showCloseBtn: boolean = true) => {
   const [height, setHeight] = useState<number>(0);
 
   useEffect(() => {
+    console.log('useMarqueeText', text);
     if (!!text) setVisible(!!text);
     setCloseBtnVisible(showCloseBtn);
 

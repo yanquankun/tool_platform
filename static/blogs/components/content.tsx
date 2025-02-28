@@ -1,8 +1,15 @@
-import { FC, useState, useContext, useEffect } from 'react';
-import { css } from '@emotion/css';
+import { FC, useState, useEffect } from 'react';
+import { cx, css } from '@emotion/css';
 import { Divider, Button, Breadcrumb } from 'antd';
 import dayjs from 'dayjs';
-import { IBlogItem } from 'blogs/interfaces/blog';
+import { IBlogItem, BlogFrom, FileType } from 'blogs/interfaces/blog';
+import { getGithubFileContent } from '~shared/apis/git_cp';
+import { base64ToArrayBuffer } from '~shared/utils/util';
+import { marked } from 'marked';
+import Prism from 'prismjs';
+import 'prismjs/components/prism-javascript';
+import 'prismjs/components/prism-markdown';
+import 'prismjs/plugins/line-numbers/prism-line-numbers';
 
 const styled = {
   containerWrap: css`
@@ -69,6 +76,23 @@ const styled = {
     line-height: 1.75;
     color: #333;
     margin-top: 2rem;
+    whitespace: pre-wrap;
+    wordwrap: break-word;
+    overflowwrap: break-word;
+    img {
+      max-width: 100%;
+    }
+    pre > code {
+      white-space: pre-wrap;
+      word-wrap: break-word;
+    }
+  `,
+  code: css`
+    white-space: pre-wrap !important;
+  `,
+  contentLocal: css`
+    text-indent: 2rem;
+    margin-top: 0;
   `,
   divider: css`
     margin: 2.5rem 0 1.5rem 0;
@@ -99,14 +123,53 @@ const styled = {
 const Content: FC<{ receiveBlog: IBlogItem }> = ({ receiveBlog }) => {
   const [breads, setBreads] = useState<{ title: string }[]>();
   const [blog, setBlog] = useState<IBlogItem>();
+  const [content, setContent] = useState<string | string[]>();
+
+  useEffect(() => {
+    // 必须保留，否则line-number不展示
+    Prism.highlightAll();
+  }, [content]);
 
   useEffect(() => {
     if (receiveBlog && receiveBlog.id) {
-      setBlog(receiveBlog);
-      console.log(receiveBlog);
+      setBlog(() => {
+        setContent('加载中，请稍等...');
+
+        if (receiveBlog.from === BlogFrom.WX) {
+          if (!receiveBlog.content) {
+            setContent('文章获取错误，请重试~');
+            return;
+          }
+
+          const hmtlStr = marked(receiveBlog.content as string);
+          setContent(hmtlStr as string);
+        }
+        if (receiveBlog.from === BlogFrom.GITHUB) {
+          getGitBlogContent();
+        }
+
+        return receiveBlog;
+      });
+
       Array.isArray(receiveBlog.bread) && setBreads(receiveBlog.bread.map((item) => ({ title: item })));
     }
   }, [receiveBlog]);
+
+  const getGitBlogContent = async () => {
+    // get blog parent file path name
+    const gitBlogSubPath = receiveBlog?.bread?.[1];
+
+    const fileRaw = await getGithubFileContent(
+      'learn',
+      'master',
+      `${gitBlogSubPath}/${receiveBlog.title}.${receiveBlog.fileSuffixName}`
+    );
+    const content = new Blob([base64ToArrayBuffer(fileRaw.content)]).text();
+    const code = await content;
+
+    if (receiveBlog.fileSuffixName === FileType.JS) setContent(code);
+    else setContent(marked(code) as string);
+  };
 
   return (
     <div className={styled.containerWrap}>
@@ -138,28 +201,34 @@ const Content: FC<{ receiveBlog: IBlogItem }> = ({ receiveBlog }) => {
       {/* 封面图 */}
       {blog?.thumb_url && <img src={blog.thumb_url} className={styled.Thumb} alt="cover" />}
       {/* 正文 */}
-      <div className={styled.content}>
-        在当今的 Web 开发领域，React
-        已经成为最受欢迎的前端框架之一。随着应用程序规模的增长，性能优化变得越来越重要。本文将深入探讨 React
-        性能优化的各个方面，从基础概念到高级技巧，帮助你构建更快、更流畅的 React 应用。 在当今的 Web 开发领域，React
-        已经成为最受欢迎的前端框架之一。随着应用程序规模的增长，性能优化变得越来越重要。本文将深入探讨 React
-        性能优化的各个方面，从基础概念到高级技巧，帮助你构建更快、更流畅的 React 应用。 在当今的 Web 开发领域，React
-        已经成为最受欢迎的前端框架之一。随着应用程序规模的增长，性能优化变得越来越重要。本文将深入探讨 React
-        性能优化的各个方面，从基础概念到高级技巧，帮助你构建更快、更流畅的 React 应用。 在当今的 Web 开发领域，React
-        已经成为最受欢迎的前端框架之一。随着应用程序规模的增长，性能优化变得越来越重要。本文将深入探讨 React
-        性能优化的各个方面，从基础概念到高级技巧，帮助你构建更快、更流畅的 React 应用。 在当今的 Web 开发领域，React
-        已经成为最受欢迎的前端框架之一。随着应用程序规模的增长，性能优化变得越来越重要。本文将深入探讨 React
-        性能优化的各个方面，从基础概念到高级技巧，帮助你构建更快、更流畅的 React 应用。 在当今的 Web 开发领域，React
-        已经成为最受欢迎的前端框架之一。随着应用程序规模的增长，性能优化变得越来越重要。本文将深入探讨 React
-        性能优化的各个方面，从基础概念到高级技巧，帮助你构建更快、更流畅的 React 应用。 在当今的 Web 开发领域，React
-        已经成为最受欢迎的前端框架之一。随着应用程序规模的增长，性能优化变得越来越重要。本文将深入探讨 React
-        性能优化的各个方面，从基础概念到高级技巧，帮助你构建更快、更流畅的 React 应用。 在当今的 Web 开发领域，React
-        已经成为最受欢迎的前端框架之一。随着应用程序规模的增长，性能优化变得越来越重要。本文将深入探讨 React
-        性能优化的各个方面，从基础概念到高级技巧，帮助你构建更快、更流畅的 React 应用。 在当今的 Web 开发领域，React
-        已经成为最受欢迎的前端框架之一。随着应用程序规模的增长，性能优化变得越来越重要。本文将深入探讨 React
-        性能优化的各个方面，从基础概念到高级技巧，帮助你构建更快、更流畅的 React 应用。
-      </div>
+      {blog?.from === BlogFrom.LOCAL &&
+        Array.isArray(blog.content) &&
+        (blog?.content).map((str: string, index: number) => (
+          <div
+            key={index}
+            className={cx(styled.content, styled.contentLocal)}
+            dangerouslySetInnerHTML={{ __html: str }}
+          ></div>
+        ))}
+      {blog?.from === BlogFrom.WX && (
+        <div className={styled.content} dangerouslySetInnerHTML={{ __html: content as string }}></div>
+      )}
+      {blog?.from === BlogFrom.GITHUB &&
+        // js代码使用prismjs高亮，其他使用markdown渲染
+        (blog.fileSuffixName === FileType.JS ? (
+          <pre className="language-javascript line-numbers">
+            <code
+              className={cx('language-javascript', styled.code)}
+              dangerouslySetInnerHTML={{
+                __html: Prism.highlight(content as string, Prism.languages.javascript, 'javascript'),
+              }}
+            ></code>
+          </pre>
+        ) : (
+          <div className={styled.content} dangerouslySetInnerHTML={{ __html: content as string }}></div>
+        ))}
       <Divider className={styled.divider} />
+      {/* 底部 */}
       <div className={styled.footer}>
         <span>© {dayjs().get('years')} TechInsights 技术博客. All rights reserved.</span>
         <span>

@@ -7,9 +7,9 @@ import React, { createContext } from 'react';
 import { IBlogItem } from '../interfaces/blog';
 
 /** 博客文章内容 */
-let BlogContext: React.Context<IBlogItem | null>;
+let BlogContext: React.Context<IBlogItem>;
 
-export const getBlogContext = (initial: IBlogItem | null) => {
-  if (!BlogContext) BlogContext = createContext(initial);
+export const getBlogContext = (initial?: IBlogItem) => {
+  if (!BlogContext) BlogContext = createContext(initial!);
   return BlogContext;
 };

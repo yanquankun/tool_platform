@@ -92,7 +92,7 @@ const styled = {
   `,
 };
 
-const BlogContext = getBlogContext(null);
+const BlogContext = getBlogContext();
 const Content: FC = () => {
   const [breads, setBreads] = useState([
     {

@@ -23,7 +23,7 @@ const styled = {
   `,
 };
 
-const BlogContext = getBlogContext(null);
+const BlogContext = getBlogContext(localBlogList[0]);
 const Slider: FC = () => {
   const [blogTitleList, setBlogTitleList] = useState<IBlogCategory[]>([
     {
@@ -50,7 +50,7 @@ const Slider: FC = () => {
 
   useEffect(() => {
     // 默认本地文章第一个
-    setBlog(localBlogList[0]);
+    setBlog(localBlogList[1]);
 
     (async function () {
       const wxBlogList = await getWxBlogList();
@@ -97,7 +97,7 @@ const Slider: FC = () => {
   );
 
   return (
-    <BlogContext.Provider value={blog}>
+    <BlogContext.Provider value={blog!}>
       <div className={styled.sliderWrap}>
         {blogTitleList.map((blog, index) => (
           <BlogTitleListItem

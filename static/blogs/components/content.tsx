@@ -2,7 +2,7 @@ import { FC, useState, useContext, useEffect } from 'react';
 import { css } from '@emotion/css';
 import { Divider, Button, Breadcrumb } from 'antd';
 import dayjs from 'dayjs';
-import { getBlogContext } from '../services/context';
+import { IBlogItem } from 'blogs/interfaces/blog';
 
 const styled = {
   containerWrap: css`
@@ -92,8 +92,7 @@ const styled = {
   `,
 };
 
-const BlogContext = getBlogContext();
-const Content: FC = () => {
+const Content: FC<{ receiveBlog: IBlogItem }> = ({ receiveBlog }) => {
   const [breads, setBreads] = useState([
     {
       title: 'Ant Design',
@@ -102,15 +101,13 @@ const Content: FC = () => {
       title: 'Button',
     },
   ]);
-  const blog = useContext(BlogContext)!;
+  const [blog, setBlog] = useState<IBlogItem>();
 
   useEffect(() => {
-    console.log('当前博客', blog);
-
-    // if (blog?.id) {
-    //   console.log('当前博客', blog);
-    // }
-  }, [blog]);
+    if (receiveBlog && receiveBlog.id) {
+      setBlog(receiveBlog);
+    }
+  }, [receiveBlog]);
 
   return (
     <div className={styled.containerWrap}>

@@ -5,7 +5,6 @@ import { IBlogCategory, IBlogItem } from '../interfaces/blog';
 import { localBlogList } from '../interfaces/localBlog';
 import { getGitHubList } from '../services/githubBlog';
 import { getWxBlogList } from '../services/wxBlog';
-import { getBlogContext } from '../services/context';
 
 const styled = {
   sliderWrap: css`
@@ -23,8 +22,7 @@ const styled = {
   `,
 };
 
-const BlogContext = getBlogContext(localBlogList[0]);
-const Slider: FC = () => {
+const Slider: FC<{ postBlog: (blog: IBlogItem) => void }> = ({ postBlog }) => {
   const [blogTitleList, setBlogTitleList] = useState<IBlogCategory[]>([
     {
       title: '写在前面',
@@ -45,12 +43,11 @@ const Slider: FC = () => {
       children: [],
     },
   ]);
-  const [currentBlogId, setCurrentBlogId] = useState<string>('local-1');
-  const [blog, setBlog] = useState<IBlogItem | null>(null);
+  const [currentBlogId, setCurrentBlogId] = useState<string>();
 
   useEffect(() => {
-    // 默认本地文章第一个
-    setBlog(localBlogList[1]);
+    setCurrentBlogId(localBlogList[0].id);
+    postBlog(localBlogList[0]);
 
     (async function () {
       const wxBlogList = await getWxBlogList();
@@ -86,9 +83,9 @@ const Slider: FC = () => {
     (blog: IBlogItem) => {
       setCurrentBlogId((pre) => {
         if (!!blog.id && pre !== blog.id) {
-          console.log('cur blog:', blog);
           // 此处进行文章分发
-          setBlog(blog);
+          // setBlog(blog);
+          postBlog(blog);
         }
         return blog.id;
       });
@@ -97,19 +94,17 @@ const Slider: FC = () => {
   );
 
   return (
-    <BlogContext.Provider value={blog!}>
-      <div className={styled.sliderWrap}>
-        {blogTitleList.map((blog, index) => (
-          <BlogTitleListItem
-            key={index}
-            blog={blog}
-            currentBlogId={currentBlogId}
-            onToggleExpand={handleToggleExpand}
-            onSelectBlog={handleSelectBlog}
-          />
-        ))}
-      </div>
-    </BlogContext.Provider>
+    <div className={styled.sliderWrap}>
+      {blogTitleList.map((blog, index) => (
+        <BlogTitleListItem
+          key={index}
+          blog={blog}
+          currentBlogId={currentBlogId}
+          onToggleExpand={handleToggleExpand}
+          onSelectBlog={handleSelectBlog}
+        />
+      ))}
+    </div>
   );
 };
 

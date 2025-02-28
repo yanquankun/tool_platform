@@ -10,6 +10,7 @@ import { beforeInsall } from '~shared/utils/pwa';
 import { copy } from '~shared/utils/util';
 import ChatBot from '../components/chatbot';
 import { isMobile } from '~shared/utils/util';
+import { IBlogItem } from '../interfaces/blog';
 
 const styled = {
   progress: css`
@@ -58,6 +59,7 @@ const App: FC = () => {
   const [tip, setTip] = useState<string>('');
   const { height, createMarguee } = useMarqueeText(tip);
   const [showChatbot, setShowChatbot] = useState<boolean>(false);
+  const [blog, setBlog] = useState<IBlogItem>();
 
   useEffect(() => {
     // beforeinstallprompt 事件：
@@ -149,8 +151,8 @@ const App: FC = () => {
       {createMarguee()}
       {/* 内容区域 */}
       <div className={styled.container}>
-        <Slider />
-        <Contet />
+        <Slider postBlog={(blog: IBlogItem) => setBlog(blog)} />
+        <Contet receiveBlog={blog!} />
       </div>
       {/* 侧边功能区域 */}
       <Fragment>

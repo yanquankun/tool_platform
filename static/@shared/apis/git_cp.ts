@@ -124,7 +124,6 @@ export const getGithubRepoSubContents = async (repoName: string, targetName: str
 export const getGithubFileContent = async (repoName: string, feature: string, link: string) => {
   const res = await request({
     url: `${githubHostUrl}/repos/${userName}/${repoName}/contents/${link}`,
-    isNeedLoading: true,
     errMsg: '获取github文件内容失败',
     method: 'GET',
     headers: {

@@ -2,7 +2,7 @@ import { FC, Suspense, useEffect, useState, Fragment } from 'react';
 import Header from '../components/header';
 import Slider from '../components/slider';
 import Contet from '../components/content';
-import { Progress, Tooltip } from 'antd';
+import { Progress, Tooltip, Drawer } from 'antd';
 import { css, cx } from '@emotion/css';
 import useMarqueeText from '~shared/components/marquee';
 import { getLastedNotice } from '~shared/apis/static';
@@ -60,6 +60,7 @@ const App: FC = () => {
   const { height, createMarguee } = useMarqueeText(tip);
   const [showChatbot, setShowChatbot] = useState<boolean>(false);
   const [blog, setBlog] = useState<IBlogItem>();
+  const [open, setOpen] = useState(false);
 
   useEffect(() => {
     // beforeinstallprompt 事件：
@@ -146,12 +147,26 @@ const App: FC = () => {
       }
     >
       {/* 头部区域 */}
-      <Header postBlog={_isMobile ? (blog: IBlogItem) => setBlog(blog) : null} />
+      <Header showDrawer={() => setOpen(true)} />
       {/* 跑马灯 */}
       {createMarguee()}
       {/* 内容区域 */}
       <div className={styled.container}>
-        {!_isMobile && <Slider postBlog={(blog: IBlogItem) => setBlog(blog)} />}
+        {_isMobile ? (
+          <Drawer
+            title="堃堃博客"
+            placement="left"
+            onClose={() => setOpen(false)}
+            closeIcon={false}
+            maskClosable={true}
+            open={open}
+            width="60%"
+          >
+            <Slider postBlog={(blog: IBlogItem) => setBlog(blog)} />
+          </Drawer>
+        ) : (
+          <Slider postBlog={(blog: IBlogItem) => setBlog(blog)} />
+        )}
         <Contet receiveBlog={blog!} />
       </div>
       {/* 侧边功能区域 */}

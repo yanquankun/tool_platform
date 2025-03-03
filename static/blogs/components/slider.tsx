@@ -1,10 +1,11 @@
 import { FC, useState, useCallback, useEffect } from 'react';
-import { css } from '@emotion/css';
+import { css, cx } from '@emotion/css';
 import BlogTitleListItem from './blogTitleItem';
 import { IBlogCategory, IBlogItem, BlogFrom } from '../interfaces/blog';
 import { localBlogList } from '../interfaces/localBlog';
 import { getGitHubList } from '../services/githubBlog';
 import { getWxBlogList } from '../services/wxBlog';
+import { isMobile } from '~shared/utils/util';
 
 const styled = {
   sliderWrap: css`
@@ -16,6 +17,11 @@ const styled = {
     font-size: 1rem;
     font-weight: 400;
     overflow-y: auto;
+  `,
+  sliderWrapM: css`
+    width: 100%;
+    border: none;
+    padding: 0;
   `,
   slider: css`
     overflow-y: auto;
@@ -47,6 +53,7 @@ const Slider: FC<{ postBlog: (blog: IBlogItem) => void }> = ({ postBlog }) => {
     },
   ]);
   const [currentBlogId, setCurrentBlogId] = useState<string>();
+  const _isMobile = isMobile();
 
   const setCurBlog = (blogList: IBlogItem[]) => {
     const urlSearch = new window.URLSearchParams(window.location.search);
@@ -119,7 +126,7 @@ const Slider: FC<{ postBlog: (blog: IBlogItem) => void }> = ({ postBlog }) => {
   );
 
   return (
-    <div className={styled.sliderWrap}>
+    <div className={cx(styled.sliderWrap, _isMobile && styled.sliderWrapM)}>
       {blogTitleList.map((blog, index) => (
         <BlogTitleListItem
           key={index}

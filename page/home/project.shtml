@@ -65,7 +65,29 @@
 
 <script type="module">
   const projectData = [
-    {
+  {
+    projectName: "learnRollup",
+    projectDate: "2024.12",
+    projectDescription:
+      "关于rollup的各种模块化打包demo以及html打包demo",
+    tags: ["rollup","typescript"],
+    repo: "https://github.com/yanquankun/learnRollup",
+  }, {
+    projectName: "learnRust",
+    projectDate: "2024.10",
+    projectDescription:
+      "自学rust的仓库",
+    tags: ["rust"],
+    repo: "https://github.com/yanquankun/learnRust",
+  }, {
+    projectName: "@vexjs/forbid-lint",
+    projectDate: "2025.02",
+    projectDescription:
+      "一个用于前端工程中禁止修改 lint 文件的插件",
+    tags: ["forbid-lint", "cli", "husky", "Typescript"],
+    link: "https://github.com/yanquankun/forbid-lint/blob/master/README.md",
+    repo: "https://github.com/yanquankun/forbid-lint",
+  }, {
       projectName: "@mpsc/cli",
       projectDate: "2024.09",
       projectDescription:

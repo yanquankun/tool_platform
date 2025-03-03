@@ -43,6 +43,7 @@ const styled = {
     top: 0.5rem;
     background: #fff;
     line-height: 33px;
+    height: 33px;
   `,
   blogInfoWrap: css`
     font-size: 0.9rem;

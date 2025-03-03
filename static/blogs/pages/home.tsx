@@ -181,7 +181,7 @@ const App: FC = () => {
             />
           </Tooltip>
         )}
-        <Tooltip placement="leftTop" title="分享">
+        <Tooltip placement="leftTop" title={_isMobile ? '' : '分享'}>
           <img
             onClick={copyCurBlogUrl}
             className={cx('urlCopy', styled.share)}
@@ -189,7 +189,7 @@ const App: FC = () => {
             alt="share animate"
           />
         </Tooltip>
-        <Tooltip placement="leftTop" title="在线客服">
+        <Tooltip placement="leftTop" title={_isMobile ? '' : '在线客服'}>
           <img
             onClick={openChatbot}
             className={cx('chatbot', styled.robot)}

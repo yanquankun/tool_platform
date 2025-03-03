@@ -1,6 +1,6 @@
-import { FC } from 'react';
+import { FC, useState } from 'react';
 import { css } from '@emotion/css';
-import { Space, Image, Tag, Popover } from 'antd';
+import { Space, Tag, Popover, Image, Button } from 'antd';
 import { QrcodeOutlined } from '@ant-design/icons';
 import { isMobile } from '~shared/utils/util';
 
@@ -57,10 +57,17 @@ const styled = {
     margin-right: 0.6rem;
     vertical-align: middle;
   `,
+  extra: css`
+    font-size: 1.3rem;
+    font-weight: 600;
+    color: #2c3e50;
+    position: relative;
+  `,
 };
 
 const Header: FC<{ showDrawer: () => void }> = ({ showDrawer }) => {
   const _isMobile = isMobile();
+  const [extraOpen, setExtraOpen] = useState(false);
 
   const getSvgComponent = (): JSX.Element => {
     return (
@@ -157,7 +164,23 @@ const Header: FC<{ showDrawer: () => void }> = ({ showDrawer }) => {
           </>
         )}
       </div>
-      <div className={styled.headerRight}>{getExtraDom()}</div>
+      <div className={styled.headerRight}>
+        {_isMobile ? (
+          <Popover
+            content={getExtraDom()}
+            title=""
+            trigger="click"
+            open={extraOpen}
+            onOpenChange={() => setExtraOpen(!extraOpen)}
+          >
+            <Button size="small" type="link" onClick={() => setExtraOpen(!extraOpen)}>
+              <span className={styled.extra}>个人项目</span>
+            </Button>
+          </Popover>
+        ) : (
+          getExtraDom()
+        )}
+      </div>
     </header>
   );
 };

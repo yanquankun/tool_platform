@@ -153,20 +153,34 @@ const App: FC = () => {
       {/* 内容区域 */}
       <div className={styled.container}>
         {_isMobile ? (
-          <Drawer
-            title="堃堃博客"
-            placement="left"
-            onClose={() => setOpen(false)}
-            closeIcon={false}
-            maskClosable={true}
-            open={open}
-            width="60%"
-          >
-            <Slider postBlog={(blog: IBlogItem) => setBlog(blog)} />
-          </Drawer>
+          <Fragment>
+            {/* 移动端侧边栏 */}
+            <Drawer
+              title="堃堃博客"
+              placement="left"
+              onClose={() => setOpen(false)}
+              closeIcon={false}
+              maskClosable={true}
+              open={open}
+              width="60%"
+            >
+              <Slider
+                postBlog={(blog: IBlogItem) => {
+                  setOpen(false);
+                  setBlog(blog);
+                }}
+              />
+            </Drawer>
+            {/* 展示默认的博客，先显示一次侧边栏 */}
+            <div style={{ display: 'none' }}>
+              <Slider postBlog={(blog: IBlogItem) => setBlog(blog)} />
+            </div>
+          </Fragment>
         ) : (
+          // 桌面端侧边栏
           <Slider postBlog={(blog: IBlogItem) => setBlog(blog)} />
         )}
+        {/* 文章内容区域 */}
         <Contet receiveBlog={blog!} />
       </div>
       {/* 侧边功能区域 */}

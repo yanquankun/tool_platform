@@ -1,7 +1,7 @@
 import { FC, useState, useCallback, useEffect } from 'react';
 import { css } from '@emotion/css';
 import BlogTitleListItem from './blogTitleItem';
-import { IBlogCategory, IBlogItem } from '../interfaces/blog';
+import { IBlogCategory, IBlogItem, BlogFrom } from '../interfaces/blog';
 import { localBlogList } from '../interfaces/localBlog';
 import { getGitHubList } from '../services/githubBlog';
 import { getWxBlogList } from '../services/wxBlog';
@@ -28,27 +28,49 @@ const Slider: FC<{ postBlog: (blog: IBlogItem) => void }> = ({ postBlog }) => {
       title: '写在前面',
       expand: true,
       id: 'local',
+      from: BlogFrom.LOCAL,
       children: localBlogList,
     },
     {
       title: '微信公众号文章',
       expand: true,
       id: 'gongzhonghao',
+      from: BlogFrom.WX,
       children: [],
     },
     {
       title: 'Github文章',
       expand: true,
       id: 'github',
+      from: BlogFrom.GITHUB,
       children: [],
     },
   ]);
   const [currentBlogId, setCurrentBlogId] = useState<string>();
 
-  useEffect(() => {
-    setCurrentBlogId(localBlogList[0].id);
-    postBlog(localBlogList[0]);
+  const setCurBlog = (blogList: IBlogItem[]) => {
+    const urlSearch = new window.URLSearchParams(window.location.search);
+    const name = urlSearch.get('name');
+    const hash = window.location.hash.slice(1);
 
+    if (!name || !hash) {
+      const curBlog = localBlogList[0];
+      setCurrentBlogId(curBlog.id);
+      postBlog(curBlog);
+      window.history.replaceState('', '', `?name=${curBlog.title}#${getHash(curBlog.id)}`);
+    } else {
+      const curBlogId = window.atob(hash);
+      setCurrentBlogId(curBlogId);
+      const curBlog = blogList.find((blog) => blog.id === curBlogId);
+      postBlog(curBlog!);
+    }
+  };
+
+  const getHash = (id: string) => {
+    return window.btoa(`${id}`);
+  };
+
+  useEffect(() => {
     (async function () {
       const wxBlogList = await getWxBlogList();
       const githubBlogList = await getGitHubList();
@@ -59,15 +81,18 @@ const Slider: FC<{ postBlog: (blog: IBlogItem) => void }> = ({ postBlog }) => {
           title: '微信公众号文章',
           expand: true,
           id: 'gongzhonghao',
+          from: BlogFrom.WX,
           children: wxBlogList || [],
         },
         {
           title: 'Github文章',
           expand: true,
           id: 'github',
+          from: BlogFrom.GITHUB,
           children: githubBlogList || [],
         },
       ]);
+      setCurBlog([...localBlogList, ...wxBlogList, ...githubBlogList]);
     })();
   }, []);
 
@@ -84,7 +109,7 @@ const Slider: FC<{ postBlog: (blog: IBlogItem) => void }> = ({ postBlog }) => {
       setCurrentBlogId((pre) => {
         if (!!blog.id && pre !== blog.id) {
           // 此处进行文章分发
-          // setBlog(blog);
+          window.history.replaceState('', '', `?name=${blog.title}#${getHash(blog.id)}`);
           postBlog(blog);
         }
         return blog.id;

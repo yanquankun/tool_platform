@@ -39,6 +39,7 @@ interface IBlogCategory {
   title: string;
   expand: boolean;
   id: string;
+  from: BlogFrom;
   children: IBlogItem[];
 }
 

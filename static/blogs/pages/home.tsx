@@ -165,8 +165,9 @@ const App: FC = () => {
               width="60%"
             >
               <Slider
-                postBlog={(blog: IBlogItem) => {
-                  setOpen(false);
+                postBlog={(blog: IBlogItem, isInit: boolean) => {
+                  // 回显时，也会触发一次postBlog，此时不需要关闭drawer
+                  setOpen(!!isInit);
                   setBlog(blog);
                 }}
               />

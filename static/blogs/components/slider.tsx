@@ -28,7 +28,7 @@ const styled = {
   `,
 };
 
-const Slider: FC<{ postBlog: (blog: IBlogItem) => void }> = ({ postBlog }) => {
+const Slider: FC<{ postBlog: (blog: IBlogItem, isInit: boolean) => void }> = ({ postBlog }) => {
   const [blogTitleList, setBlogTitleList] = useState<IBlogCategory[]>([
     {
       title: '写在前面',
@@ -63,13 +63,13 @@ const Slider: FC<{ postBlog: (blog: IBlogItem) => void }> = ({ postBlog }) => {
     if (!name || !hash) {
       const curBlog = localBlogList[0];
       setCurrentBlogId(curBlog.id);
-      postBlog(curBlog);
+      postBlog(curBlog, true);
       window.history.replaceState('', '', `?name=${curBlog.title}#${getHash(curBlog.id)}`);
     } else {
       const curBlogId = window.atob(hash);
       setCurrentBlogId(curBlogId);
       const curBlog = blogList.find((blog) => blog.id === curBlogId);
-      postBlog(curBlog!);
+      postBlog(curBlog!, true);
     }
   };
 
@@ -117,7 +117,7 @@ const Slider: FC<{ postBlog: (blog: IBlogItem) => void }> = ({ postBlog }) => {
         if (!!blog.id && pre !== blog.id) {
           // 此处进行文章分发
           window.history.replaceState('', '', `?name=${blog.title}#${getHash(blog.id)}`);
-          postBlog(blog);
+          postBlog(blog, false);
         }
         return blog.id;
       });

@@ -1,8 +1,9 @@
-import { FC } from 'react';
+import { FC, useState } from 'react';
 import { css } from '@emotion/css';
-import { Space, Image, Tag, Popover } from 'antd';
+import { Space, Image, Tag, Popover, Drawer } from 'antd';
 import { QrcodeOutlined } from '@ant-design/icons';
 import { isMobile } from '~shared/utils/util';
+import { IBlogItem } from '../interfaces/blog';
 
 const styled = {
   header: css`
@@ -59,8 +60,9 @@ const styled = {
   `,
 };
 
-const Header: FC = () => {
+const Header: FC<{ postBlog: null | ((blog: IBlogItem) => void) }> = ({ postBlog }) => {
   const _isMobile = isMobile();
+  const [open, setOpen] = useState(false);
 
   const getSvgComponent = (): JSX.Element => {
     return (
@@ -143,10 +145,30 @@ const Header: FC = () => {
   return (
     <header className={styled.header}>
       <div className={styled.headerLeft}>
-        <img src="https://www.yanquankun.cn/cdn/blog/blog-header-icon.png" className={styled.headerIcon} alt="" />
-        堃堃博客
+        {_isMobile ? (
+          <img
+            src="https://www.yanquankun.cn/cdn/blog/menu.png"
+            onClick={() => setOpen(!open)}
+            className={styled.headerIcon}
+            alt=""
+          />
+        ) : (
+          <>
+            <img src="https://www.yanquankun.cn/cdn/blog/blog-header-icon.png" className={styled.headerIcon} alt="" />
+            堃堃博客
+          </>
+        )}
       </div>
       <div className={styled.headerRight}>{getExtraDom()}</div>
+      <Drawer
+        title="堃堃博客"
+        placement="top"
+        onClose={() => setOpen(false)}
+        closeIcon={false}
+        maskClosable={true}
+        open={open}
+        height="50%"
+      />
     </header>
   );
 };

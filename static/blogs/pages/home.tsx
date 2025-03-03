@@ -146,12 +146,12 @@ const App: FC = () => {
       }
     >
       {/* 头部区域 */}
-      <Header />
+      <Header postBlog={_isMobile ? (blog: IBlogItem) => setBlog(blog) : null} />
       {/* 跑马灯 */}
       {createMarguee()}
       {/* 内容区域 */}
       <div className={styled.container}>
-        <Slider postBlog={(blog: IBlogItem) => setBlog(blog)} />
+        {!_isMobile && <Slider postBlog={(blog: IBlogItem) => setBlog(blog)} />}
         <Contet receiveBlog={blog!} />
       </div>
       {/* 侧边功能区域 */}

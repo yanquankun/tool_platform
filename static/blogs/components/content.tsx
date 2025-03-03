@@ -4,7 +4,7 @@ import { Divider, Button, Breadcrumb } from 'antd';
 import dayjs from 'dayjs';
 import { IBlogItem, BlogFrom, FileType } from 'blogs/interfaces/blog';
 import { getGithubFileContent } from '~shared/apis/git_cp';
-import { base64ToArrayBuffer } from '~shared/utils/util';
+import { base64ToArrayBuffer, isMobile } from '~shared/utils/util';
 import { marked } from 'marked';
 import Prism from 'prismjs';
 import 'prismjs/components/prism-javascript';
@@ -25,6 +25,7 @@ const styled = {
     top: -1rem;
     background: #fff;
     line-height: 1.5rem;
+    z-index: 999;
     > ol {
       > li:last-child {
         color: #3b82f6;
@@ -44,6 +45,7 @@ const styled = {
     background: #fff;
     line-height: 33px;
     height: 33px;
+    z-index: 999;
   `,
   blogInfoWrap: css`
     font-size: 0.9rem;
@@ -52,6 +54,7 @@ const styled = {
     position: sticky;
     top: 2.5rem;
     background: #fff;
+    z-index: 999;
     > span {
       margin-right: 0.9rem;
     }
@@ -109,6 +112,9 @@ const styled = {
       margin-bottom: 0.5rem;
     }
   `,
+  footerM: css`
+    margin-bottom: 6.5rem;
+  `,
   beianIcon: css`
     width: 1rem;
     height: 1rem;
@@ -125,6 +131,7 @@ const Content: FC<{ receiveBlog: IBlogItem }> = ({ receiveBlog }) => {
   const [breads, setBreads] = useState<{ title: string }[]>();
   const [blog, setBlog] = useState<IBlogItem>();
   const [content, setContent] = useState<string | string[]>();
+  const _isMobile = isMobile();
 
   useEffect(() => {
     // 必须保留，否则line-number不展示
@@ -230,14 +237,14 @@ const Content: FC<{ receiveBlog: IBlogItem }> = ({ receiveBlog }) => {
         ))}
       <Divider className={styled.divider} />
       {/* 底部 */}
-      <div className={styled.footer}>
+      <div className={cx(styled.footer, styled.footerM)}>
         <span>© {dayjs().get('years')} TechInsights 技术博客. All rights reserved.</span>
         <span>
           <img className={styled.beianIcon} src="https://www.yanquankun.cn/cdn/beian-icon.png" />
           <Button
             className={styled.icpLink}
             href="https://beian.mps.gov.cn/#/query/webSearch?code=11011402054483"
-            target="_blank"
+            target={_isMobile ? '_self' : '_blank'}
             type="link"
           >
             京公网安备11011402054483号

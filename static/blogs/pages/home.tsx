@@ -26,24 +26,24 @@ const styled = {
   `,
   pwa: css`
     position: fixed;
-    width: 3rem;
+    width: 4rem;
     cursor: pointer;
     right: 1rem;
-    bottom: 10rem;
+    bottom: 12rem;
     z-index: 999;
     display: none;
   `,
   share: css`
-    width: 3rem;
+    width: 4rem;
     position: fixed;
     right: 1rem;
-    bottom: 7rem;
+    bottom: 8rem;
     cursor: pointer;
     z-index: 999;
     border-radius: 50%;
   `,
   robot: css`
-    width: 3rem;
+    width: 4rem;
     position: fixed;
     right: 1rem;
     bottom: 4rem;

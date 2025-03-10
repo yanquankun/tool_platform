@@ -1,11 +1,10 @@
 import { IBlogItem, BlogFrom } from './blog';
-import dayjs from 'dayjs';
 
 export const localBlogList: IBlogItem[] = [
   {
     id: 'local-1',
     title: '开篇',
-    timestamp: dayjs(1698298863077).format('YYYY-MM-DD HH:mm:ss'),
+    timestamp: '2023-10-26 13:41:03',
     author: 'Mint',
     from: BlogFrom.LOCAL,
     bread: ['写在前面', '开篇'],

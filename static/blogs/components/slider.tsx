@@ -2,10 +2,10 @@ import { FC, useState, useCallback, useEffect } from 'react';
 import { css, cx } from '@emotion/css';
 import BlogTitleListItem from './blogTitleItem';
 import { IBlogCategory, IBlogItem, BlogFrom } from '../interfaces/blog';
-import { localBlogList } from '../interfaces/localBlog';
 import { getGitHubList } from '../services/githubBlog';
 import { getWxBlogList } from '../services/wxBlog';
 import { isMobile } from '~shared/utils/util';
+import { getLocalBlogList } from '../services/localBlog';
 
 const styled = {
   sliderWrap: css`
@@ -35,7 +35,7 @@ const Slider: FC<{ postBlog: (blog: IBlogItem, isInit: boolean) => void }> = ({ 
       expand: true,
       id: 'local',
       from: BlogFrom.LOCAL,
-      children: localBlogList,
+      children: [],
     },
     {
       title: '微信公众号文章',
@@ -61,7 +61,7 @@ const Slider: FC<{ postBlog: (blog: IBlogItem, isInit: boolean) => void }> = ({ 
     const hash = window.location.hash.slice(1);
 
     if (!name || !hash) {
-      const curBlog = localBlogList[0];
+      const curBlog = blogList[0];
       setCurrentBlogId(curBlog.id);
       postBlog(curBlog, true);
       window.history.replaceState('', '', `?name=${curBlog.title}#${getHash(curBlog.id)}`);
@@ -81,9 +81,16 @@ const Slider: FC<{ postBlog: (blog: IBlogItem, isInit: boolean) => void }> = ({ 
     (async function () {
       const wxBlogList = await getWxBlogList();
       const githubBlogList = await getGitHubList();
+      const localBlogList = await getLocalBlogList();
 
       setBlogTitleList([
-        blogTitleList[0],
+        {
+          title: '写在前面',
+          expand: true,
+          id: 'local',
+          from: BlogFrom.LOCAL,
+          children: localBlogList,
+        },
         {
           title: '微信公众号文章',
           expand: true,

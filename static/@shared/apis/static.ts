@@ -7,6 +7,13 @@ export const getStaticConfig = async (): Promise<IResponseData> => {
   });
 };
 
+export const getLocalBlog = async (): Promise<IResponseData> => {
+  return await request({
+    url: 'https://www.yanquankun.cn/config/blog.json',
+    method: 'GET',
+  });
+};
+
 export async function getLastedNotice(): Promise<string> {
   let res;
   try {

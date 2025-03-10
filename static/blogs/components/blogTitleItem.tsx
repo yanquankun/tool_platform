@@ -17,8 +17,9 @@ const styled = {
   `,
   secondTitle: css`
     font-size: 1rem;
-    margin: 0.3rem 0 0.3rem 0.9rem;
+    margin: 0.3rem 0 0.3rem 0.5rem;
     display: flex;
+    font-weight: 500;
   `,
   thirdTitle: css`
     font-size: 0.875rem;

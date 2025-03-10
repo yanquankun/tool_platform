@@ -26,6 +26,7 @@ const style = {
    font-size: 0.98rem;
    font-weight: 300;
    margin-right: 10px;
+   margin-left: 0.3rem;
   `,
   trumpet: css`
     margin-right: 0.5rem;
@@ -82,8 +83,10 @@ const useMarqueeText = (text: string, showCloseBtn: boolean = true) => {
         <Fragment>
           {visible && text && (
             <div ref={marqueeContentRef} id="marquee" className={css(style.wrapper)}>
-              <SoundFilled className={style.trumpet} />
-              <span className={css(style.inner)} ref={textContentRef}></span>
+              <div>
+                <SoundFilled className={style.trumpet} />
+                <span className={css(style.inner)} ref={textContentRef}></span>
+              </div>
               {closeBtnVisible && (
                 <img
                   className={css(style.close)}

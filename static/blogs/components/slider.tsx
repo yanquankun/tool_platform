@@ -82,6 +82,7 @@ const Slider: FC<{ postBlog: (blog: IBlogItem, isInit: boolean) => void }> = ({ 
       const wxBlogList = await getWxBlogList();
       const githubBlogList = await getGitHubList();
       const localBlogList = await getLocalBlogList();
+      console.log(111, localBlogList);
 
       setBlogTitleList([
         {
@@ -89,7 +90,7 @@ const Slider: FC<{ postBlog: (blog: IBlogItem, isInit: boolean) => void }> = ({ 
           expand: true,
           id: 'local',
           from: BlogFrom.LOCAL,
-          children: localBlogList,
+          children: localBlogList || [],
         },
         {
           title: '微信公众号文章',

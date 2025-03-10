@@ -6,9 +6,8 @@ const getLocalBlogList = async (): Promise<IBlogItem[]> => {
   let res;
   try {
     res = await getLocalBlog();
-
-    if (!res || !res.data || !res.data.length) return localBlogList;
-    return res.data;
+    if (!res?.data?.blog?.length) return localBlogList;
+    return res.data.blog;
   } catch (error) {
     return localBlogList;
   }

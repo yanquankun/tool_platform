@@ -14,7 +14,7 @@ import 'prismjs/plugins/line-numbers/prism-line-numbers';
 const styled = {
   containerWrap: css`
     flex: 1;
-    padding: 1rem 4.9rem 1.5rem 1.9rem;
+    padding: 1rem 1.9rem 1.5rem 1.9rem;
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
     box-sizing: border-box;
     overflow-y: auto;

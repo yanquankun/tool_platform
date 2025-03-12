@@ -12,6 +12,13 @@ import ChatBot from '../components/chatbot';
 import { isMobile } from '~shared/utils/util';
 import { IBlogItem } from '../interfaces/blog';
 
+const iconCommon = css`
+  position: fixed;
+  cursor: pointer;
+  z-index: 999;
+  opacity: 0.8;
+  border-radius: 50%;
+`;
 const styled = {
   progress: css`
     poposition: absolute !important;
@@ -25,31 +32,23 @@ const styled = {
     min-height: 10px;
   `,
   pwa: css`
-    position: fixed;
+    ${iconCommon}
     width: 4rem;
-    cursor: pointer;
     right: 1rem;
     bottom: 12rem;
-    z-index: 999;
     display: none;
   `,
   share: css`
+    ${iconCommon}
     width: 4rem;
-    position: fixed;
     right: 1rem;
     bottom: 8rem;
-    cursor: pointer;
-    z-index: 999;
-    border-radius: 50%;
   `,
   robot: css`
+    ${iconCommon}
     width: 4rem;
-    position: fixed;
     right: 1rem;
     bottom: 4rem;
-    cursor: pointer;
-    z-index: 999;
-    border-radius: 50%;
   `,
 };
 

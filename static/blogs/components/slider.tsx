@@ -82,7 +82,6 @@ const Slider: FC<{ postBlog: (blog: IBlogItem, isInit: boolean) => void }> = ({ 
       const wxBlogList = await getWxBlogList();
       const githubBlogList = await getGitHubList();
       const localBlogList = await getLocalBlogList();
-      console.log(111, localBlogList);
 
       setBlogTitleList([
         {

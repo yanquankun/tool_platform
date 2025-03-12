@@ -85,6 +85,7 @@ export const getGithubRepoContents = async (repoName: string, type?: 'dir' | 'fi
   });
   if (res.code !== 200) return [];
   if (type) {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     return (res?.data ?? []).filter((item: any) => item.type === type);
   }
   return res?.data ?? [];

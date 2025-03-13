@@ -1,4 +1,5 @@
 import { message } from 'antd';
+import createRequestProxy from './requestProxy';
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
 export interface IResponseData<T = any> {
@@ -87,7 +88,7 @@ const request = async ({
   destoryLoading();
 
   if (errMsg && response.status !== 200) {
-    if (errMsg) message.error(errMsg, errMsgDelay);
+    message.error(errMsg, errMsgDelay);
   }
 
   const responseData = {
@@ -99,4 +100,4 @@ const request = async ({
   return responseData;
 };
 
-export default request;
+export default createRequestProxy(request);

@@ -2,7 +2,6 @@ import dayjs from 'dayjs';
 
 export interface ILogParam {
   projectName?: string;
-  timestamp?: number;
   reportTime?: string;
   url: string;
   method: string;
@@ -10,7 +9,7 @@ export interface ILogParam {
   param: Record<string, unknown> | string | null;
 }
 
-const getCurrent = () => +new Date();
+const getCurrent = () => dayjs(+new Date()).format('YYYY-MM-DD HH:mm:ss');
 const delay = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
 
 export default class reportLog {
@@ -27,8 +26,7 @@ export default class reportLog {
     this.logStack.push({
       ...logParam,
       projectName: this.projectName,
-      timestamp: getCurrent(),
-      reportTime: dayjs().format('YYYY-MM-DD HH:mm:ss'),
+      reportTime: getCurrent(),
     });
   };
 

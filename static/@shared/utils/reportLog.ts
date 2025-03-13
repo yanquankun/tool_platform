@@ -1,6 +1,9 @@
+import dayjs from 'dayjs';
+
 export interface ILogParam {
   projectName?: string;
   timestamp?: number;
+  reportTime?: string;
   url: string;
   method: string;
   response: unknown | string;
@@ -25,6 +28,7 @@ export default class reportLog {
       ...logParam,
       projectName: this.projectName,
       timestamp: getCurrent(),
+      reportTime: dayjs().format('YYYY-MM-DD HH:mm:ss'),
     });
   };
 
@@ -35,7 +39,6 @@ export default class reportLog {
       // delay 1s in case of ecs server down
       await delay(1000);
       const logTask = this.logStack.shift();
-      console.log('sendLog');
       logTask &&
         fetch(this.LOGSTASH_URL, {
           method: 'POST',

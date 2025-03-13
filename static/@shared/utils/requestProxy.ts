@@ -22,8 +22,8 @@ const createRequestProxy = function <T extends requestFn>(request: T) {
         const logParam: ILogParam = {
           url: originReuqestInitData.url,
           method: originReuqestInitData.method.toUpperCase(),
-          response: res,
-          param: originReuqestInitData?.data ?? {},
+          responseStr: res,
+          paramStr: originReuqestInitData?.data ?? {},
         };
         ReportLog.pushElkLog(logParam);
         ReportLog.runSendLog();

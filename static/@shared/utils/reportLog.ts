@@ -5,8 +5,8 @@ export interface ILogParam {
   reportTime?: string;
   url: string;
   method: string;
-  response: unknown | string;
-  param: Record<string, unknown> | string | null;
+  responseStr: unknown | string;
+  paramStr: Record<string, unknown> | string | null;
 }
 
 const getCurrent = () => dayjs(+new Date()).format('YYYY-MM-DD HH:mm:ss');
@@ -25,6 +25,8 @@ export default class reportLog {
   pushElkLog = (logParam: ILogParam) => {
     this.logStack.push({
       ...logParam,
+      responseStr: JSON.stringify(logParam.responseStr),
+      paramStr: JSON.stringify(logParam.paramStr),
       projectName: this.projectName,
       reportTime: getCurrent(),
     });

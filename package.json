@@ -7,6 +7,7 @@
     "prettier-lint": "prettier --check .",
     "prettier-fix": "prettier --write .",
     "eslint": "eslint static --ext .ts --ext .tsx",
+    "upload": "node ./tools/uploadSourceMap.js",
     "build": "sh clearDist.sh && export NODE_OPTIONS=--openssl-legacy-provider && NODE_ENV=production webpack --progress --color",
     "dev": "sh clearDist.sh && export NODE_OPTIONS=--openssl-legacy-provider && DEBUG=tool_platform:info NODE_ENV=development webpack-dev-server --progress --color",
     "prepare": "(husky install 2>/dev/null ||:) && mkdir -p .husky"
@@ -28,6 +29,7 @@
   "dependencies": {
     "@ant-design/icons": "^5.2.6",
     "@ant-design/pro-components": "^2.6.18",
+    "@elastic/apm-rum": "^5.16.3",
     "@types/markdown-to-jsx": "^7.0.1",
     "@types/node": "^20.5.3",
     "@types/react": "^18.2.21",
@@ -53,10 +55,12 @@
     "@emotion/css": "^11.11.2",
     "@emotion/react": "^11.11.1",
     "@types/prismjs": "^1.26.3",
+    "axios": "^1.8.3",
     "clean-webpack-plugin": "^4.0.0",
     "copy-webpack-plugin": "^11.0.0",
     "css-loader": "^6.8.1",
     "eslint": "^8.47.0",
+    "form-data": "^4.0.2",
     "html-minimizer-webpack-plugin": "^4.4.0",
     "html-webpack-plugin": "^5.5.3",
     "husky": "^8.0.3",

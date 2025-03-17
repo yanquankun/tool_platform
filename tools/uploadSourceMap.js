@@ -2,11 +2,16 @@ const axios = require('axios');
 const fs = require('fs');
 const path = require('path');
 const FormData = require('form-data');
+const { decrypt } = require('./crypto');
 
 const APM_SERVER_URL = 'https://www.yanquankun.cn/apm'; // APM Server 地址
 const SERVICE_NAME = 'tool_platform_blog'; // APM 监控的前端应用名称
 const SERVICE_VERSION = '1.0.0'; // 你的应用版本（必须和 APM Agent 里一致）
-const SECRET_TOKEN = 'VEpUZWs1VUJ1NnNScGZZLTJrVV86QmZvN0NfUUxRY09WaVpJaFhmWUE2UQ=='; // 如果 APM Server 开启了身份验证
+const SECRET_TOKEN = decrypt(
+  'f1d1b72bb50c19fca432bd31186a43977b153e0b7b3beed27c22e60225335d1d9e300925ac8a9803ceb22d8832701db8ff7f68b28494ea5bea0f453287cf7245',
+  false
+); // 如果 APM Server 开启了身份验证
+console.log(SECRET_TOKEN);
 
 const SOURCE_MAP_DIR = path.join(__dirname, '../dist/bundle/blogs/');
 const ROOT_PATH = path.join(__dirname, '../');
@@ -71,4 +76,4 @@ async function uploadAllSourceMaps() {
   }
 }
 
-uploadAllSourceMaps();
+// uploadAllSourceMaps();

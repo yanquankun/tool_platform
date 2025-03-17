@@ -6,7 +6,8 @@
 
     window.addEventListener('load', () => {
       console.log('ServiceWorker registration in progress.');
-      navigator.serviceWorker.register('/cdn/blog/serviceWorker.js').then(
+      <!-- navigator.serviceWorker.register('/cdn/blog/serviceWorker.js').then( -->
+      navigator.serviceWorker.register('/blogs/serviceWorker').then(
         (registration) => {
           console.log('ServiceWorker registration successful with scope: ', registration.scope);
         },

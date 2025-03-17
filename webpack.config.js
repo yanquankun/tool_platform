@@ -164,6 +164,31 @@ module.exports = Object.keys(entryPathMap).map((entryDirectoryName, index) => {
             from: path.resolve(__dirname, 'page/includes/*.shtml'),
             // to：../../是因为我们的构建入口是基于bundle/${entryDirectoryName}/的
             to: '../../',
+            transform(content, path) {
+              return HtmlMinimizerPlugin.minimize(content.toString(), {
+                collapseWhitespace: true,
+                removeComments: true,
+                removeRedundantAttributes: true,
+                removeEmptyAttributes: true,
+                minifyCSS: true,
+                minifyJS: true,
+              });
+            },
+          },
+          {
+            from: path.resolve(__dirname, 'page/offline/*.shtml'),
+            // to：../../是因为我们的构建入口是基于bundle/${entryDirectoryName}/的
+            to: '../../',
+            transform(content, path) {
+              return HtmlMinimizerPlugin.minimize(content.toString(), {
+                collapseWhitespace: true,
+                removeComments: true,
+                removeRedundantAttributes: true,
+                removeEmptyAttributes: true,
+                minifyCSS: true,
+                minifyJS: true,
+              });
+            },
           },
         ],
       }),

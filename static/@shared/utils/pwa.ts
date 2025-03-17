@@ -1,4 +1,4 @@
-import { isMobile, isSafari } from '~shared/utils/util';
+import { isMobile } from '~shared/utils/util';
 
 let deferredPrompt: any | null;
 const _isMobile = isMobile();

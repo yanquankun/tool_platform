@@ -3,8 +3,14 @@ const fileUtil = require('./fileUtil');
 const ROOT_PATH = fileUtil.ROOT_PATH; // /tool_platform
 const webpack = require('webpack');
 const isProduction = process.env.NODE_ENV === 'production';
+const fs = require('fs');
 
 const devServer = {
+  https: {
+    key: fs.readFileSync(path.resolve(__dirname, '../ssl/local.platform.yanquankun.cn-key.pem')),
+    cert: fs.readFileSync(path.resolve(__dirname, '../ssl/local.platform.yanquankun.cn.pem')),
+  },
+  // https: true,
   // 该配置项允许配置从目录提供静态文件的选项
   static: {
     // 告诉服务器从哪里提供内容。只有在你希望提供静态文件时才需要这样做

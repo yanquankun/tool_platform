@@ -11,6 +11,10 @@ import { copy } from '~shared/utils/util';
 import ChatBot from '../components/chatbot';
 import { isMobile } from '~shared/utils/util';
 import { IBlogItem } from '../interfaces/blog';
+import APM from '~shared/utils/apm';
+
+const apm = APM({ serviceName: 'tool_platform_blog' });
+apm.reportTag('1', '2');
 
 const iconCommon = css`
   position: fixed;

@@ -3,6 +3,7 @@ const fileUtil = require('./fileUtil');
 const ROOT_PATH = fileUtil.ROOT_PATH; // /tool_platform
 const webpack = require('webpack');
 const isProduction = process.env.NODE_ENV === 'production';
+const { minify } = require('html-minifier-terser');
 const fs = require('fs');
 
 const devServer = {
@@ -41,9 +42,20 @@ const dynamicPlugins = [
 
 const extensions = ['.ts', '.tsx', '.jsx', '.js', '.json'];
 
+const minifyHtml = (content) =>
+  minify(content, {
+    collapseWhitespace: true,
+    removeComments: true,
+    removeRedundantAttributes: true,
+    removeEmptyAttributes: true,
+    minifyCSS: true,
+    minifyJS: true,
+  });
+
 module.exports = exports = {
   devServer,
   dynamicPlugins,
   isProduction,
   extensions,
+  minifyHtml,
 };

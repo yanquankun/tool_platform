@@ -84,6 +84,15 @@ module.exports = Object.keys(entryPathMap).map((entryDirectoryName, index) => {
             safari10: true,
           },
         }),
+        new HtmlMinimizerPlugin({
+          minimizerOptions: {
+            collapseWhitespace: true,
+            removeComments: true,
+            minifyCSS: true,
+            minifyJS: true,
+          },
+        }),
+        new MiniCssExtractPlugin(),
       ],
       // 拆分entry文件中公共代码，减少entry.bundle体积
       // splitChunks: {
@@ -161,34 +170,10 @@ module.exports = Object.keys(entryPathMap).map((entryDirectoryName, index) => {
         patterns: [
           // 复制includes目录
           {
-            from: path.resolve(__dirname, 'page/includes/*.shtml'),
+            from: path.resolve(__dirname, 'page/(includes|offline)/*.shtml'),
             // to：../../是因为我们的构建入口是基于bundle/${entryDirectoryName}/的
             to: '../../',
-            transform(content, path) {
-              return HtmlMinimizerPlugin.minimize(content.toString(), {
-                collapseWhitespace: true,
-                removeComments: true,
-                removeRedundantAttributes: true,
-                removeEmptyAttributes: true,
-                minifyCSS: true,
-                minifyJS: true,
-              });
-            },
-          },
-          {
-            from: path.resolve(__dirname, 'page/offline/*.shtml'),
-            // to：../../是因为我们的构建入口是基于bundle/${entryDirectoryName}/的
-            to: '../../',
-            transform(content, path) {
-              return HtmlMinimizerPlugin.minimize(content.toString(), {
-                collapseWhitespace: true,
-                removeComments: true,
-                removeRedundantAttributes: true,
-                removeEmptyAttributes: true,
-                minifyCSS: true,
-                minifyJS: true,
-              });
-            },
+            transform: (content) => webpackTool.minifyHtml(content.toString()),
           },
         ],
       }),
@@ -199,7 +184,8 @@ module.exports = Object.keys(entryPathMap).map((entryDirectoryName, index) => {
             path.resolve(__dirname, `page/${entryDirectoryName}/${pageBaseName}.shtml`),
             'utf8'
           );
-          content = content.replace(/<!-- Dependencies -->([\s\S]*)<!-- Dependencies -->/, '');
+          // minify css code
+          content = webpackTool.minifyHtml(content.replace(/<!-- Dependencies -->([\s\S]*)<!-- Dependencies -->/, ''));
         } catch (err) {
           util.log('error', err);
         }
@@ -222,6 +208,7 @@ module.exports = Object.keys(entryPathMap).map((entryDirectoryName, index) => {
             {
               from: path.join(__dirname, '/static/@shared/theme/theme.css'),
               to: path.resolve(__dirname, `dist/theme/theme.css`),
+              transform: (content) => webpackTool.minifyHtml(content.toString()),
             },
           ],
         });

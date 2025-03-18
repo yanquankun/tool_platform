@@ -1,11 +1,362 @@
 <!doctype html>
-<html lang="en">
+<html lang="zh-CN">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
+    <title>您已离线</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+        background-color: #1a1a2e;
+        color: #ffffff;
+        min-height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .container {
+        text-align: center;
+        padding: 2rem;
+        position: relative;
+        z-index: 1;
+        width: 100%;
+        max-width: 800px;
+      }
+
+      /* 两层圆环背景 */
+      .circle-bg-outer {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 90vmin;
+        height: 90vmin;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 50%;
+        z-index: 0;
+      }
+
+      .circle-bg-inner {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 65vmin;
+        height: 65vmin;
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        border-radius: 50%;
+        z-index: 0;
+      }
+
+      .icon-circle {
+        width: 70px;
+        height: 70px;
+        background-color: rgba(30, 30, 50, 0.6);
+        border: 1px solid rgba(255, 255, 255, 0.15);
+        border-radius: 50%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+
+      .grid-icon {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        grid-template-rows: 1fr 1fr;
+        gap: 3px;
+        width: 30px;
+        height: 30px;
+      }
+
+      .grid-box {
+        width: 100%;
+        height: 100%;
+        border: 1.5px solid rgba(255, 255, 255, 0.6);
+        border-radius: 2px;
+      }
+
+      .content {
+        position: relative;
+        z-index: 2;
+        margin-top: 120px;
+      }
+
+      h1 {
+        font-size: 2rem;
+        margin-bottom: 0.5rem;
+        font-weight: normal;
+      }
+
+      .subtitle {
+        font-size: 1rem;
+        color: rgba(255, 255, 255, 0.5);
+        margin-bottom: 2rem;
+      }
+
+      .message-box {
+        background-color: rgba(20, 20, 40, 0.5);
+        border-radius: 8px;
+        padding: 0.8rem;
+        margin-bottom: 2rem;
+        max-width: 80%;
+        margin-left: auto;
+        margin-right: auto;
+      }
+
+      .message-text {
+        font-size: 0.9rem;
+        color: rgba(255, 255, 255, 0.7);
+      }
+
+      .qr-container {
+        display: flex;
+        justify-content: center;
+        gap: 3rem;
+        margin-bottom: 2rem;
+      }
+
+      .qr-item {
+        text-align: center;
+        width: 200px;
+        position: relative;
+        cursor: pointer;
+        transition:
+          transform 0.3s ease,
+          filter 0.3s ease;
+      }
+
+      /* 卡片悬浮动效 */
+      .qr-item:hover {
+        transform: translateY(-8px);
+      }
+
+      .qr-item:hover .qr-code {
+        box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
+      }
+
+      .qr-item:hover .qr-title {
+        color: #ffffff;
+      }
+
+      .qr-item:hover .qr-subtitle {
+        color: rgba(255, 255, 255, 0.8);
+      }
+
+      /* 添加点击波纹效果 */
+      .qr-item::after {
+        content: '';
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(255, 255, 255, 0.03);
+        border-radius: 50%;
+        transform: translate(-50%, -50%) scale(0);
+        opacity: 0;
+        z-index: -1;
+        transition:
+          transform 0.5s ease,
+          opacity 0.5s ease;
+      }
+
+      .qr-item:hover::after {
+        transform: translate(-50%, -50%) scale(1.5);
+        opacity: 1;
+      }
+
+      .qr-code {
+        width: 160px;
+        height: 160px;
+        background-color: #ffffff;
+        padding: 0.5rem;
+        border-radius: 8px;
+        margin-bottom: 0.8rem;
+        margin-left: auto;
+        margin-right: auto;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        transition:
+          box-shadow 0.3s ease,
+          transform 0.3s ease;
+      }
+
+      .qr-code img {
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+        transition: transform 0.3s ease;
+      }
+
+      .qr-item:hover .qr-code img {
+        transform: scale(1.03);
+      }
+
+      .qr-title {
+        font-size: 0.9rem;
+        margin-bottom: 0.3rem;
+        transition: color 0.3s ease;
+      }
+
+      .qr-subtitle {
+        font-size: 0.8rem;
+        color: rgba(255, 255, 255, 0.5);
+        transition: color 0.3s ease;
+      }
+
+      .refresh-btn {
+        background-color: #4285f4;
+        color: #ffffff;
+        border: none;
+        padding: 0.7rem 2rem;
+        border-radius: 2rem;
+        font-size: 0.9rem;
+        cursor: pointer;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0 auto;
+        transition:
+          background-color 0.3s ease,
+          transform 0.2s ease,
+          box-shadow 0.3s ease;
+      }
+
+      .refresh-btn:hover {
+        background-color: #3b78e7;
+        transform: translateY(-2px);
+        box-shadow: 0 5px 15px rgba(66, 133, 244, 0.3);
+      }
+
+      .refresh-btn:active {
+        transform: translateY(0);
+        box-shadow: 0 2px 5px rgba(66, 133, 244, 0.2);
+      }
+
+      .refresh-icon {
+        margin-right: 5px;
+        fill: #ffffff;
+        transition: transform 0.3s ease;
+      }
+
+      .refresh-btn:hover .refresh-icon {
+        transform: rotate(30deg);
+      }
+
+      .footer-text {
+        position: absolute;
+        bottom: 15px;
+        left: 0;
+        right: 0;
+        text-align: center;
+        font-size: 0.9rem;
+        color: rgba(255, 255, 255, 0.3);
+      }
+
+      /* 移动端适配 */
+      @media screen and (max-width: 600px) {
+        .container {
+          padding: 1rem;
+        }
+
+        .icon-circle {
+          width: 60px;
+          height: 60px;
+        }
+
+        .grid-icon {
+          width: 25px;
+          height: 25px;
+        }
+
+        .qr-container {
+          gap: 1.5rem;
+        }
+
+        .qr-code {
+          width: 120px;
+          height: 120px;
+        }
+
+        .qr-item {
+          width: 120px;
+        }
+
+        .message-box {
+          padding: 0.5rem;
+          max-width: 90%;
+        }
+
+        h1 {
+          font-size: 1.6rem;
+        }
+
+        .subtitle {
+          margin-bottom: 1.5rem;
+        }
+      }
+    </style>
   </head>
   <body>
-    离线啦
+    <div class="container">
+      <div class="circle-bg-outer"></div>
+      <div class="circle-bg-inner"></div>
+
+      <div class="content">
+        <h1>您已离线</h1>
+        <p class="subtitle">无法连接到网络</p>
+
+        <div class="message-box">
+          <p class="message-text">当前网络连接已断开，请检查您的网络设置后重试</p>
+        </div>
+
+        <div class="qr-container">
+          <div class="qr-item">
+            <div class="qr-code">
+              <img src="/cdn/mini-program-qrcode.png" alt="小程序二维码" />
+            </div>
+            <p class="qr-title">小程序</p>
+            <p class="qr-subtitle">扫描二维码访问小程序</p>
+          </div>
+
+          <div class="qr-item">
+            <div class="qr-code">
+              <img src="/cdn/gongzhonghao-qrcode.jpg" alt="公众号二维码" />
+            </div>
+            <p class="qr-title">公众号</p>
+            <p class="qr-subtitle">扫描二维码关注公众号</p>
+          </div>
+        </div>
+
+        <button class="refresh-btn" onclick="window.location.reload()">
+          <svg
+            class="refresh-icon"
+            width="16"
+            height="16"
+            viewBox="0 0 24 24"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M17.65 6.35C16.2 4.9 14.21 4 12 4C7.58 4 4.01 7.58 4.01 12C4.01 16.42 7.58 20 12 20C15.73 20 18.84 17.45 19.73 14H17.65C16.83 16.33 14.61 18 12 18C8.69 18 6 15.31 6 12C6 8.69 8.69 6 12 6C13.66 6 15.14 6.69 16.22 7.78L13 11H20V4L17.65 6.35Z"
+              fill="white"
+            />
+          </svg>
+          重试连接
+        </button>
+      </div>
+    </div>
+
+    <p class="footer-text">您可以通过以上途径上方二维码关注我</p>
   </body>
 </html>

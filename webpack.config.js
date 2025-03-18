@@ -83,6 +83,7 @@ module.exports = Object.keys(entryPathMap).map((entryDirectoryName, index) => {
             ie8: true,
             safari10: true,
           },
+          exclude: /serviceWorker\.js$/,
         }),
         new HtmlMinimizerPlugin({
           minimizerOptions: {
@@ -170,7 +171,7 @@ module.exports = Object.keys(entryPathMap).map((entryDirectoryName, index) => {
         patterns: [
           // 复制includes目录
           {
-            from: path.resolve(__dirname, 'page/(includes|offline)/*.shtml'),
+            from: path.resolve(__dirname, 'page/(includes|offline)/*.(shtml|html|js|css)'),
             // to：../../是因为我们的构建入口是基于bundle/${entryDirectoryName}/的
             to: '../../',
             transform: (content) => webpackTool.minifyHtml(content.toString()),

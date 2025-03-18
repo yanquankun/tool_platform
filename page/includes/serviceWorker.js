@@ -1,4 +1,4 @@
-const CACHE_NAME = 'offline-cache-v7';
+const CACHE_NAME = 'blog-cache-v1';
 
 self.addEventListener('install', (event) => {
   event.waitUntil(
@@ -6,6 +6,8 @@ self.addEventListener('install', (event) => {
       return cache.addAll([
         '/', // 首页
         '/offline/offline', // 备用的离线页面
+        '/cdn/gongzhonghao-qrcode.jpg',
+        '/cdn/mini-program-qrcode.png',
       ]);
     })
   );

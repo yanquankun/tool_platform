@@ -99,7 +99,6 @@ const APM = (options: IApmInitOptions) => {
       throw new Error('if you want use apm method, you must provide serviceName in options');
     }
     new Apm({ serviceName: options.serviceName });
-    return Apm;
   }
   return Apm;
 };

@@ -28,7 +28,7 @@ module.exports = Object.keys(entryPathMap).map((entryDirectoryName, index) => {
 
   const webpackConfig = {
     mode: webpackTool.isProduction ? 'production' : 'development',
-    devtool: webpackTool.isProduction ? 'source-map' : 'eval-cheap-module-source-map',
+    devtool: webpackTool.isProduction ? '' : 'eval-cheap-module-source-map',
     entry: entryMap,
     output: {
       path: path.join(ROOT_PATH, `dist/bundle/${entryDirectoryName}`),
